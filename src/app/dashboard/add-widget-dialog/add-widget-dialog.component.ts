@@ -3,11 +3,11 @@ import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { HPacket, HpacketsService, HPacketField } from '@hyperiot/core';
 
 @Component({
-  selector: 'app-modal-dialog',
-  templateUrl: './modal-dialog.component.html',
-  styleUrls: ['./modal-dialog.component.css']
+  selector: 'app-add-widget-dialog',
+  templateUrl: './add-widget-dialog.component.html',
+  styleUrls: ['./add-widget-dialog.component.css']
 })
-export class ModalDialogComponent implements OnInit, OnDestroy {
+export class AddWidgetDialogComponent implements OnInit, OnDestroy {
   selectedWidget: {id: number, name: string} = null;
   selectedPacket: HPacket = null;
   selectedFields: HPacketField[] = [];

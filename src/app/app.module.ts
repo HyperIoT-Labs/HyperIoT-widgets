@@ -10,10 +10,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 import { DashboardConfigService } from './dashboard/dashboard-config.service';
 import { WidgetsLayoutComponent } from './dashboard/widgets-layout/widgets-layout.component';
-import { DynamicWidgetComponent } from './widgets/dynamic-widget/dynamic-widget.component';
+import { DynamicWidgetComponent } from './dashboard/dynamic-widget/dynamic-widget.component';
 import { DashboardsListComponent } from './dashboard/dashboards-list/dashboards-list.component';
 import { DashboardViewComponent } from './dashboard/dashboard-view/dashboard-view.component';
-import { ModalDialogComponent } from './modal-dialog/modal-dialog.component';
+import { AddWidgetDialogComponent } from './dashboard/add-widget-dialog/add-widget-dialog.component';
 
 import {
   SensorValueComponent,
@@ -56,7 +56,7 @@ export function apiConfigFactory(): Configuration {
     WidgetsLayoutComponent,
     DashboardsListComponent,
     DashboardViewComponent,
-    ModalDialogComponent,
+    AddWidgetDialogComponent,
     DynamicWidgetComponent,
     EventsLogComponent,
     TextLabelComponent,

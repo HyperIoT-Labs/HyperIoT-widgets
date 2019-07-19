@@ -4,9 +4,10 @@ import {
   OnDestroy
 } from '@angular/core';
 
+import { DataPacketFilter } from '@hyperiot/core';
+
 import { WidgetChartComponent } from '../widget-chart.component';
 import { TimeSeries } from '../data/time-series';
-import { DataPacketFilter } from '../data/data-packet-filter';
 
 @Component({
   selector: 'hyperiot-time-chart',

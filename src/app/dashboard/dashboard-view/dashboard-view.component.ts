@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { WidgetsLayoutComponent } from '../widgets-layout/widgets-layout.component';
-import { ModalDialogComponent } from 'src/app/modal-dialog/modal-dialog.component';
+import { AddWidgetDialogComponent } from 'src/app/dashboard/add-widget-dialog/add-widget-dialog.component';
 
 @Component({
   selector: 'app-dashboard-view',
@@ -10,7 +10,7 @@ import { ModalDialogComponent } from 'src/app/modal-dialog/modal-dialog.componen
   styleUrls: ['./dashboard-view.component.css']
 })
 export class DashboardViewComponent implements OnInit {
-  @ViewChild('widgetDialog', {static: true}) widgetDialog: ModalDialogComponent;
+  @ViewChild('widgetDialog', {static: true}) widgetDialog: AddWidgetDialogComponent;
   @ViewChild(WidgetsLayoutComponent, { static: true })
   private dashboardLayout: WidgetsLayoutComponent;
   private dashboardId: string;

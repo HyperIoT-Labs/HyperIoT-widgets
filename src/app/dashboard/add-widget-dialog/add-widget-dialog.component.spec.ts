@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WidgetsComponent } from './widgets.component';
+import { AddWidgetDialogComponent } from './add-widget-dialog.component';
 
-describe('WidgetsComponent', () => {
-  let component: WidgetsComponent;
-  let fixture: ComponentFixture<WidgetsComponent>;
+describe('ModalDialogComponent', () => {
+  let component: AddWidgetDialogComponent;
+  let fixture: ComponentFixture<AddWidgetDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WidgetsComponent ]
+      declarations: [ AddWidgetDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WidgetsComponent);
+    fixture = TestBed.createComponent(AddWidgetDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

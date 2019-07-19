@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
 import {
@@ -15,8 +14,7 @@ export class DashboardConfigService {
 
     constructor(
         private dashboardService: DashboardsService,
-        private dashboardWidgetService: DashboardwidgetsService,
-        private http: HttpClient
+        private dashboardWidgetService: DashboardwidgetsService
     ) { }
 
     getDashboardList() {
@@ -28,7 +26,7 @@ export class DashboardConfigService {
             return this.getTestConfig();
         }
         // Map DashboardWidget config to Plotly compatible configuration
-        const subject = this.dashboardWidgetService.findAllDashboardWidget_2(+dashboardId)
+        const subject = this.dashboardWidgetService.findAllDashboardWidget_1(+dashboardId)
             .pipe(
                 map(
                     (data: any[]) => {
@@ -64,11 +62,7 @@ export class DashboardConfigService {
             };
             dashboardWidgets.push(widget);
         });
-        //return this.dashboardWidgetService
-        //    .saveAllDashboardWidget(dashboardId, dashboardWidgets);
-        return this.http.put(
-            `/hyperiot/dashboardwidgets/configuration/all/${dashboardId}`,
-            dashboardWidgets
-        );
+        return this.dashboardWidgetService
+            .saveAllDashboardWidget(+dashboardId, dashboardWidgets);
     }
 }

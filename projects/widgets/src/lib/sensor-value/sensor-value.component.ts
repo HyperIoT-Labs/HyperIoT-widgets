@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { DataStreamService } from '@hyperiot/core';
+import { DataStreamService, DataPacketFilter } from '@hyperiot/core';
 
 import { WidgetComponent } from '../widget.component';
-import { DataPacketFilter } from '../data/data-packet-filter';
 
 @Component({
   selector: 'hyperiot-sensor-value',

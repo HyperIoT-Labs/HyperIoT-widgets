@@ -1,9 +1,7 @@
 import { OnDestroy, Input } from '@angular/core';
 import { PartialObserver } from 'rxjs';
 
-import { DataChannel, DataStreamService } from '@hyperiot/core';
-
-import { DataPacketFilter } from './data/data-packet-filter';
+import { DataChannel, DataStreamService, DataPacketFilter } from '@hyperiot/core';
 
 /**
  * Base class for widget implementation
