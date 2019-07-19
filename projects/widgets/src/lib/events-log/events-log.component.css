@@ -1,0 +1,28 @@
+.event-log {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    overflow-y: auto;
+    margin-top: 32px;
+    font-size: 9px;
+    padding: 10px;
+    padding-top: 0;
+}
+.grid {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "time message extra";
+}
+.time {
+    padding: 2px;
+    border-right: solid 1px rgba(0, 0, 0, 0.25); 
+    border-bottom: solid 1px rgba(0, 0, 0, 0.25);
+}
+.message {
+    padding: 2px;
+    border-right: solid 1px rgba(0, 0, 0, 0.25);
+    border-bottom: solid 1px rgba(0, 0, 0, 0.25);
+}
+.extra {
+    padding: 2px;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.25);
+}

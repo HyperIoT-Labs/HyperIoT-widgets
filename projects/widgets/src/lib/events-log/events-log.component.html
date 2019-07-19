@@ -1,0 +1,19 @@
+<header>Events log</header>
+
+<div class="event-log grid" #log>
+    <ng-container *ngFor="let log of logMessages">
+        <div class="time">
+            {{log.timestamp.toLocaleTimeString()}}
+        </div>
+        <div class="message">
+            {{log.message}}
+        </div>
+        <div class="extra">
+            {{log.extra}}
+        </div>
+    </ng-container>
+</div>
+
+<div class="drag-handle">
+    <img src="assets/widgets/images/baseline-drag_handle-24px.svg">
+</div>

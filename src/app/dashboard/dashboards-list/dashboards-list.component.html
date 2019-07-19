@@ -1,0 +1,9 @@
+<p *ngIf="dashboardList.length === 0">No dashboards found for this user</p>
+<ul>
+    <ng-container *ngFor="let dashboard of dashboardList">
+        <li><a [routerLink]="['/dashboards', dashboard.id]">
+            {{dashboard.name}} ({{dashboard.dashboardType}})
+        </a></li>
+    </ng-container>
+    <li><a [routerLink]="['/dashboards', 'demo']">Demo dashboard</a></li>
+</ul>

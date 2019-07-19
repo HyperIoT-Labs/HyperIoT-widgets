@@ -1,0 +1,34 @@
+:host {
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background-color: rgba(0,0,0,0.25);
+    z-index: 100;
+}
+
+select {
+    width: 100%;
+}
+
+.dialog {
+    position: absolute;
+    overflow-y: auto; 
+    top: 50vh; bottom: 50vh;
+    left: 50vw; right: 50vw;
+    width: 50vw; min-height: 50vh;
+    margin-left: -25vw;
+    margin-top: -25vh;
+    padding: 16px;
+    border-radius: 8px;
+    background: white;
+    border: solid 1px green;
+}
+
+.button-close {
+    position: absolute;
+    right:12px; top: 12px;
+}
+.button-confirm {
+    float: right;
+}
+
+/* TODO: add responsive media-query for smaller screens (1024 / 640 / 480) */
