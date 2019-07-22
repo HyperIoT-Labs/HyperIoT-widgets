@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
+
 import {
     DashboardwidgetsService,
     DashboardsService,
@@ -14,7 +16,8 @@ export class DashboardConfigService {
 
     constructor(
         private dashboardService: DashboardsService,
-        private dashboardWidgetService: DashboardwidgetsService
+        private dashboardWidgetService: DashboardwidgetsService,
+        private http: HttpClient
     ) { }
 
     getDashboardList() {

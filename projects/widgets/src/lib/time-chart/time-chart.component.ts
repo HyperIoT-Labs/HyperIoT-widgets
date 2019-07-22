@@ -51,8 +51,19 @@ export class TimeChartComponent extends WidgetChartComponent implements OnInit, 
     this.getOfflineData(pastDate, startDate);
     */
   }
-  togglePlay() {
-    this.isPaused = !this.isPaused;
-    this.isPaused ? this.pause() : this.play();
+
+  onToolbarAction(action: string) {
+    console.log(action);
+    switch(action) {
+      case 'play':
+        this.isPaused = false;
+        this.play();
+        break;
+      case 'pause':
+        this.isPaused = false;
+        this.pause();
+        break;
+    }
   }
+
 }

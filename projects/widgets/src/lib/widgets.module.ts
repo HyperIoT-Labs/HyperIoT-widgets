@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { CommonToolbarComponent } from './common-toolbar/common-toolbar.component';
 import { WidgetChartComponent } from './widget-chart.component';
 import { EventsLogComponent } from './events-log/events-log.component';
 import { TextLabelComponent } from './text-label/text-label.component';
@@ -18,6 +19,7 @@ export * from './widget.component';
 
 @NgModule({
   declarations: [
+    CommonToolbarComponent,
     WidgetChartComponent,
     EventsLogComponent,
     TextLabelComponent,
@@ -29,6 +31,7 @@ export * from './widget.component';
     BrowserModule
   ],
   exports: [
+    CommonToolbarComponent,
     WidgetChartComponent,
     EventsLogComponent,
     TextLabelComponent,

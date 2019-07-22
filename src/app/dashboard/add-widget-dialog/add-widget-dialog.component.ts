@@ -1,16 +1,20 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 
-import { HPacket, HpacketsService, HPacketField } from '@hyperiot/core';
-
 @Component({
   selector: 'app-add-widget-dialog',
   templateUrl: './add-widget-dialog.component.html',
   styleUrls: ['./add-widget-dialog.component.css']
 })
 export class AddWidgetDialogComponent implements OnInit, OnDestroy {
-  selectedWidget: {id: number, name: string} = null;
-  selectedPacket: HPacket = null;
-  selectedFields: HPacketField[] = [];
+  selectedWidgets: {id: number, name: string}[] = [];
+  selectedCategory: string = null;
+  widgetCategory = [
+    { name: 'Category 1' },
+    { name: 'Category 2' },
+    { name: 'Category 3' },
+    { name: 'Category 4' },
+    { name: 'Category 5' }
+  ];
   widgetList = [
     { id: 1, name: 'Pie chart', category: '', size: { rows: 0, cols: 0 } },
     { id: 2, name: 'Line chart', category: '' },
@@ -18,18 +22,13 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
     { id: 4, name: 'Sensor value', category: '' },
     { id: 5, name: 'Simple text', category: '' }
   ];
-  projectPackets: HPacket[] = [];
 
   constructor(
-    private viewContainer: ElementRef,
-    private packetService: HpacketsService
+    private viewContainer: ElementRef
   ) { }
 
   ngOnInit() {
     this.viewContainer.nativeElement.addEventListener('click', this.dismiss.bind(this));
-    this.packetService
-        .findAllHPacket_1()
-        .subscribe((packetList) => this.projectPackets = packetList);
     this.close();
   }
   ngOnDestroy() {
@@ -51,10 +50,8 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
   }
 
   confirm() {
-    console.log(this.selectedWidget);
-    console.log(this.selectedPacket);
-    console.log(this.selectedFields);
-    // TODO: add widget
+    console.log(this.selectedWidgets);
+    // TODO: signal widget add with EventEmitter
   }
 
 }

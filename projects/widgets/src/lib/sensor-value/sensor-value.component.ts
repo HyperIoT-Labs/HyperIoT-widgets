@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { DataStreamService, DataPacketFilter } from '@hyperiot/core';
 
@@ -53,6 +53,10 @@ export class SensorValueComponent extends WidgetComponent implements OnInit {
       // round up to 1 decimal digit
       this.sensorValue = Math.round(value * 10) / 10;
     });
+  }
+
+  onToolbarAction(action: string) {
+    console.log(action);
   }
 
 }

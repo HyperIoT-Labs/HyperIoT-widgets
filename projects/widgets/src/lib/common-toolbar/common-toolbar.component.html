@@ -1,0 +1,26 @@
+
+<button *ngIf="config.showPlay" title="Toggle play" class="toolbar-button" (click)="onPlayPause()">
+    <img *ngIf="!isPaused" src="assets/widgets/images/baseline-pause-24px.svg">
+    <img *ngIf="isPaused" src="assets/widgets/images/baseline-play_arrow-24px.svg">
+</button>
+
+<button *ngIf="config.showTable" title="Table view" class="toolbar-button" (click)="onTableView()">
+    <img *ngIf="!showTable" src="assets/widgets/images/outline-view_list-24px.svg">
+    <img *ngIf="showTable" src="assets/widgets/images/outline-show_chart-24px.svg">
+</button>
+
+<button *ngIf="config.showSettings" title="Settings" class="toolbar-button" (click)="onSettings()">
+    <img src="assets/widgets/images/outline-settings-24px.svg">
+</button>
+
+<button *ngIf="config.showRefresh" title="Refresh" class="toolbar-button" (click)="onRefresh()">
+    <img src="assets/widgets/images/outline-refresh-24px.svg">
+</button>
+
+<button *ngIf="config.showClose" title="Close" class="toolbar-button" (click)="onClose()">
+    <img src="assets/widgets/images/outline-close-24px.svg">
+</button>
+
+<button class="toolbar-button drag-handle" title="Move" (click)="onDrag()">
+    <img src="assets/widgets/images/baseline-drag_handle-24px.svg">
+</button>

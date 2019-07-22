@@ -2,6 +2,7 @@
   {{widget.config.labelText}}
 </div>
 
-<div class="drag-handle">
-    <img src="assets/widgets/images/baseline-drag_handle-24px.svg">
-</div>
+<hyperiot-common-toolbar (action)="onToolbarAction($event)" [config]="{
+  showClose: true,
+  showSettings: false
+}"></hyperiot-common-toolbar>

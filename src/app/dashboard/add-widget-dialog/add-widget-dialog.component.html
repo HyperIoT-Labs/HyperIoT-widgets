@@ -1,27 +1,17 @@
 <div class="dialog">
 
-    <p>Select a widget</p>
-    <select size="5" [(ngModel)]="selectedWidget">
-        <option *ngFor="let widget of widgetList" [ngValue]="widget">{{widget.name}}</option>
-    </select>
+    <header>Add widget</header>
 
-    <ng-container *ngIf="selectedWidget != null">
-        <p>Select packet</p>
-        <select size="5" [(ngModel)]="selectedPacket">
-            <option *ngFor="let packet of projectPackets" [ngValue]="packet">{{packet.name}}</option>
+    <div class="category-list">
+
+        <select size="5" [(ngModel)]="selectedCategory" class="category-select">
+            <option *ngFor="let category of widgetCategory" [ngValue]="category">{{category.name}}</option>
         </select>
-    </ng-container>
 
-    <ng-container *ngIf="selectedPacket != null">
-        <p>Select fields</p>
-        <select size="5" multiple [(ngModel)]="selectedFields">
-            <option *ngFor="let field of selectedPacket.fields" [ngValue]="field">{{field.name}}</option>
-        </select>
-    </ng-container>
-    
+    </div>
 
-    <button class="button-close" (click)="close()">X</button>
-    <ng-container *ngIf="selectedFields.length > 0">
+    <button class="button-close" (click)="close()">X Cancel</button>
+    <ng-container *ngIf="selectedWidgets.length > 0">
         <button class="button-confirm" (click)="confirm()">Ok</button>
     </ng-container>
 

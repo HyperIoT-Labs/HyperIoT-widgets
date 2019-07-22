@@ -1,31 +1,49 @@
 :host {
     position: fixed;
     top: 0; left: 0; bottom: 0; right: 0;
-    background-color: rgba(0,0,0,0.25);
+    background-color: rgba(0,0,0,0.5);
     z-index: 100;
+    /* variables */
+    --header-height: 32px;
 }
 
 select {
     width: 100%;
 }
 
+.dialog header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: var(--header-height);
+    font-size: 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 .dialog {
     position: absolute;
-    overflow-y: auto; 
-    top: 50vh; bottom: 50vh;
-    left: 50vw; right: 50vw;
-    width: 50vw; min-height: 50vh;
-    margin-left: -25vw;
-    margin-top: -25vh;
-    padding: 16px;
-    border-radius: 8px;
+    overflow: hidden; 
+    top: 48px; bottom: 48px;
+    left: 48px; right: 48px;
     background: white;
-    border: solid 1px green;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    padding-top: var(--header-height);
+}
+
+.category-list {
+    position: absolute;
+    left: 0; top: var(--header-height);
+    bottom: 0;
+    width: 100px;
+    border: 0;
+    outline: none;
 }
 
 .button-close {
     position: absolute;
-    right:12px; top: 12px;
+    right:12px; bottom: 12px;
 }
 .button-confirm {
     float: right;

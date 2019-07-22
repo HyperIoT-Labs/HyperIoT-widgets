@@ -46,4 +46,18 @@ export class EventsLogComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
+  onToolbarAction(action: string) {
+    console.log(action);
+    switch(action) {
+      case 'play':
+        // this.isPaused = false;
+        // this.play();
+        break;
+      case 'pause':
+        // this.isPaused = false;
+        // this.pause();
+        break;
+    }
+  }
+
 }

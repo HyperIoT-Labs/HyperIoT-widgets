@@ -22,4 +22,7 @@ export class TextLabelComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
+  onToolbarAction(action: string) {
+    console.log(action);
+  }
 }

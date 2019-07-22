@@ -23,8 +23,33 @@ export class StatsChartComponent extends WidgetChartComponent implements OnInit 
   }
 
   ngOnInit() {
+    this.showChart();
+  }
+
+  onToolbarAction(action: string) {
+    console.log(action);
+    switch (action) {
+      case 'chart':
+          this.showChart();
+          break;
+      case 'table':
+          this.showChartTable();
+          break;
+    }
+  }
+
+  private showChart() {
     // get moked chart data from JSON asset file
     this.http.get(this.widget.dataUrl)
+      .subscribe((data: any) => {
+        this.graph.data = data.data;
+        Object.assign(this.graph.layout, data.layout);
+      });
+  }
+
+  private showChartTable() {
+    // get moked chart data from JSON asset file
+    this.http.get(this.widget.dataTableUrl)
       .subscribe((data: any) => {
         this.graph.data = data.data;
         Object.assign(this.graph.layout, data.layout);

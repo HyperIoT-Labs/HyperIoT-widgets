@@ -213,7 +213,7 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
       let bufferedData: BufferedData = this.dataBuffer.find((bd) => bd.series === series);
       if (bufferedData == null) {
         bufferedData = {
-          series: series,
+          series,
           x: [], y: []
         };
         this.dataBuffer.push(bufferedData);

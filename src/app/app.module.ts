@@ -16,6 +16,7 @@ import { DashboardViewComponent } from './dashboard/dashboard-view/dashboard-vie
 import { AddWidgetDialogComponent } from './dashboard/add-widget-dialog/add-widget-dialog.component';
 
 import {
+  CommonToolbarComponent,
   SensorValueComponent,
   EventsLogComponent,
   TextLabelComponent,
@@ -58,6 +59,7 @@ export function apiConfigFactory(): Configuration {
     DashboardViewComponent,
     AddWidgetDialogComponent,
     DynamicWidgetComponent,
+    CommonToolbarComponent,
     EventsLogComponent,
     TextLabelComponent,
     SensorValueComponent,
