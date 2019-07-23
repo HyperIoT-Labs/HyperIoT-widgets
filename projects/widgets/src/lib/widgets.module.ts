@@ -1,5 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+
+import { DataStreamService } from '@hyperiot/core';
 
 import { CommonToolbarComponent } from './common-toolbar/common-toolbar.component';
 import { WidgetChartComponent } from './widget-chart.component';
@@ -28,7 +31,12 @@ export * from './widget.component';
     TimeChartComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    PlotlyModule
+  ],
+  providers: [
+    DataStreamService
   ],
   exports: [
     CommonToolbarComponent,

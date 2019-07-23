@@ -99,8 +99,8 @@ export class WidgetsLayoutComponent implements OnInit {
     this.dashboard.splice(this.dashboard.indexOf(item), 1);
   }
 
-  addItem() {
-    // this.dashboard.push({ });
+  addItem(widget) {
+    this.dashboard.push(widget);
   }
 
   saveDashboard() {

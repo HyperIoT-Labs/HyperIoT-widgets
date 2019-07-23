@@ -4,19 +4,37 @@
 
     <div class="category-list">
 
-        <select size="5" [(ngModel)]="selectedCategory" class="category-select">
-            <option *ngFor="let category of widgetCategory" [ngValue]="category">{{category.name}}</option>
-        </select>
-        
-        <div *ngFor="let category of widgetCategory">
-            <span>{{category.name}}</span>
-        </div> 
+        <button class="category-item"
+            (click)="onCategorySelect('all')">
+            <img src="assets/widgets/images/outline-view_list-24px.svg">
+            <div>All</div>
+        </button> 
+        <button class="category-item"
+            *ngFor="let category of widgetCategory"
+            (click)="onCategorySelect(category)">
+            <img src="assets/widgets/images/outline-multiline_chart-24px.svg">
+            <div>{{category.name}}</div>
+        </button> 
 
     </div>
 
-    <button class="button-close" (click)="close()">X Cancel</button>
-    <ng-container *ngIf="selectedWidgets.length > 0">
-        <button class="button-confirm" (click)="confirm()">Ok</button>
-    </ng-container>
+    <div class="widget-list" *ngIf="selectedCategory != null">
+
+        <div class="widget-item"
+             *ngFor="let widget of categorydWidgets"
+             [ngClass]="{selected: this.selectedWidgets.indexOf(widget) !== -1}"
+             (click)="onWidgetSelected(widget)">
+            <header>{{ widget.name }}</header>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="selected-status" *ngIf="selectedWidgets.length > 0">{{selectedWidgets.length}} selected.</div>
+        <button class="button-close" (click)="close()">&#10006; Cancel</button>
+        <ng-container *ngIf="selectedWidgets.length > 0">
+            <button class="button-confirm" (click)="confirm()">&#10004; Ok</button>
+        </ng-container>
+    </footer>
 
 </div>

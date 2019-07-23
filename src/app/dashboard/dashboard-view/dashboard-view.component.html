@@ -5,4 +5,5 @@
 
 <app-widgets-layout [dashboardId]="dashboardId"></app-widgets-layout>
 
-<app-add-widget-dialog #widgetDialog></app-add-widget-dialog>
+<app-add-widget-dialog #widgetDialog
+    (addWidgets)="onWidgetsAdd($event)"></app-add-widget-dialog>

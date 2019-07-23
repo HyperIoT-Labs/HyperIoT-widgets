@@ -16,15 +16,8 @@ import { DashboardViewComponent } from './dashboard/dashboard-view/dashboard-vie
 import { AddWidgetDialogComponent } from './dashboard/add-widget-dialog/add-widget-dialog.component';
 
 import {
-  CommonToolbarComponent,
-  SensorValueComponent,
-  EventsLogComponent,
-  TextLabelComponent,
-  StatsChartComponent,
-  TimeChartComponent
+  WidgetsModule
 } from '@hyperiot/widgets';
-
-import { PlotlyModule } from '@hyperiot/widgets';
 
 import {
   Configuration,
@@ -59,12 +52,6 @@ export function apiConfigFactory(): Configuration {
     DashboardViewComponent,
     AddWidgetDialogComponent,
     DynamicWidgetComponent,
-    CommonToolbarComponent,
-    EventsLogComponent,
-    TextLabelComponent,
-    SensorValueComponent,
-    StatsChartComponent,
-    TimeChartComponent,
     HomeComponent
   ],
   imports: [
@@ -74,14 +61,7 @@ export function apiConfigFactory(): Configuration {
     FormsModule,
     ReactiveFormsModule,
     GridsterModule,
-    DynamicModule.withComponents([
-      EventsLogComponent,
-      TextLabelComponent,
-      SensorValueComponent,
-      StatsChartComponent,
-      TimeChartComponent
-    ]),
-    PlotlyModule,
+    WidgetsModule,
     CoreModule,
     HyperiotBaseModule,
     HUserClientModule.forRoot(apiConfigFactory),
