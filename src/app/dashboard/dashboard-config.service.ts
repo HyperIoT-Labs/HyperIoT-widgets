@@ -21,7 +21,7 @@ export class DashboardConfigService {
     ) { }
 
     getDashboardList() {
-        return this.dashboardService.findAllDashboard_1();
+        return this.dashboardService.findAllDashboard();
     }
 
     getConfig(dashboardId: string) {
@@ -29,7 +29,7 @@ export class DashboardConfigService {
             return this.getTestConfig();
         }
         // Map DashboardWidget config to Plotly compatible configuration
-        const subject = this.dashboardWidgetService.findAllDashboardWidget_1(+dashboardId)
+        const subject = this.dashboardWidgetService.findAllDashboardWidget(+dashboardId)
             .pipe(
                 map(
                     (data: any[]) => {
@@ -59,6 +59,7 @@ export class DashboardConfigService {
             Object.assign(widgetConf, d);
             delete widgetConf.id;
             const widget: DashboardWidget = {
+                dashboard: null,
                 id: d.id,
                 widgetId: d.widgetId,
                 widgetConf: JSON.stringify(widgetConf)

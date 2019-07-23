@@ -30,30 +30,40 @@ export class StatsChartComponent extends WidgetChartComponent implements OnInit 
     console.log(action);
     switch (action) {
       case 'chart':
-          this.showChart();
-          break;
+        this.showChart();
+        break;
       case 'table':
-          this.showChartTable();
-          break;
+        this.showChartTable();
+        break;
     }
   }
 
   private showChart() {
-    // get moked chart data from JSON asset file
-    this.http.get(this.widget.dataUrl)
-      .subscribe((data: any) => {
-        this.graph.data = data.data;
-        Object.assign(this.graph.layout, data.layout);
-      });
+    // get chart data from JSON asset file
+    if (this.widget.dataUrl != null) {
+      this.http.get(this.widget.dataUrl)
+        .subscribe((data: any) => {
+          this.graph.data = data.data;
+          Object.assign(this.graph.layout, data.layout);
+        });
+    } else {
+      this.graph.data = this.widget.config.data || [];
+      this.graph.layout = this.widget.config.layout;
+    }
   }
 
   private showChartTable() {
-    // get moked chart data from JSON asset file
-    this.http.get(this.widget.dataTableUrl)
-      .subscribe((data: any) => {
-        this.graph.data = data.data;
-        Object.assign(this.graph.layout, data.layout);
-      });
+    // get chart data from JSON asset file
+    if (this.widget.dataTableUrl != null) {
+      this.http.get(this.widget.dataTableUrl)
+        .subscribe((data: any) => {
+          this.graph.data = data.data;
+          Object.assign(this.graph.layout, data.layout);
+        });
+    } else {
+      this.graph.data = this.widget.config.tableData || [];
+      this.graph.layout = this.widget.config.tableLayout;
+    }
   }
 
 }

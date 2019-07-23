@@ -9,18 +9,21 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
   selectedWidgets: {id: number, name: string}[] = [];
   selectedCategory: string = null;
   widgetCategory = [
-    { name: 'Category 1' },
-    { name: 'Category 2' },
-    { name: 'Category 3' },
-    { name: 'Category 4' },
-    { name: 'Category 5' }
+    { id: 1, name: 'Bar chart' },
+    { id: 2, name: 'Line chart' },
+    { id: 3, name: 'Pie chart' },
+    { id: 4, name: 'Radar chart', disabled: true },
+    { id: 5, name: 'Gauges', disabled: true  },
+    { id: 6, name: 'Map', disabled: true  },
+    { id: 7, name: 'Action', disabled: true  },
+    { id: 8, name: 'Tables', disabled: true  },
   ];
   widgetList = [
-    { id: 1, name: 'Pie chart', category: '', size: { rows: 0, cols: 0 } },
-    { id: 2, name: 'Line chart', category: '' },
-    { id: 3, name: 'Bar chart', category: '' },
-    { id: 4, name: 'Sensor value', category: '' },
-    { id: 5, name: 'Simple text', category: '' }
+    { id: 1, name: 'Pie chart', categoryId: 3, widgetId: 'stats-chart', config: { size: { rows: 0, cols: 0 } } },
+    { id: 2, name: 'Line chart', categoryId: 2, widgetId: 'time-chart' },
+    { id: 3, name: 'Bar chart', categoryId: 1, widgetId: 'stats-chart' },
+    { id: 4, name: 'Sensor value', categoryId: 0, widgetId: 'sensor-value' },
+    { id: 5, name: 'Simple text', categoryId: 0, widgetId: 'text-label' }
   ];
 
   constructor(

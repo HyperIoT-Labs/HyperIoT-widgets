@@ -28,7 +28,7 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
    * @example
    * this.widget = {
    *   // mandatory widget identifier field
-   *   id: 'widget-2',
+   *   widgetId: 'widget-2',
    *   // attach resize event handler
    *   resize: () => console.log('resized'),
    *   // attach change event handler

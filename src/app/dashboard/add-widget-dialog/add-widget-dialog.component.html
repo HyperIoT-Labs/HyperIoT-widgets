@@ -7,6 +7,10 @@
         <select size="5" [(ngModel)]="selectedCategory" class="category-select">
             <option *ngFor="let category of widgetCategory" [ngValue]="category">{{category.name}}</option>
         </select>
+        
+        <div *ngFor="let category of widgetCategory">
+            <span>{{category.name}}</span>
+        </div> 
 
     </div>
 
