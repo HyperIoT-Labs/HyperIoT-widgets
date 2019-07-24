@@ -5,8 +5,14 @@
   <span [innerHTML]="sensorUnitSymbol" class="unit"></span>
 </div>
 
+<div *ngIf="!isConfigured" class="configure-notice">
+    <div>
+        <strong>Click settings button to configure.</strong>
+    </div>
+</div>
+
 <hyperiot-common-toolbar (action)="onToolbarAction($event)" [config]="{
   showClose: true,
   showSettings: true,
-  showPlay: true
+  showPlay: isConfigured
 }"></hyperiot-common-toolbar>

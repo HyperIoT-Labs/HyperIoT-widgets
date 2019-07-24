@@ -1,5 +1,8 @@
 <gridster [options]="options">
     <gridster-item [item]="item" *ngFor="let item of dashboard">
-      <app-dynamic-widget [widget]="item"></app-dynamic-widget>
+      <app-dynamic-widget
+        [widget]="item"
+        (widgetAction)="onWidgetAction($event)"
+        ></app-dynamic-widget>
     </gridster-item>
 </gridster>

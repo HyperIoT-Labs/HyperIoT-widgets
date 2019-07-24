@@ -2,7 +2,9 @@ import {
   Component,
   OnInit,
   Input,
-  ViewEncapsulation
+  ViewEncapsulation,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 @Component({
@@ -14,10 +16,16 @@ import {
 export class DynamicWidgetComponent implements OnInit {
   @Input()
   widget;
+  @Output()
+  widgetAction: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onWidgetAction(data) {
+    this.widgetAction.emit(data);
   }
 
 }

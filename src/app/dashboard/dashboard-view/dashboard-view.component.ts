@@ -27,22 +27,12 @@ export class DashboardViewComponent implements OnInit {
   }
   addWidget() {
     this.widgetDialog.open();
-    // TODO: bind to "requestWidgetAdd" event
+    // TODO: bind to "requestWidgetAdd" event (maybe)
   }
   onWidgetsAdd(widgetList: any[]) {
     widgetList.map((widget) => {
       console.log(widget);
-      // TODO: add widget to dashboard
-      this.dashboardLayout.addItem({
-        id: 0,
-        widgetId: 'widget-new',
-        cols: 4,
-        rows: 3,
-        y: 0,
-        x: 0,
-        type: 'stats-chart',
-        config: { data: [] }
-      });
+      this.dashboardLayout.addItem(widget);
     });
   }
 }

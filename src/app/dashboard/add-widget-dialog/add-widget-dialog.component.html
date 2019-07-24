@@ -5,14 +5,11 @@
     <div class="category-list">
 
         <button class="category-item"
-            (click)="onCategorySelect('all')">
-            <img src="assets/widgets/images/outline-view_list-24px.svg">
-            <div>All</div>
-        </button> 
-        <button class="category-item"
-            *ngFor="let category of widgetCategory"
+            disabled={{category.disabled}}
+            [ngClass]="{selected: category === selectedCategory}"
+            *ngFor="let category of widgetCategoryList"
             (click)="onCategorySelect(category)">
-            <img src="assets/widgets/images/outline-multiline_chart-24px.svg">
+            <img src="assets/widgets/images/{{category.icon}}">
             <div>{{category.name}}</div>
         </button> 
 
@@ -31,10 +28,8 @@
 
     <footer>
         <div class="selected-status" *ngIf="selectedWidgets.length > 0">{{selectedWidgets.length}} selected.</div>
-        <button class="button-close" (click)="close()">&#10006; Cancel</button>
-        <ng-container *ngIf="selectedWidgets.length > 0">
-            <button class="button-confirm" (click)="confirm()">&#10004; Ok</button>
-        </ng-container>
+        <button class="button-close" (click)="close()">Cancel &#10006;</button>
+        <button [disabled]="selectedWidgets.length === 0" class="button-confirm" (click)="confirm()">Add &#10010;</button>
     </footer>
 
 </div>

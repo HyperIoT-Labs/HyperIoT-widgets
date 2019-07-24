@@ -1,7 +1,9 @@
 import {
   Component,
   OnInit,
-  OnDestroy
+  OnDestroy,
+  EventEmitter,
+  Output
 } from '@angular/core';
 
 import { DataPacketFilter } from '@hyperiot/core';
@@ -18,9 +20,21 @@ export class TimeChartComponent extends WidgetChartComponent implements OnInit, 
   private chartData: TimeSeries[] = [];
 
   ngOnInit() {
+    this.configure();
+  }
+
+  configure() {
+    if (this.widget.config != null && this.widget.config.packetId != null && this.widget.config.packetFields != null) {
+      this.isConfigured = true;
+    } else {
+      return;
+    }
+    if (!this.isConfigured) {
+      return;
+    }
     const cfg = this.widget.config;
-    cfg.packetId = this.widget.config.packetId || cfg.packetId;
-    cfg.packetFields = this.widget.config.packetFields || cfg.packetFields;
+    // cfg.packetId = this.widget.config.packetId || cfg.packetId;
+    // cfg.packetFields = this.widget.config.packetFields || cfg.packetFields;
     // Create time series to display for this chart
     const seriesItems: TimeSeries[] = [];
     cfg.packetFields.forEach((fieldName) => {
@@ -53,17 +67,17 @@ export class TimeChartComponent extends WidgetChartComponent implements OnInit, 
   }
 
   onToolbarAction(action: string) {
-    console.log(action);
     switch(action) {
-      case 'play':
+      case 'toolbar:play':
         this.isPaused = false;
         this.play();
         break;
-      case 'pause':
+      case 'toolbar:pause':
         this.isPaused = false;
         this.pause();
         break;
     }
+    this.widgetAction.emit({widget: this.widget, action});
   }
 
 }

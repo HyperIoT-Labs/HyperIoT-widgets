@@ -2,7 +2,9 @@ import {
   Component,
   Input,
   OnInit,
-  OnDestroy
+  OnDestroy,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 import { DataStreamService } from '@hyperiot/core';
@@ -15,6 +17,8 @@ import { DataStreamService } from '@hyperiot/core';
 export class EventsLogComponent implements OnInit, OnDestroy {
   @Input()
   widget;
+  @Output() widgetAction: EventEmitter<any> = new EventEmitter();
+
   logMessages: {timestamp: Date, message: string, extra: string}[] = [];
 
   /**
@@ -47,17 +51,17 @@ export class EventsLogComponent implements OnInit, OnDestroy {
   }
 
   onToolbarAction(action: string) {
-    console.log(action);
-    switch(action) {
-      case 'play':
+    switch (action) {
+      case 'toolbar:play':
         // this.isPaused = false;
         // this.play();
         break;
-      case 'pause':
+      case 'toolbar:pause':
         // this.isPaused = false;
         // this.pause();
         break;
     }
+    this.widgetAction.emit({widget: this.widget, action});
   }
 
 }

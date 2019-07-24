@@ -24,30 +24,30 @@ export class CommonToolbarComponent {
 
     onPlayPause() {
         if (this.isPaused) {
-            this.action.emit('play');
+            this.action.emit('toolbar:play');
         } else {
-            this.action.emit('pause');
+            this.action.emit('toolbar:pause');
         }
         this.isPaused = !this.isPaused;
     }
     onTableView() {
         if (this.showTable) {
-            this.action.emit('chart');
+            this.action.emit('toolbar:chart');
         } else {
-            this.action.emit('table');
+            this.action.emit('toolbar:table');
         }
         this.showTable = !this.showTable;
     }
     onRefresh() {
-        this.action.emit('refresh');
+        this.action.emit('toolbar:refresh');
     }
     onSettings() {
-        this.action.emit('settings');
+        this.action.emit('toolbar:settings');
     }
     onDrag() {
-        this.action.emit('drag');
+        this.action.emit('toolbar:drag');
     }
     onClose() {
-        this.action.emit('close');
+        this.action.emit('toolbar:close');
     }
 }

@@ -28,6 +28,11 @@ export class SensorValueComponent extends WidgetComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.widget.config != null && this.widget.config.packetId != null && this.widget.config.packetFields != null) {
+      this.isConfigured = true;
+    } else {
+      return;
+    }
     const cfg = this.widget.config;
     const dataPacketFilter = new DataPacketFilter(cfg.packetId, cfg.packetFields);
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
@@ -47,8 +52,8 @@ export class SensorValueComponent extends WidgetComponent implements OnInit {
           this.sensorUnitSymbol = '&#8490;';
           break;
         default:
-            this.sensorUnitSymbol = '&#8451;';
-            break;
+          this.sensorUnitSymbol = '&#8451;';
+          break;
       }
       // round up to 1 decimal digit
       this.sensorValue = Math.round(value * 10) / 10;
@@ -56,7 +61,7 @@ export class SensorValueComponent extends WidgetComponent implements OnInit {
   }
 
   onToolbarAction(action: string) {
-    console.log(action);
+    this.widgetAction.emit({widget: this.widget, action});
   }
 
 }

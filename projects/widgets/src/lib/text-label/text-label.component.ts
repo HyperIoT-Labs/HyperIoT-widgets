@@ -2,7 +2,9 @@ import {
   Component,
   Input,
   OnInit,
-  OnDestroy
+  OnDestroy,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 @Component({
@@ -13,6 +15,7 @@ import {
 export class TextLabelComponent implements OnInit, OnDestroy {
   @Input()
   widget;
+  @Output() widgetAction: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
@@ -23,6 +26,6 @@ export class TextLabelComponent implements OnInit, OnDestroy {
   }
 
   onToolbarAction(action: string) {
-    console.log(action);
+    this.widgetAction.emit({widget: this.widget, action});
   }
 }

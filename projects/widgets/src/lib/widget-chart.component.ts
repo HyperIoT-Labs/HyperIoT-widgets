@@ -126,13 +126,15 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     setTimeout(() => {
       const Plotly = this.plotly.getPlotly();
       const graph = this.plotly.getInstanceByDivId(this.widget.widgetId);
-      Plotly.relayout(graph, { autosize: true });
-    // not sure how to get rid of this timeout
-    this.widget.resize = () => {
-        setTimeout(() => {
-          Plotly.relayout(graph, { autosize: true });
-        }, 200);
-      };
+      if (graph != null) {
+        Plotly.relayout(graph, { autosize: true });
+        // not sure how to get rid of this timeout
+        this.widget.resize = () => {
+          setTimeout(() => {
+            Plotly.relayout(graph, { autosize: true });
+          }, 200);
+        };
+      }
     }, 1000);
   }
 

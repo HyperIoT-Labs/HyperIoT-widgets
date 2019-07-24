@@ -1,4 +1,7 @@
+<header>{{widget.name}}</header>
+
 <plotly-plot
+    *ngIf="graph.data && graph.data.length > 0"
     divId="{{widget.widgetId}}"
     [data]="graph.data"
     [layout]="graph.layout"
@@ -6,8 +9,14 @@
     [config]="{displayModeBar: false}"
     [style]="{position: 'relative', width: '100%', height: '100%'}"></plotly-plot>
 
+<div *ngIf="!isConfigured" class="configure-notice">
+    <div>
+        <strong>Click settings button to configure.</strong>
+    </div>
+</div>
+
 <hyperiot-common-toolbar (action)="onToolbarAction($event)" [config]="{
     showClose: true,
     showSettings: true,
-    showTable: true
+    showTable: isConfigured
 }"></hyperiot-common-toolbar>

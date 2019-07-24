@@ -13,6 +13,8 @@ import {
 export class DashboardConfigService {
     configUrl = 'assets/data/dashboard-config-rest.json';
     testConfigUrl = 'assets/data/dashboard-config.json';
+    widgetCategoryListUrl = 'assets/data/widget-category-list.json';
+    widgetListUrl = 'assets/data/widget-list.json';
 
     constructor(
         private dashboardService: DashboardsService,
@@ -68,5 +70,11 @@ export class DashboardConfigService {
         });
         return this.dashboardWidgetService
             .saveAllDashboardWidget(+dashboardId, dashboardWidgets);
+    }
+    getWidgetCategoryList() {
+        return this.http.get(this.widgetCategoryListUrl);
+    }
+    getWidgetList() {
+        return this.http.get(this.widgetListUrl);
     }
 }

@@ -77,6 +77,16 @@ export class WidgetsLayoutComponent implements OnInit {
     return JSON.stringify(this.dashboard) !== JSON.stringify(this.originalDashboard);
   }
 
+  // Widget events
+
+  onWidgetAction(data) {
+    console.log('Widget action...', data);
+    if (data.action === 'toolbar:close') {
+      // TODO: should request action confim
+      this.removeItem(data.widget);
+    }
+  }
+
   // Gridster methods
 
   onItemChange(item, itemComponent) {

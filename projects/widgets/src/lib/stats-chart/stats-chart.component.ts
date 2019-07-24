@@ -27,15 +27,15 @@ export class StatsChartComponent extends WidgetChartComponent implements OnInit 
   }
 
   onToolbarAction(action: string) {
-    console.log(action);
     switch (action) {
-      case 'chart':
+      case 'toolbar:chart':
         this.showChart();
         break;
-      case 'table':
+      case 'toolbar:table':
         this.showChartTable();
         break;
     }
+    this.widgetAction.emit({widget: this.widget, action});
   }
 
   private showChart() {
@@ -45,11 +45,17 @@ export class StatsChartComponent extends WidgetChartComponent implements OnInit 
         .subscribe((data: any) => {
           this.graph.data = data.data;
           Object.assign(this.graph.layout, data.layout);
+          this.checkConfigured();
         });
     } else {
       this.graph.data = this.widget.config.data || [];
       this.graph.layout = this.widget.config.layout;
+      this.checkConfigured();
     }
+  }
+
+  private checkConfigured() {
+    this.isConfigured = (this.graph.data != null && this.graph.data.length > 0);
   }
 
   private showChartTable() {

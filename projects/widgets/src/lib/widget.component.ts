@@ -1,4 +1,4 @@
-import { OnDestroy, Input } from '@angular/core';
+import { OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { PartialObserver } from 'rxjs';
 
 import { DataChannel, DataStreamService, DataPacketFilter } from '@hyperiot/core';
@@ -21,6 +21,10 @@ export abstract class WidgetComponent implements OnDestroy {
    */
   @Input()
   widget: any = {};
+
+  // used to signal widget actions
+  @Output() widgetAction: EventEmitter<any> = new EventEmitter();
+  isConfigured = false;
 
   /**
    * Contructor
