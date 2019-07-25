@@ -91,8 +91,10 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
       const index = this.selectedWidgets.indexOf(widget);
       this.selectedWidgets.splice(index, 1);
     } else if (widget.count > 0 && !this.selectedWidgets.includes(widget)) {
+      // add
       this.selectedWidgets.push(widget);
     }
+    console.log(widget, this.selectedWidgets);
   }
 
   onCategorySelect(category: any) {

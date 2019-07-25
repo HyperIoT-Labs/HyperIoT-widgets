@@ -29,7 +29,7 @@
             <input type="number" class="item-count"
                 min="0" max="{{widgetAddMax}}"
                 [(ngModel)]="widget.count"
-                (ngModelChange)="onWidgetChange($event)">
+                (ngModelChange)="onWidgetChange(widget)">
             <button class="remove" title="remove" (click)="removeWidget(widget)"></button>
             <button class="add" title="add" (click)="addWidget(widget)"></button>
         </div>
