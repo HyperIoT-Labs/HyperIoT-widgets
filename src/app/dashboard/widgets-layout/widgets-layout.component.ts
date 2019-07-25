@@ -2,7 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { GridsterConfig, GridsterItem, GridType, DisplayGrid, CompactType } from 'angular-gridster2';
 
-import { DataStreamService } from '@hyperiot/core';
+import {
+  DataStreamService,
+  DashboardwidgetsService,
+  DashboardWidget,
+  Dashboard,
+  DashboardsService
+} from '@hyperiot/core';
+
 import { DashboardConfigService } from '../dashboard-config.service';
 
 @Component({
@@ -15,6 +22,7 @@ export class WidgetsLayoutComponent implements OnInit {
 
   dragEnabled = true;
   dashboard: Array<GridsterItem>;
+  dashboardEntity: Dashboard;
   @Input() dashboardId: string;
   private originalDashboard: Array<GridsterItem>;
 
@@ -26,7 +34,9 @@ export class WidgetsLayoutComponent implements OnInit {
    */
   constructor(
     private dataStreamService: DataStreamService,
-    private configService: DashboardConfigService
+    private configService: DashboardConfigService,
+    private dashboardService: DashboardsService,
+    private dashboardWidgetService: DashboardwidgetsService,
   ) { }
 
   ngOnInit() {
@@ -59,6 +69,8 @@ export class WidgetsLayoutComponent implements OnInit {
       }
     };
     this.dashboard = [];
+    this.dashboardService.findDashboard(+this.dashboardId)
+      .subscribe((d) => this.dashboardEntity = d);
     this.configService.getConfig(this.dashboardId).subscribe((dashboardConfig: Array<GridsterItem>) => {
       this.dashboard = dashboardConfig;
       this.originalDashboard = JSON.parse(JSON.stringify(dashboardConfig));
@@ -87,7 +99,7 @@ export class WidgetsLayoutComponent implements OnInit {
     }
   }
 
-  // Gridster methods
+  // Gridster events/methods
 
   onItemChange(item, itemComponent) {
     if (typeof item.change === 'function') {
@@ -107,10 +119,25 @@ export class WidgetsLayoutComponent implements OnInit {
 
   removeItem(item) {
     this.dashboard.splice(this.dashboard.indexOf(item), 1);
+    if (item.id > 0) {
+      this.dashboardWidgetService.deleteDashboardWidget(item.id);
+    }
   }
 
   addItem(widget) {
-    this.dashboard.push(widget);
+    const count = widget.count;
+    delete widget.count;
+    for (let c = 0; c < count; c++) {
+      this.dashboard.push(widget);
+      const dashboardWidget: DashboardWidget = {
+        widgetId: widget.widgetId + '-test',
+        widgetConf: JSON.stringify(widget),
+        dashboard: this.dashboardEntity
+      };
+      console.log(dashboardWidget);
+      this.dashboardWidgetService.saveDashboardWidget(dashboardWidget)
+        .subscribe((w) => console.log(w));
+    }
   }
 
   saveDashboard() {

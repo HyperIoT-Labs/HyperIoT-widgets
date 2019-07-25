@@ -115,6 +115,7 @@ button.category-item.selected {
     justify-content: space-around;
 }
 .widget-item {
+    position: relative;
     top: 4px; left: 4px; bottom: 4px; right: 4px;
     width: 220px;
     height: 160px;
@@ -126,6 +127,8 @@ button.category-item.selected {
     box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.25);
     border: solid 1px transparent;
     border-radius: 4px;
+    transition: all;
+    transition-duration: 200ms;
 }
 .widget-item header {
     position: relative;
@@ -136,15 +139,53 @@ button.category-item.selected {
     border-bottom: 0;
 }
 .widget-item.selected {
+    /*
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+    */
     border: solid 1px rgb(0, 255, 0);
 }
 .widget-item:active,.widget-item.selected {
     -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+}
+
+.widget-item input.item-count {
+    position: absolute;
+    right: 50%;
+    left: 50%;
+    bottom: 4px;
+    margin-left: -32px;
+    width: 64px;
+    height: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+    outline: none;
+    text-align: center;
+}
+.widget-item button {
+    position: absolute;
+    bottom:0;
+    width: 32px;
+    height: 32px;
+    border: none;
+    opacity: 0.35;
+    background-color: transparent;
+    background-position: center; 
+    outline: none;
+}
+.widget-item button.remove {
+    left:0;
+    background-image: url("/assets/widgets/images/baseline-arrow_left-24px.svg");
+}
+
+.widget-item button.add {
+    right: 0;
+    background-image: url("/assets/widgets/images/baseline-arrow_right-24px.svg");
 }
 
 /* TODO: add responsive media-query for smaller screens (1024 / 640 / 480) */

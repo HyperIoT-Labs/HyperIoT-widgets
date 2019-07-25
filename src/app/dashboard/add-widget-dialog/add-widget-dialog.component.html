@@ -17,19 +17,33 @@
 
     <div class="widget-list" *ngIf="selectedCategory != null">
 
+        <!-- 
+            [ngClass]="{selected: this.selectedWidgets.indexOf(widget) !== -1}"
+            (click)="onWidgetSelected(widget)"
+        -->
         <div class="widget-item"
              *ngFor="let widget of categorydWidgets"
-             [ngClass]="{selected: this.selectedWidgets.indexOf(widget) !== -1}"
-             (click)="onWidgetSelected(widget)">
+             [ngClass]="{selected: widget.count > 0}">
             <header>{{ widget.name }}</header>
+
+            <input type="number" class="item-count"
+                min="0" max="{{widgetAddMax}}"
+                [(ngModel)]="widget.count"
+                (ngModelChange)="onWidgetChange($event)">
+            <button class="remove" title="remove" (click)="removeWidget(widget)"></button>
+            <button class="add" title="add" (click)="addWidget(widget)"></button>
         </div>
 
     </div>
 
     <footer>
+        <!--
         <div class="selected-status" *ngIf="selectedWidgets.length > 0">{{selectedWidgets.length}} selected.</div>
-        <button class="button-close" (click)="close()">Cancel &#10006;</button>
-        <button [disabled]="selectedWidgets.length === 0" class="button-confirm" (click)="confirm()">Add &#10010;</button>
+        -->
+        <button class="button-close"
+            (click)="close()">Cancel &#10006;</button>
+        <button [disabled]="selectedWidgets.length === 0" class="button-confirm"
+            (click)="confirm()">Add &#10010;</button>
     </footer>
 
 </div>

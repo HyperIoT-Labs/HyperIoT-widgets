@@ -22,6 +22,7 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
   widgetList: any;
   selectedWidgets: {id: number, name: string}[] = [];
   selectedCategory = null;
+  widgetAddMax = 10;
 
   constructor(
     private viewContainer: ElementRef,
@@ -31,10 +32,6 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.viewContainer.nativeElement.addEventListener('click', this.dismiss.bind(this));
-    this.dashboardConfigService.getWidgetCategoryList()
-      .subscribe((cl) => this.widgetCategoryList = cl);
-    this.dashboardConfigService.getWidgetList()
-      .subscribe((cl) => this.widgetList = cl);
     this.close();
   }
   ngOnDestroy() {
@@ -45,7 +42,19 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
     this.viewContainer.nativeElement.style.display = '';
     this.categorydWidgets = null;
     this.selectedWidgets = [];
-    this.onCategorySelect(this.widgetCategoryList[0]);
+    // get widget list
+    this.dashboardConfigService.getWidgetList()
+      .subscribe((wl: any[]) => {
+        // set initial quantity
+        wl.map((w) => w.count = 0);
+        this.widgetList = wl;
+        // get category list
+        this.dashboardConfigService.getWidgetCategoryList()
+        .subscribe((cl) => {
+          this.widgetCategoryList = cl;
+          this.onCategorySelect(this.widgetCategoryList[0])
+        });
+      });
   }
 
   close() {
@@ -64,6 +73,28 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
     this.close();
   }
 
+  addWidget(widget) {
+    if (widget.count < this.widgetAddMax) {
+      widget.count++;
+    }
+    this.onWidgetChange(widget);
+  }
+  removeWidget(widget) {
+    if (widget.count > 0) {
+      widget.count--;
+    }
+    this.onWidgetChange(widget);
+  }
+  onWidgetChange(widget) {
+    if (widget.count === 0 && this.selectedWidgets.includes(widget)) {
+      // remove
+      const index = this.selectedWidgets.indexOf(widget);
+      this.selectedWidgets.splice(index, 1);
+    } else if (widget.count > 0 && !this.selectedWidgets.includes(widget)) {
+      this.selectedWidgets.push(widget);
+    }
+  }
+
   onCategorySelect(category: any) {
     this.selectedCategory = category;
     if (category.id === 0) {
@@ -74,6 +105,7 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
       return w.categoryId === category.id;
     });
   }
+  /*
   onWidgetSelected(widget: any) {
     if (this.selectedWidgets.includes(widget)) {
       const index = this.selectedWidgets.indexOf(widget);
@@ -82,4 +114,5 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
       this.selectedWidgets.push(widget);
     }
   }
+  */
 }
