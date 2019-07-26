@@ -1,7 +1,7 @@
 [
 	{
         "id": 0,
-        "widgetId": "",
+        "widgetId": "events-log",
 		"categoryId": 3,
 		"name": "Events log",
         "cols": 4,
@@ -13,7 +13,7 @@
 	},
 	{
         "id": 0,
-        "widgetId": "",
+        "widgetId": "stats-chart",
 		"categoryId": 3,
 		"name": "Classic pie chart",
         "cols": 4,
@@ -27,7 +27,7 @@
 	},
 	{
         "id": 0,
-        "widgetId": "",
+        "widgetId": "time-chart",
 		"name": "Realttime line chart",
 		"categoryId": 2,
         "cols": 4,
@@ -41,7 +41,7 @@
 	},
 	{
         "id": 0,
-        "widgetId": "",
+        "widgetId": "stats-chart",
 		"name": "Classic line chart",
 		"categoryId": 2,
         "cols": 4,
@@ -55,7 +55,7 @@
 	},
 	{
         "id": 0,
-        "widgetId": "",
+        "widgetId": "stats-chart",
 		"name": "Classic bar chart",
 		"categoryId": 1,
         "cols": 4,
@@ -69,7 +69,7 @@
 	},
 	{
         "id": 0,
-        "widgetId": "",
+        "widgetId": "sensor-value",
 		"name": "Sensor value",
 		"categoryId": 5,
         "cols": 2,
@@ -83,7 +83,7 @@
 	},
 	{
         "id": 0,
-        "widgetId": "",
+        "widgetId": "text-label",
 		"name": "Simple text",
 		"categoryId": 5,
         "cols": 2,

@@ -6,7 +6,8 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+
 import { DashboardConfigService } from '../dashboard-config.service';
 
 @Component({
@@ -20,22 +21,26 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
   // TODO: fetch both list from assets files
   widgetCategoryList: any;
   widgetList: any;
-  selectedWidgets: {id: number, name: string}[] = [];
+  selectedWidgets: { id: number, name: string }[] = [];
   selectedCategory = null;
   widgetAddMax = 10;
 
   constructor(
     private viewContainer: ElementRef,
-    private http: HttpClient,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private dashboardConfigService: DashboardConfigService
   ) { }
 
   ngOnInit() {
-    this.viewContainer.nativeElement.addEventListener('click', this.dismiss.bind(this));
-    this.close();
+    this.viewContainer.nativeElement
+      .addEventListener('click', this.dismiss.bind(this));
+    this.open();
   }
+
   ngOnDestroy() {
-    this.viewContainer.nativeElement.removeEventListener('click', this.dismiss.bind(this));
+    this.viewContainer.nativeElement
+      .removeEventListener('click', this.dismiss.bind(this));
   }
 
   open() {
@@ -50,15 +55,18 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
         this.widgetList = wl;
         // get category list
         this.dashboardConfigService.getWidgetCategoryList()
-        .subscribe((cl) => {
-          this.widgetCategoryList = cl;
-          this.onCategorySelect(this.widgetCategoryList[0])
-        });
+          .subscribe((cl) => {
+            this.widgetCategoryList = cl;
+            this.onCategorySelect(this.widgetCategoryList[0])
+          });
       });
   }
 
   close() {
-    this.viewContainer.nativeElement.style.display = 'none';
+    this.router.navigate(
+      ['../', { outlets: { modal: null } }],
+      { relativeTo: this.activatedRoute }
+    );
   }
 
   dismiss(e: any) {
@@ -94,7 +102,6 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
       // add
       this.selectedWidgets.push(widget);
     }
-    console.log(widget, this.selectedWidgets);
   }
 
   onCategorySelect(category: any) {
@@ -107,14 +114,4 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
       return w.categoryId === category.id;
     });
   }
-  /*
-  onWidgetSelected(widget: any) {
-    if (this.selectedWidgets.includes(widget)) {
-      const index = this.selectedWidgets.indexOf(widget);
-      this.selectedWidgets.splice(index, 1);
-    } else {
-      this.selectedWidgets.push(widget);
-    }
-  }
-  */
 }

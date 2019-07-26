@@ -32,6 +32,7 @@ import {
 import { GridsterModule } from 'angular-gridster2';
 import { DynamicModule } from 'ng-dynamic-component';
 import { HomeComponent } from './home/home.component';
+import { WidgetSettingsDialogComponent } from './dashboard/widget-settings-dialog/widget-settings-dialog.component';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -52,7 +53,8 @@ export function apiConfigFactory(): Configuration {
     DashboardViewComponent,
     AddWidgetDialogComponent,
     DynamicWidgetComponent,
-    HomeComponent
+    HomeComponent,
+    WidgetSettingsDialogComponent
   ],
   imports: [
     BrowserModule,

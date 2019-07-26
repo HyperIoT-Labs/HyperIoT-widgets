@@ -1,6 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { GridsterConfig, GridsterItem, GridType, DisplayGrid, CompactType } from 'angular-gridster2';
+import {
+  GridsterConfig,
+  GridsterItem,
+  GridType,
+  DisplayGrid,
+  CompactType
+} from 'angular-gridster2';
 
 import {
   DataStreamService,
@@ -17,7 +24,7 @@ import { DashboardConfigService } from '../dashboard-config.service';
   templateUrl: './widgets-layout.component.html',
   styleUrls: ['./widgets-layout.component.css']
 })
-export class WidgetsLayoutComponent implements OnInit {
+export class WidgetsLayoutComponent implements OnInit, OnDestroy {
   @Input() options: GridsterConfig;
 
   dragEnabled = true;
@@ -37,6 +44,7 @@ export class WidgetsLayoutComponent implements OnInit {
     private configService: DashboardConfigService,
     private dashboardService: DashboardsService,
     private dashboardWidgetService: DashboardwidgetsService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -78,6 +86,9 @@ export class WidgetsLayoutComponent implements OnInit {
     // TODO: the connection should happen somewhere else in the main page
     this.dataStreamService.connect();
   }
+  ngOnDestroy() {
+    this.dataStreamService.disconnect();
+  }
 
   onToggleDragging() {
     this.dragEnabled = !this.dragEnabled;
@@ -93,9 +104,24 @@ export class WidgetsLayoutComponent implements OnInit {
 
   onWidgetAction(data) {
     console.log('Widget action...', data);
-    if (data.action === 'toolbar:close') {
-      // TODO: should request action confim
-      this.removeItem(data.widget);
+    switch (data.action) {
+      case 'toolbar:close':
+        // TODO: should request action confim
+        this.removeItem(data.widget);
+        break;
+      case 'toolbar:settings':
+        this.router.navigate([
+          'dashboards',
+          this.dashboardId,
+          {outlets: { modal: [ 'settings', data.widget.id ] }}
+        ]).then( (e) => {
+          if (e) {
+            console.log('Navigation is successful!');
+          } else {
+            console.log('Navigation has failed!');
+          }
+        });
+        break;
     }
   }
 
@@ -119,8 +145,10 @@ export class WidgetsLayoutComponent implements OnInit {
 
   removeItem(item) {
     this.dashboard.splice(this.dashboard.indexOf(item), 1);
+    console.log('deleting dashboard widget', item, item.id);
     if (item.id > 0) {
-      this.dashboardWidgetService.deleteDashboardWidget(item.id);
+      this.dashboardWidgetService.deleteDashboardWidget(item.id)
+        .subscribe();
     }
   }
 
@@ -129,14 +157,18 @@ export class WidgetsLayoutComponent implements OnInit {
     delete widget.count;
     for (let c = 0; c < count; c++) {
       this.dashboard.push(widget);
+      // TODO: use DashboardWidget from @hyperiot/core whenever this gets fixed
       const dashboardWidget: DashboardWidget = {
-        widgetId: widget.widgetId + '-test',
+        widgetId: widget.widgetId,
         widgetConf: JSON.stringify(widget),
-        dashboard: this.dashboardEntity
+        dashboard: { id: +this.dashboardId }
       };
-      console.log(dashboardWidget);
+      // TODO: use REST API client from @hyperiot/core whenever this gets fixed
       this.dashboardWidgetService.saveDashboardWidget(dashboardWidget)
-        .subscribe((w) => console.log(w));
+        .subscribe((w) => {
+          // update new widget id
+          widget.id = w.id;
+        });
     }
   }
 

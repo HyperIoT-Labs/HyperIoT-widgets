@@ -10,6 +10,17 @@
     --header-color: rgba(50, 50, 50, 0.1);
 }
 
+.dialog {
+    position: absolute;
+    overflow: hidden; 
+    top: 48px; bottom: 48px;
+    left: 48px; right: 48px;
+    background: white;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    padding-top: var(--header-height);
+    box-shadow: 0 0 5px 2px rgba(0,0,0,.35);
+}
+
 .dialog header {
     position: absolute;
     top: 0; left: 0; right: 0;
@@ -40,21 +51,10 @@
     font-weight: 600;
 }
 
-.button-close, .button-confirm {
+.dialog .button-close, .dialog .button-confirm {
     float: right;
     margin-top: 4px;
     margin-right: 10px;
-}
-
-.dialog {
-    position: absolute;
-    overflow: hidden; 
-    top: 48px; bottom: 48px;
-    left: 48px; right: 48px;
-    background: white;
-    border: solid 1px rgba(0, 0, 0, 0.1);
-    padding-top: var(--header-height);
-    box-shadow: 0 0 5px 2px rgba(0,0,0,.35);
 }
 
 .category-list {
@@ -139,11 +139,6 @@ button.category-item.selected {
     border-bottom: 0;
 }
 .widget-item.selected {
-    /*
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    */
     border: solid 1px rgb(0, 255, 0);
 }
 .widget-item:active,.widget-item.selected {

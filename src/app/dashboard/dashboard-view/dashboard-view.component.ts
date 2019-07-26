@@ -22,6 +22,13 @@ export class DashboardViewComponent implements OnInit {
   ngOnInit() {
     this.dashboardId = this.route.snapshot.paramMap.get('id');
   }
+  
+  onActivate(childComponent) {
+    if (childComponent instanceof AddWidgetDialogComponent) {
+      childComponent.addWidgets.subscribe((widgets) => this.onWidgetsAdd(widgets));
+    }
+  }
+
   saveDashboard() {
     this.dashboardLayout.saveDashboard();
   }

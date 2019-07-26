@@ -17,10 +17,6 @@
 
     <div class="widget-list" *ngIf="selectedCategory != null">
 
-        <!-- 
-            [ngClass]="{selected: this.selectedWidgets.indexOf(widget) !== -1}"
-            (click)="onWidgetSelected(widget)"
-        -->
         <div class="widget-item"
              *ngFor="let widget of categorydWidgets"
              [ngClass]="{selected: widget.count > 0}">
@@ -37,9 +33,6 @@
     </div>
 
     <footer>
-        <!--
-        <div class="selected-status" *ngIf="selectedWidgets.length > 0">{{selectedWidgets.length}} selected.</div>
-        -->
         <button class="button-close"
             (click)="close()">Cancel &#10006;</button>
         <button [disabled]="selectedWidgets.length === 0" class="button-confirm"
