@@ -8,6 +8,16 @@
     text-align: center;
     opacity: 0.5;
 }
+.sensor-field {
+    position: absolute;
+    bottom: 6px;
+    width: 100%;
+    color: #16A4FA;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-align: center;
+    opacity: 0.85;
+}
 .unit {
     opacity: 0.75;
     font-size: 28px;

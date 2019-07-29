@@ -40,7 +40,7 @@ export class DashboardConfigService {
                         data.map((w: DashboardWidget) => {
                             const widget = JSON.parse(w.widgetConf);
                             widget.id = w.id;
-                            widget.widgetId = w.widgetId;
+                            widget.widgetId = `widget-${w.id}`;
                             config.push(widget);
                         });
                         return config;

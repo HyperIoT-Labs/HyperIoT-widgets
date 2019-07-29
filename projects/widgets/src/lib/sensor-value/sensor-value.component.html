@@ -4,6 +4,9 @@
   <span [innerHTML]="sensorValue"></span>
   <span [innerHTML]="sensorUnitSymbol" class="unit"></span>
 </div>
+<div class="sensor-field">
+  {{ sensorField }}
+</div>
 
 <div *ngIf="!isConfigured" class="configure-notice">
     <div>

@@ -26,11 +26,11 @@ import { DashboardConfigService } from '../dashboard-config.service';
 })
 export class WidgetsLayoutComponent implements OnInit, OnDestroy {
   @Input() options: GridsterConfig;
+  @Input() dashboardId: string;
 
-  dragEnabled = true;
   dashboard: Array<GridsterItem>;
   dashboardEntity: Dashboard;
-  @Input() dashboardId: string;
+  dragEnabled = true;
   private originalDashboard: Array<GridsterItem>;
 
   /**
@@ -97,7 +97,9 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
   }
 
   isDirty() {
-    return JSON.stringify(this.dashboard) !== JSON.stringify(this.originalDashboard);
+    return false;
+    // TODO: fix this
+    // return this.originalDashboard && JSON.stringify(this.dashboard) !== JSON.stringify(this.originalDashboard);
   }
 
   // Widget events
@@ -114,7 +116,7 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
           'dashboards',
           this.dashboardId,
           {outlets: { modal: [ 'settings', data.widget.id ] }}
-        ]).then( (e) => {
+        ]).then((e) => {
           if (e) {
             console.log('Navigation is successful!');
           } else {
@@ -143,9 +145,12 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
     this.options.api.optionsChanged();
   }
 
+  getItemById(id: string) {
+    return this.dashboard.find((w) => w.id === +id);
+  }
+
   removeItem(item) {
     this.dashboard.splice(this.dashboard.indexOf(item), 1);
-    console.log('deleting dashboard widget', item, item.id);
     if (item.id > 0) {
       this.dashboardWidgetService.deleteDashboardWidget(item.id)
         .subscribe();
@@ -157,23 +162,27 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
     delete widget.count;
     for (let c = 0; c < count; c++) {
       this.dashboard.push(widget);
-      // TODO: use DashboardWidget from @hyperiot/core whenever this gets fixed
       const dashboardWidget: DashboardWidget = {
         widgetId: widget.widgetId,
         widgetConf: JSON.stringify(widget),
         dashboard: { id: +this.dashboardId }
       };
-      // TODO: use REST API client from @hyperiot/core whenever this gets fixed
       this.dashboardWidgetService.saveDashboardWidget(dashboardWidget)
         .subscribe((w) => {
           // update new widget id
           widget.id = w.id;
+          widget.widgetId = `widget-${w.id}`;
         });
     }
   }
 
   saveDashboard() {
     this.configService.putConfig(this.dashboardId, this.dashboard)
-      .subscribe((res) => console.log(res));
+      .subscribe((res) => {
+        console.log('saveDashboard output', res);
+        if (res && res.status_code === 200) {
+          this.originalDashboard = this.dashboard;
+        }
+      });
   }
 }

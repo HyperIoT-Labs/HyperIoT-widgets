@@ -18,7 +18,6 @@ import { DashboardConfigService } from '../dashboard-config.service';
 export class AddWidgetDialogComponent implements OnInit, OnDestroy {
   @Output() addWidgets: EventEmitter<any> = new EventEmitter();
   categorydWidgets: any = null;
-  // TODO: fetch both list from assets files
   widgetCategoryList: any;
   widgetList: any;
   selectedWidgets: { id: number, name: string }[] = [];
@@ -57,15 +56,15 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
         this.dashboardConfigService.getWidgetCategoryList()
           .subscribe((cl) => {
             this.widgetCategoryList = cl;
-            this.onCategorySelect(this.widgetCategoryList[0])
+            this.onCategorySelect(this.widgetCategoryList[0]);
           });
       });
   }
 
   close() {
     this.router.navigate(
-      ['../', { outlets: { modal: null } }],
-      { relativeTo: this.activatedRoute }
+      ['../', { outlets: { modal: null }}],
+      {relativeTo: this.activatedRoute}
     );
   }
 
@@ -76,7 +75,6 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
   }
 
   confirm() {
-    // TODO: signal widget add with EventEmitter
     this.addWidgets.emit(this.selectedWidgets);
     this.close();
   }
@@ -87,12 +85,14 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
     }
     this.onWidgetChange(widget);
   }
+
   removeWidget(widget) {
     if (widget.count > 0) {
       widget.count--;
     }
     this.onWidgetChange(widget);
   }
+
   onWidgetChange(widget) {
     if (widget.count === 0 && this.selectedWidgets.includes(widget)) {
       // remove

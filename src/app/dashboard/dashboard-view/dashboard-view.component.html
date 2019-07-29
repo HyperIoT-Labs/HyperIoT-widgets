@@ -1,11 +1,8 @@
 <div>
-    <button (click)="saveDashboard()">Save</button>
-    <button [routerLink]="{outlets: { modal: [ 'widgets' ] }}">Add widget</button>
+    <button (click)="saveDashboard()" [disabled]="dashboardLayout.isDirty()">Save</button>
+    <button [routerLink]="[{outlets: { modal: [ 'widgets' ] }}]">Add widget</button>
 </div>
 
 <app-widgets-layout [dashboardId]="dashboardId"></app-widgets-layout>
-<!--
-<app-add-widget-dialog #widgetDialog
-    (addWidgets)="onWidgetsAdd($event)"></app-add-widget-dialog>
--->
+
 <router-outlet name="modal" (activate)="onActivate($event)"></router-outlet>
