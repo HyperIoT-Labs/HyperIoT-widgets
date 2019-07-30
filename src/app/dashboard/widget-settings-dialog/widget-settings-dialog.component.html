@@ -8,41 +8,33 @@
 
     <div class="content">
 
-            <div class="common-settings">
-                    <p><strong>Type</strong>: {{ widget.type }}</p>
-                    <p><strong>widgetId</strong>: {{ widget.widgetId }}</p>
-                    <input type="text" [(ngModel)]="widgetName">                
-                </div>
-            
-                <div class="custom-settings" [ngSwitch]="widget.type">
-                    <div *ngSwitchCase="'sensor-value'">
-                        <app-sensor-value-settings
-                            [widget]="widget"
-                            [modalApply]="modalApply">
-                        </app-sensor-value-settings>
-                    </div>
-                    <div *ngSwitchCase="'stats-chart'">
-                        <app-stats-chart-settings
-                            [widget]="widget"
-                            [modalApply]="modalApply">
-                        </app-stats-chart-settings>
-                    </div>
-                    <div *ngSwitchCase="'time-chart'">
-                        <app-time-chart-settings
-                            [widget]="widget"
-                            [modalApply]="modalApply">
-                        </app-time-chart-settings>
-                    </div>    
-                    <div *ngSwitchCase="'text-label'">
-                        <app-text-label-settings
-                            [widget]="widget"
-                            [modalApply]="modalApply">
-                        </app-text-label-settings>
-                    </div>        
-                    <div *ngSwitchDefault>
-                        <em>TODO: ....</em>
-                    </div>
-                </div>
+        <div class="common-settings">
+            <p><strong>Type</strong>: {{ widget.type }}</p>
+            <p><strong>widgetId</strong>: {{ widget.widgetId }}</p>
+            <input type="text" [(ngModel)]="widgetName">
+        </div>
+
+        <div class="custom-settings" [ngSwitch]="widget.type">
+            <div *ngSwitchCase="'sensor-value'">
+                <app-sensor-value-settings [widget]="widget" [modalApply]="modalApply">
+                </app-sensor-value-settings>
+            </div>
+            <div *ngSwitchCase="'stats-chart'">
+                <app-stats-chart-settings [widget]="widget" [modalApply]="modalApply">
+                </app-stats-chart-settings>
+            </div>
+            <div *ngSwitchCase="'time-chart'">
+                <app-time-chart-settings [widget]="widget" [modalApply]="modalApply">
+                </app-time-chart-settings>
+            </div>
+            <div *ngSwitchCase="'text-label'">
+                <app-text-label-settings [widget]="widget" [modalApply]="modalApply">
+                </app-text-label-settings>
+            </div>
+            <div *ngSwitchDefault>
+                <em>TODO: ....</em>
+            </div>
+        </div>
 
     </div>
 
