@@ -1,8 +1,10 @@
+<header>{{widget.name}}</header>
+
 <div class="centered-text">
   {{widget.config.labelText}}
 </div>
 
 <hyperiot-common-toolbar (action)="onToolbarAction($event)" [config]="{
   showClose: true,
-  showSettings: false
+  showSettings: true
 }"></hyperiot-common-toolbar>

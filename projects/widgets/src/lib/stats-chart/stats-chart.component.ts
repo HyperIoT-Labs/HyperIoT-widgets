@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { PlotlyService } from 'angular-plotly.js';
@@ -12,7 +12,8 @@ import { WidgetChartComponent } from '../widget-chart.component';
   templateUrl: './stats-chart.component.html',
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './stats-chart.component.css']
 })
-export class StatsChartComponent extends WidgetChartComponent implements OnInit {
+export class StatsChartComponent extends WidgetChartComponent {
+  private chartMode = 'chart';
 
   // This constructor Inject the HTTP client
   // just for testing purposes.
@@ -22,20 +23,31 @@ export class StatsChartComponent extends WidgetChartComponent implements OnInit 
     super(dataStreamService, plotly);
   }
 
-  ngOnInit() {
-    this.showChart();
+  configure() {
+    super.configure();
+    if (this.chartMode === 'table') {
+      this.showChartTable();
+    } else {
+      this.showChart();
+    }
   }
 
   onToolbarAction(action: string) {
     switch (action) {
       case 'toolbar:chart':
-        this.showChart();
+        this.chartMode = 'chart';
+        this.configure();
         break;
       case 'toolbar:table':
-        this.showChartTable();
-        break;
+          this.chartMode = 'table';
+          this.configure();
+          break;
     }
     this.widgetAction.emit({widget: this.widget, action});
+  }
+
+  private checkConfigured() {
+    this.isConfigured = (this.graph.data != null && this.graph.data.length > 0);
   }
 
   private showChart() {
@@ -52,10 +64,6 @@ export class StatsChartComponent extends WidgetChartComponent implements OnInit 
       this.graph.layout = this.widget.config.layout;
       this.checkConfigured();
     }
-  }
-
-  private checkConfigured() {
-    this.isConfigured = (this.graph.data != null && this.graph.data.length > 0);
   }
 
   private showChartTable() {

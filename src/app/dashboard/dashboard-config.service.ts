@@ -57,16 +57,24 @@ export class DashboardConfigService {
         const dashboardWidgets: DashboardWidget[] = [];
         // Map Plotly config to HyperIoT-DashboardWidget compatible configuration
         config.slice().map((d) => {
+            // Create a copy of widget configuration
             const widgetConf: any = {};
             Object.assign(widgetConf, d);
+            // Remove properties that are redundant
+            // or reserved for internal-use
             delete widgetConf.id;
+            delete widgetConf.widgetId;
+            delete widgetConf.instance;
+            // Create and populate DashboardWidget entity
             const widget: DashboardWidget = {
                 id: d.id,
                 widgetId: d.widgetId,
                 widgetConf: JSON.stringify(widgetConf)
             };
+            // Add it to the list of dashboard widgets
             dashboardWidgets.push(widget);
         });
+        // Save the dashboard structure
         return this.dashboardWidgetService
             .saveAllDashboardWidget(+dashboardId, dashboardWidgets);
     }

@@ -1,9 +1,5 @@
 import {
-  Component,
-  OnInit,
-  OnDestroy,
-  EventEmitter,
-  Output
+  Component
 } from '@angular/core';
 
 import { DataPacketFilter } from '@hyperiot/core';
@@ -16,20 +12,14 @@ import { TimeSeries } from '../data/time-series';
   templateUrl: './time-chart.component.html',
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.css']
 })
-export class TimeChartComponent extends WidgetChartComponent implements OnInit, OnDestroy {
+export class TimeChartComponent extends WidgetChartComponent {
   private chartData: TimeSeries[] = [];
 
-  ngOnInit() {
-    this.configure();
-  }
-
   configure() {
-    if (this.widget.config != null && this.widget.config.packetId != null && this.widget.config.packetFields != null) {
-      this.isConfigured = true;
-    } else {
-      return;
-    }
-    if (!this.isConfigured) {
+    super.configure();
+    this.chartData = [];
+    if (!(this.widget.config != null && this.widget.config.packetId != null && this.widget.config.packetFields != null)) {
+      this.isConfigured = false;
       return;
     }
     const cfg = this.widget.config;

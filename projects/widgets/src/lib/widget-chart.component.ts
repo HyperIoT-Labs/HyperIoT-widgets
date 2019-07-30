@@ -121,7 +121,9 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     super(dataStreamService);
   }
 
-  ngAfterContentInit() {
+  configure() {
+    super.configure();
+    this.graph.data = [];
     // not sure how to get rid of this timeout
     setTimeout(() => {
       const Plotly = this.plotly.getPlotly();

@@ -7,17 +7,22 @@ import {
   EventEmitter
 } from '@angular/core';
 
+import { WidgetComponent } from '../widget.component';
+import { DataStreamService } from '@hyperiot/core';
+
 @Component({
   selector: 'hyperiot-text-label',
   templateUrl: './text-label.component.html',
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './text-label.component.css']
 })
-export class TextLabelComponent implements OnInit, OnDestroy {
+export class TextLabelComponent extends WidgetComponent implements OnInit, OnDestroy {
   @Input()
   widget;
   @Output() widgetAction: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor(public dataStreamService: DataStreamService) {
+    super(dataStreamService);
+  }
 
   ngOnInit() {
   }
@@ -27,5 +32,17 @@ export class TextLabelComponent implements OnInit, OnDestroy {
 
   onToolbarAction(action: string) {
     this.widgetAction.emit({widget: this.widget, action});
+  }
+
+  // inherited methods from WidgetComponent
+
+  pause(): void {
+    throw new Error('Method not implemented.');
+  }
+  play(): void {
+    throw new Error('Method not implemented.');
+  }
+  getOfflineData(startDate: Date, endDate: Date) {
+    throw new Error('Method not implemented.');
   }
 }

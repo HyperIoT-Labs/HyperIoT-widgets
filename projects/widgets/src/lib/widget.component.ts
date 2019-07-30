@@ -1,4 +1,4 @@
-import { OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges, AfterContentInit } from '@angular/core';
 import { PartialObserver } from 'rxjs';
 
 import { DataChannel, DataStreamService, DataPacketFilter } from '@hyperiot/core';
@@ -6,7 +6,7 @@ import { DataChannel, DataStreamService, DataPacketFilter } from '@hyperiot/core
 /**
  * Base class for widget implementation
  */
-export abstract class WidgetComponent implements OnDestroy {
+export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterContentInit {
   protected dataChannel: DataChannel;
   /**
    * Widget configuration object (template-bindable)
@@ -32,8 +32,27 @@ export abstract class WidgetComponent implements OnDestroy {
    */
   constructor(public dataStreamService: DataStreamService) { }
 
+  ngAfterContentInit() {
+    this.configure();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.widget && changes.widget.currentValue) {
+      changes.widget.currentValue.instance = this;
+    }
+  }
+
   ngOnDestroy() {
     // clean up event and subject subscriptions
+    this.unsubscribeRealTimeStream();
+  }
+
+  /**
+   * This method is called to apply the current
+   * widget configuration.
+   */
+  protected configure(): void {
+    this.isConfigured = true;
     this.unsubscribeRealTimeStream();
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { DataStreamService, DataPacketFilter } from '@hyperiot/core';
 
@@ -9,7 +9,7 @@ import { WidgetComponent } from '../widget.component';
   templateUrl: './sensor-value.component.html',
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './sensor-value.component.css']
 })
-export class SensorValueComponent extends WidgetComponent implements OnInit, OnChanges {
+export class SensorValueComponent extends WidgetComponent {
   sensorField: string;
   sensorValue: number;
   sensorUnitSymbol: string;
@@ -28,10 +28,14 @@ export class SensorValueComponent extends WidgetComponent implements OnInit, OnC
     throw new Error('Method not implemented.');
   }
 
-  ngOnInit() {
-    if (this.widget.config != null && this.widget.config.packetId != null && this.widget.config.packetFields != null) {
-      this.isConfigured = true;
-    } else {
+  onToolbarAction(action: string) {
+    this.widgetAction.emit({widget: this.widget, action});
+  }
+
+  configure() {
+    super.configure();
+    if (!(this.widget.config != null && this.widget.config.packetId != null && this.widget.config.packetFields != null)) {
+      this.isConfigured = false;
       return;
     }
     const cfg = this.widget.config;
@@ -51,14 +55,6 @@ export class SensorValueComponent extends WidgetComponent implements OnInit, OnC
           break;
       }
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-  }
-
-  onToolbarAction(action: string) {
-    this.widgetAction.emit({widget: this.widget, action});
   }
 
   displayTemperature(name: string, value: number, unit: string) {

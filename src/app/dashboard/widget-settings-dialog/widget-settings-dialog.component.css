@@ -56,3 +56,15 @@
     margin-top: 4px;
     margin-right: 10px;
 }
+
+.content {
+    position: absolute;
+    left: 0; top: var(--header-height);
+    bottom: var(--footer-height);
+    width: 100%;
+    overflow-y: auto;
+}
+
+.common-settings,.custom-settings {
+    padding: 24px;
+}

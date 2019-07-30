@@ -30,9 +30,14 @@ import {
 } from '@hyperiot/core';
 
 import { GridsterModule } from 'angular-gridster2';
-import { DynamicModule } from 'ng-dynamic-component';
 import { HomeComponent } from './home/home.component';
 import { WidgetSettingsDialogComponent } from './dashboard/widget-settings-dialog/widget-settings-dialog.component';
+import { TimeChartSettingsComponent } from './dashboard/widget-settings-dialog/time-chart-settings/time-chart-settings.component';
+import { EventsLogSettingsComponent } from './dashboard/widget-settings-dialog/events-log-settings/events-log-settings.component';
+import { TextLabelSettingsComponent } from './dashboard/widget-settings-dialog/text-label-settings/text-label-settings.component';
+import { StatsChartSettingsComponent } from './dashboard/widget-settings-dialog/stats-chart-settings/stats-chart-settings.component';
+import { SensorValueSettingsComponent } from './dashboard/widget-settings-dialog/sensor-value-settings/sensor-value-settings.component';
+import { PacketSelectComponent } from './dashboard/widget-settings-dialog/packet-select/packet-select.component';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -54,7 +59,13 @@ export function apiConfigFactory(): Configuration {
     AddWidgetDialogComponent,
     DynamicWidgetComponent,
     HomeComponent,
-    WidgetSettingsDialogComponent
+    WidgetSettingsDialogComponent,
+    TimeChartSettingsComponent,
+    EventsLogSettingsComponent,
+    TextLabelSettingsComponent,
+    StatsChartSettingsComponent,
+    SensorValueSettingsComponent,
+    PacketSelectComponent
   ],
   imports: [
     BrowserModule,
