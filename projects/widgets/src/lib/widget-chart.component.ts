@@ -28,7 +28,7 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
    * @example
    * this.widget = {
    *   // mandatory widget identifier field
-   *   widgetId: 'widget-2',
+   *   id: 1234,
    *   // attach resize event handler
    *   resize: () => console.log('resized'),
    *   // attach change event handler
@@ -127,7 +127,7 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     // not sure how to get rid of this timeout
     setTimeout(() => {
       const Plotly = this.plotly.getPlotly();
-      const graph = this.plotly.getInstanceByDivId(this.widget.widgetId);
+      const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
       if (graph != null) {
         Plotly.relayout(graph, { autosize: true });
         // not sure how to get rid of this timeout
@@ -244,7 +244,7 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     const rangeStart = new Date(rangeEnd.getTime() - (1 * this.widget.config.timeAxisRange * 1000));
     // relayout x-axis range with new data
     const Plotly = this.plotly.getPlotly();
-    const graph = this.plotly.getInstanceByDivId(this.widget.widgetId);
+    const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
     Plotly.relayout(graph, { 'xaxis.range': [rangeStart, rangeEnd] });
   }
 

@@ -78,13 +78,12 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
   /**
    * Set the real-time data stream the widget will receive data from
    *
-   * @param widgetId The widget id
    * @param packetFilter Packet id and data filters (only listed fields will be streamed to the widget)
    * @param observerCallback Callback to fire once new data is received
    */
   subscribeRealTimeStream(packetFilter: DataPacketFilter, observerCallback: PartialObserver<[any, any]> | any): void {
     this.unsubscribeRealTimeStream();
-    this.dataChannel = this.dataStreamService.addDataStream(this.widget.widgetId, packetFilter);
+    this.dataChannel = this.dataStreamService.addDataStream(this.widget.id, packetFilter);
     this.dataChannel.subject.subscribe(observerCallback);
   }
 
@@ -95,7 +94,7 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
     if (this.dataChannel != null) {
       // TODO: maybe move the unsubscription inside the DataStreamServiceid)l
       this.dataChannel.subject.unsubscribe();
-      this.dataStreamService.removeDataChannel(this.widget.widgetId);
+      this.dataStreamService.removeDataChannel(this.widget.id);
     }
   }
 }

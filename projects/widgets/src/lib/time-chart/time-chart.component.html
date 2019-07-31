@@ -2,7 +2,7 @@
 
 <plotly-plot
     *ngIf="graph.data && graph.data.length > 0"
-    divId="{{widget.widgetId}}"
+    divId="widget-{{widget.id}}"
     [data]="graph.data"
     [layout]="graph.layout"
     [useResizeHandler]="true"

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import {
     DashboardwidgetsService,
@@ -26,7 +27,33 @@ export class DashboardConfigService {
         return this.dashboardService.findAllDashboard();
     }
 
-    getConfig(dashboardId: string) {
+    getDashboard(dashboardId: number) {
+        return this.dashboardService.findDashboard(dashboardId);
+    }
+
+    addDashboardWidget(dashboardId: number, widget: any) {
+        // creates a copy of widget object and
+        // remove redundant properties
+        delete widget.id;
+        const dashboardWidget: DashboardWidget = {
+            dashboard: { id: dashboardId },
+            widgetConf: JSON.stringify(widget)
+        };
+        const subject = new Subject();
+        this.dashboardWidgetService.saveDashboardWidget(dashboardWidget)
+            .subscribe((w) => {
+                // update new widget id
+                widget.id = w.id;
+                subject.next(widget);
+                subject.unsubscribe();
+            });
+        return subject;
+    }
+    removeDashboardWidget(widgetId: number) {
+        return this.dashboardWidgetService.deleteDashboardWidget(widgetId);
+    }
+
+    getConfig(dashboardId: number | string) {
         if (dashboardId === 'demo') {
             return this.getTestConfig();
         }
@@ -40,7 +67,6 @@ export class DashboardConfigService {
                         data.map((w: DashboardWidget) => {
                             const widget = JSON.parse(w.widgetConf);
                             widget.id = w.id;
-                            widget.widgetId = `widget-${w.id}`;
                             config.push(widget);
                         });
                         return config;
@@ -53,7 +79,7 @@ export class DashboardConfigService {
     getTestConfig() {
         return this.http.get(this.testConfigUrl);
     }
-    putConfig(dashboardId: string, config: any) {
+    putConfig(dashboardId: number, config: any) {
         const dashboardWidgets: DashboardWidget[] = [];
         // Map Plotly config to HyperIoT-DashboardWidget compatible configuration
         config.slice().map((d) => {
@@ -63,12 +89,10 @@ export class DashboardConfigService {
             // Remove properties that are redundant
             // or reserved for internal-use
             delete widgetConf.id;
-            delete widgetConf.widgetId;
             delete widgetConf.instance;
             // Create and populate DashboardWidget entity
             const widget: DashboardWidget = {
                 id: d.id,
-                widgetId: d.widgetId,
                 widgetConf: JSON.stringify(widgetConf)
             };
             // Add it to the list of dashboard widgets
