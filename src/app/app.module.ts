@@ -1,7 +1,8 @@
+import { NgModule, LOCALE_ID,TRANSLATIONS, TRANSLATIONS_FORMAT, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { I18n } from '@ngx-translate/i18n-polyfill';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,6 +39,9 @@ import { TextLabelSettingsComponent } from './dashboard/widget-settings-dialog/t
 import { StatsChartSettingsComponent } from './dashboard/widget-settings-dialog/stats-chart-settings/stats-chart-settings.component';
 import { SensorValueSettingsComponent } from './dashboard/widget-settings-dialog/sensor-value-settings/sensor-value-settings.component';
 import { PacketSelectComponent } from './dashboard/widget-settings-dialog/packet-select/packet-select.component';
+
+// use the require method provided by webpack
+declare const require;
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -79,7 +83,21 @@ export function apiConfigFactory(): Configuration {
     HyperiotBaseModule,
     HUserClientModule.forRoot(apiConfigFactory),
   ],
-  providers: [AuthenticationService, DashboardConfigService, DashboardwidgetsService],
+  providers: [
+    AuthenticationService,
+    DashboardConfigService,
+    DashboardwidgetsService,
+    I18n,
+    { provide: TRANSLATIONS_FORMAT, useValue: 'xlf' },
+    {
+      provide: TRANSLATIONS,
+      useFactory: (locale) => {
+        locale = locale || 'en-US'; // default to english if no locale provided
+        return require(`raw-loader!../locale/translations.${locale}.xlf`);
+      },
+      deps: [LOCALE_ID]
+    }
+  ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

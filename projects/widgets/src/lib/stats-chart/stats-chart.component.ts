@@ -47,23 +47,24 @@ export class StatsChartComponent extends WidgetChartComponent {
   }
 
   private checkConfigured() {
-    this.isConfigured = (this.graph.data != null && this.graph.data.length > 0);
+    this.isConfigured = (this.graph.data != null && this.graph.data.length > 0)
+                        || (this.widget.dataUrl != null && this.widget.dataUrl.length > 0);
   }
 
   private showChart() {
     // get chart data from JSON asset file
-    if (this.widget.dataUrl != null) {
+    if (this.widget.dataUrl != null && this.widget.dataUrl.trim().length > 0) {
       this.http.get(this.widget.dataUrl)
         .subscribe((data: any) => {
           this.graph.data = data.data;
           Object.assign(this.graph.layout, data.layout);
           this.checkConfigured();
         });
-    } else {
+    } else if (this.widget.config) {
       this.graph.data = this.widget.config.data || [];
       this.graph.layout = this.widget.config.layout;
-      this.checkConfigured();
     }
+    this.checkConfigured();
   }
 
   private showChartTable() {

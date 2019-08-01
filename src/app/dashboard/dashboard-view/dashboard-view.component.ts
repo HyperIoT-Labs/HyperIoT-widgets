@@ -12,8 +12,8 @@ import { WidgetSettingsDialogComponent } from '../widget-settings-dialog/widget-
 })
 export class DashboardViewComponent implements OnInit {
   @ViewChild(WidgetsLayoutComponent, { static: true })
-  private dashboardLayout: WidgetsLayoutComponent;
-  private dashboardId: string;
+  dashboardLayout: WidgetsLayoutComponent;
+  dashboardId: string;
 
   constructor(
     private activatedRoute: ActivatedRoute

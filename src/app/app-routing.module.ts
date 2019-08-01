@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomeComponent } from './home/home.component';
 import { DashboardsListComponent } from './dashboard/dashboards-list/dashboards-list.component';
 import { DashboardViewComponent } from './dashboard/dashboard-view/dashboard-view.component';
-import { HomeComponent } from './home/home.component';
-import { WidgetSettingsDialogComponent } from './dashboard/widget-settings-dialog/widget-settings-dialog.component';
 import { AddWidgetDialogComponent } from './dashboard/add-widget-dialog/add-widget-dialog.component';
+import { WidgetSettingsDialogComponent } from './dashboard/widget-settings-dialog/widget-settings-dialog.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

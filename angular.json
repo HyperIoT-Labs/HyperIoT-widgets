@@ -51,6 +51,52 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "production-it": {
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "it": {
+              "aot": true,
+              "outputPath": "dist/hyperiot-it/",
+              "i18nFile": "src/locale/translations.it-IT.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "it-IT",
+              "i18nMissingTranslation": "error"
+            },
+            "production-en": {
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "en": {
+              "aot": true,
+              "outputPath": "dist/hyperiot-en/",
+              "i18nFile": "src/locale/translations.en-US.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "en-US",
+              "i18nMissingTranslation": "error"
             }
           }
         },
@@ -62,6 +108,12 @@
           "configurations": {
             "production": {
               "browserTarget": "HyperIoT-widgets:build:production"
+            },
+            "it": {
+              "browserTarget": "HyperIoT-widgets:build:it"
+            },
+            "en": {
+              "browserTarget": "HyperIoT-widgets:build:en"
             }
           }
         },

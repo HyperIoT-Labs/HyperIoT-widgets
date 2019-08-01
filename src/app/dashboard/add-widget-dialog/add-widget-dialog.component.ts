@@ -4,7 +4,8 @@ import {
   ElementRef,
   OnDestroy,
   Output,
-  EventEmitter
+  EventEmitter,
+  HostListener
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -16,6 +17,7 @@ import { DashboardConfigService } from '../dashboard-config.service';
   styleUrls: ['./add-widget-dialog.component.css']
 })
 export class AddWidgetDialogComponent implements OnInit, OnDestroy {
+  @Output() modalClose: EventEmitter<any> = new EventEmitter<any>();
   @Output() addWidgets: EventEmitter<any> = new EventEmitter();
   categorydWidgets: any = null;
   widgetCategoryList: any;
@@ -30,6 +32,13 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
     private router: Router,
     private dashboardConfigService: DashboardConfigService
   ) { }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    console.log(event.key)
+    if (event.key.toUpperCase() === 'ESCAPE') {
+      this.close(event);
+    }
+  }
 
   ngOnInit() {
     this.viewContainer.nativeElement
@@ -61,16 +70,17 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
       });
   }
 
-  close() {
+  close($event?) {
     this.router.navigate(
-      ['../', { outlets: { modal: null }}],
+      ['../', ''],
       {relativeTo: this.activatedRoute}
     );
+    this.modalClose.emit($event);
   }
 
   dismiss(e: any) {
     if (e.target === this.viewContainer.nativeElement) {
-      this.close();
+      this.close(e);
     }
   }
 

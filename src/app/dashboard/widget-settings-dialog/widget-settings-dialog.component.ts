@@ -6,7 +6,8 @@ import {
   EventEmitter,
   ElementRef,
   OnDestroy,
-  ViewChild
+  ViewChild,
+  HostListener
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -30,6 +31,12 @@ export class WidgetSettingsDialogComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.widgetId = this.activatedRoute.snapshot.paramMap.get('widgetId');
+  }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    if (event.key.toUpperCase() === 'ESCAPE') {
+      this.close(event);
+    }
   }
 
   ngOnInit() {
@@ -73,7 +80,7 @@ export class WidgetSettingsDialogComponent implements OnInit, OnDestroy {
     // TODO: init stuff goes here
   }
 
-  close($event) {
+  close($event?) {
     this.router.navigate(
       ['../', { outlets: { modal: null } }],
       { relativeTo: this.activatedRoute }

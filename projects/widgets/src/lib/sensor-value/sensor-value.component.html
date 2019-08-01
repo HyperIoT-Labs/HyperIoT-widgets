@@ -1,12 +1,12 @@
 <header>{{widget.name}}</header>
 
-<div *ngIf="sensorValue" class="sensor-value ">
+<div *ngIf="sensorValue && isConfigured" class="sensor-value ">
   <span [innerHTML]="sensorValue"></span>
   <span [innerHTML]="sensorUnitSymbol" class="unit"></span>
 </div>
-<div class="sensor-field">
+<div class="sensor-field" *ngIf="isConfigured">
   {{ sensorField }}
-</div>
+</div>  
 
 <div *ngIf="!isConfigured" class="configure-notice">
     <div>

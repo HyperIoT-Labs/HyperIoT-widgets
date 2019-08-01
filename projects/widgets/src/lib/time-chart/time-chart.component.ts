@@ -18,7 +18,10 @@ export class TimeChartComponent extends WidgetChartComponent {
   configure() {
     super.configure();
     this.chartData = [];
-    if (!(this.widget.config != null && this.widget.config.packetId != null && this.widget.config.packetFields != null)) {
+    if (!(this.widget.config != null
+      && this.widget.config.packetId != null
+      && this.widget.config.packetFields != null
+      && this.widget.config.packetFields.length > 0)) {
       this.isConfigured = false;
       return;
     }
