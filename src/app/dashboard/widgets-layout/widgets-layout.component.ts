@@ -77,6 +77,7 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
     this.configService.getConfig(this.dashboardId).subscribe((dashboardConfig: Array<GridsterItem>) => {
       this.dashboard = dashboardConfig;
       this.originalDashboard = JSON.parse(JSON.stringify(dashboardConfig));
+      console.log(this.dashboard);
     });
     // TODO: the connection should happen somewhere else in the main page
     this.dataStreamService.connect();
@@ -165,7 +166,6 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
           // TODO: handle errors
           // widget saved (should have a new id)
           this.dashboard.push(widget);
-          //console.log(w, widget); // both should be same instance
         });
     }
   }

@@ -2,7 +2,11 @@ import { NgModule, LOCALE_ID,TRANSLATIONS, TRANSLATIONS_FORMAT, CUSTOM_ELEMENTS_
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+// Internationalization
 import { I18n } from '@ngx-translate/i18n-polyfill';
+
+// App-specific imports
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';

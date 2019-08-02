@@ -1,35 +1,47 @@
-<div class="dialog">
+<div class="dialog d-flex flex-column align-self-center">
 
-    <header>Widget Settings</header>
-    <footer>
-        <button class="button-close" (click)="close($event)">Cancel &#10006;</button>
-        <button class="button-confirm" (click)="confirm($event)">Apply &#10004;</button>
-    </footer>
+    <header i18n="@@widgetSettingsDialog-header">Widget Settings</header>
 
-    <div class="content">
+    <form class="content flex-grow-1" #settingsForm="ngForm">
 
         <div class="common-settings">
-            <p><strong>Type</strong>: {{ widget.type }}</p>
-            <p><strong>ID</strong>: {{ widget.id }}</p>
-            <strong>Name</strong><br/>
-            <input type="text" [(ngModel)]="widgetName">
+            <div class="d-flex flex-row">
+                <div class="padding-6 d-flex flex-column align-items-stretch">
+                    <label for="name"
+                        [ngClass]="{error: settingsForm.controls.name && settingsForm.controls.name.invalid}"
+                        i18n="@@widgetSettingsDialog-lbl-name">
+                        Name
+                    </label>
+                    <input name="name" id="name" type="text"
+                        [(ngModel)]="widgetName"
+                        pattern="[A-Za-z0-9 ]*">
+                </div>
+                <div class="padding-6 d-flex flex-column align-items-stretch">
+                    <label i18n="@@widgetSettingsDialog-lbl-type">Type</label>
+                    {{ widget.type }}
+                </div>
+                <div class="padding-6 d-flex flex-column align-items-stretch">
+                    <label>ID</label>
+                    {{ widget.id }}
+                </div>
+            </div>
         </div>
 
         <div class="custom-settings" [ngSwitch]="widget.type">
             <div *ngSwitchCase="'sensor-value'">
-                <app-sensor-value-settings [widget]="widget" [modalApply]="modalApply">
+                <app-sensor-value-settings [widget]="widget" [modalApply]="modalApply" [settingsForm]="settingsForm">
                 </app-sensor-value-settings>
             </div>
             <div *ngSwitchCase="'stats-chart'">
-                <app-stats-chart-settings [widget]="widget" [modalApply]="modalApply">
+                <app-stats-chart-settings [widget]="widget" [modalApply]="modalApply" [settingsForm]="settingsForm">
                 </app-stats-chart-settings>
             </div>
             <div *ngSwitchCase="'time-chart'">
-                <app-time-chart-settings [widget]="widget" [modalApply]="modalApply">
+                <app-time-chart-settings [widget]="widget" [modalApply]="modalApply" [settingsForm]="settingsForm">
                 </app-time-chart-settings>
             </div>
             <div *ngSwitchCase="'text-label'">
-                <app-text-label-settings [widget]="widget" [modalApply]="modalApply">
+                <app-text-label-settings [widget]="widget" [modalApply]="modalApply" [settingsForm]="settingsForm">
                 </app-text-label-settings>
             </div>
             <div *ngSwitchDefault>
@@ -37,6 +49,15 @@
             </div>
         </div>
 
-    </div>
+    </form>
+
+    <footer class="d-flex flex-row align-items-center justify-content-end">
+        <button class="button-confirm" (click)="confirm($event)" [disabled]="settingsForm.invalid">
+            <span i18n="@@widgetSettingsDialog-btn-apply">Apply</span> &#10004;
+        </button>
+        <button class="button-close" (click)="close($event)">
+            <span i18n="@@widgetSettingsDialog-btn-cancel">Cancel</span> &#10006;
+        </button>
+    </footer>
 
 </div>

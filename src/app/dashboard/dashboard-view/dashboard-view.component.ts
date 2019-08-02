@@ -39,7 +39,6 @@ export class DashboardViewComponent implements OnInit {
 
   onWidgetsAdd(widgetList: any[]) {
     widgetList.map((widget) => {
-      console.log(widget);
       this.dashboardLayout.addItem(widget);
     });
   }

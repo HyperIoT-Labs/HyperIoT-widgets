@@ -6,12 +6,13 @@ import {
   EventEmitter,
   ElementRef,
   OnDestroy,
-  ViewChild,
-  HostListener
+  HostListener,
+  ViewChild
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-widget-settings-dialog',
@@ -24,6 +25,7 @@ export class WidgetSettingsDialogComponent implements OnInit, OnDestroy {
   @Input() widget;
   @Input() widgetName;
   private widgetId: string;
+  @ViewChild(NgForm, { static: true }) settingsForm: NgForm;
 
   constructor(
     private viewContainer: ElementRef,

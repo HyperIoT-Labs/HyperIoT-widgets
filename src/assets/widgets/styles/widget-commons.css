@@ -13,8 +13,9 @@ header {
     position: absolute;
     top: 6px; left: 12px;
     color: #16A4FA;
+    font-family: serif;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
 }
 .play-pause {
     position: absolute;

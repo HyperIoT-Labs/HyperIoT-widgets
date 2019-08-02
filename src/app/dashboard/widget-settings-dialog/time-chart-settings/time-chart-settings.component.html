@@ -1,4 +1,10 @@
-<strong>Series title</strong><br>
-<input type="text" [(ngModel)]="seriesTitle">
-
 <app-packet-select [widget]="widget" [multiPacketSelect]="true"></app-packet-select>
+
+<!-- Plotly chart specific options -->
+
+<div class="padding-6 d-flex flex-column justify-content-stretch">
+
+    <label>Series title</label>
+    <input type="text" [(ngModel)]="seriesTitle">
+    
+</div>

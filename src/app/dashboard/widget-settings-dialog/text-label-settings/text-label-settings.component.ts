@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-text-label-settings',
@@ -12,6 +13,10 @@ export class TextLabelSettingsComponent implements OnInit, OnDestroy {
 
   labelText: string;
 
+  constructor(public settingsForm: NgForm) {
+    console.log(this.settingsForm);
+  }
+
   ngOnInit() {
     this.labelText = this.widget.config.labelText;
     this.modalApply.subscribe((event) => {
@@ -19,6 +24,9 @@ export class TextLabelSettingsComponent implements OnInit, OnDestroy {
           this.apply();
         }
     });
+    console.log('PAERNT FORM', this.settingsForm);
+    //this.settingsForm.reset();
+    // TODO: should rebuild the form group
   }
   ngOnDestroy() {
     this.modalApply.unsubscribe();

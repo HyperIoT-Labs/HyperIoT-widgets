@@ -1,26 +1,29 @@
-<ng-container *ngIf="widget.config">
-    <p>Packet id {{ widget.config.packetId }}</p>
+<div class="padding-6 d-flex flex-column justify-content-stretch">
 
-    <div *ngIf="widget.config.packetFields">
-        <ul>
-            <li *ngFor="let field of widget.config.packetFields">{{ field }}</li>
-        </ul>
-    </div>
+    <ng-container *ngIf="widget.config">
 
-    <p>Select packet</p>
-    <select size="5" [(ngModel)]="selectedPacket" [compareWith]="packetCompare" (ngModelChange)="onPacketChange()">
-        <option *ngFor="let packet of projectPackets" [ngValue]="packet">
-            {{packet.name}}
-            ({{packet.id}})
-        </option>
-    </select>
-
-</ng-container>
-
-
-<ng-container *ngIf="selectedPacket != null">
-    <p>Select fields</p>
-    <select size="5" [(ngModel)]="selectedFields" [multiple]="multiPacketSelect">
-        <option *ngFor="let field of selectedPacket.fields" [ngValue]="field">{{field.name}}</option>
-    </select>
-</ng-container>
+        <label for="packet-select" i18n="@@widgetSettingsDialog/packet-lbl-type">Select packet</label>
+        <select size="5"
+                [(ngModel)]="selectedPacket"
+                [compareWith]="packetCompare"
+                (ngModelChange)="onPacketChange()"
+                name="packet-select" id="packet-select">
+            <option *ngFor="let packet of projectPackets" [ngValue]="packet">
+                {{packet.name}}
+                ({{packet.id}})
+            </option>
+        </select>
+    
+    </ng-container>
+    
+    <ng-container *ngIf="selectedPacket != null">
+        <label for="field-select">Select field{{ multiPacketSelect ? 's' : '' }}</label>
+        <select [size]="multiPacketSelect ? 5 : null"
+                [(ngModel)]="selectedFields"
+                [multiple]="multiPacketSelect"
+                name="field-select" id="field-select">
+            <option *ngFor="let field of selectedPacket.fields" [ngValue]="field">{{field.name}}</option>
+        </select>
+    </ng-container>
+    
+</div>
