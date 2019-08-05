@@ -2,6 +2,59 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="ng2.template">
     <body>
+      <!-- HyperIoT-widgets library TODO: this is not working -->
+      <trans-unit id="widgetsToolbar-title-play" datatype="html">
+        <source>Play</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetsToolbar-title-pause" datatype="html">
+        <source>Pause</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetsToolbar-title-chartview" datatype="html">
+        <source>Chart View</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetsToolbar-title-tableview" datatype="html">
+        <source>Table View</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetsToolbar-title-settings" datatype="html">
+        <source>Settings</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetsToolbar-title-refresh" datatype="html">
+        <source>Refresh</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetsToolbar-title-close" datatype="html">
+        <source>Close</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetsToolbar-title-move" datatype="html">
+        <source>Move</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetsCommon-msg-notconfigured" datatype="html">
+        <source>Click 'Settings' button to configure.</source>
+      </trans-unit>
+      <!-- HyperIoT-widgets test application -->
       <trans-unit id="addWidgetDialog-header" datatype="html">
         <source>Add Widget</source>
         <context-group purpose="location">
@@ -60,6 +113,24 @@
         <source>Select packet</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/packet-select/packet-select.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetSettingsDialog/packet-lbl-fields" datatype="html">
+        <source>Select {multiPacketSelect?1:0, plural, =0 {field} other {fields}}</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/packet-select/packet-select.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetSettingsDialog/timechart-lbl-series" datatype="html">
+        <source>Series title</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/time-chart-settings/time-chart-settings.component.html</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="widgetSettingsDialog/statschart-lbl-series" datatype="html">
+        <source>Series title</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/stats-chart-settings/stats-chart-settings.component.html</context>
         </context-group>
       </trans-unit>
     </body>

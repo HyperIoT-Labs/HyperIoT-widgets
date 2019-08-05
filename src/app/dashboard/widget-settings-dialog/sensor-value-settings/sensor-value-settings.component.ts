@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { Subject } from 'rxjs';
+
 import { PacketSelectComponent } from '../packet-select/packet-select.component';
 
 @Component({
@@ -12,6 +14,8 @@ export class SensorValueSettingsComponent implements OnInit, OnDestroy {
   @ViewChild(PacketSelectComponent, {static: true}) packetSelect: PacketSelectComponent;
   @Input() modalApply: Subject<any>;
   @Input() widget;
+
+  constructor(public settingsForm: NgForm) { }
 
   ngOnInit() {
     this.modalApply.subscribe((event) => {

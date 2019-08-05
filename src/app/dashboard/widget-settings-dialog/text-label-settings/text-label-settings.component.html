@@ -3,8 +3,5 @@
         [ngClass]="{error: settingsForm && settingsForm.controls.content && settingsForm.controls.content.invalid}">
         Content
     </label>
-    <input name="content" id="content" type="text"
-        [(ngModel)]="labelText"
-        pattern="[A-Za-z0-9 ]*">
+    <input name="content" id="content" type="text" [(ngModel)]="labelText" required>
 </div>
-

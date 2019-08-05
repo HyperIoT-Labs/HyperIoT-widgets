@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
-import { NgForm } from '@angular/forms';
+import { NgForm, ControlContainer } from '@angular/forms';
 
 @Component({
   selector: 'app-text-label-settings',
   templateUrl: './text-label-settings.component.html',
-  styleUrls: ['./text-label-settings.component.css']
+  styleUrls: ['./text-label-settings.component.css'],
+  viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
 })
 export class TextLabelSettingsComponent implements OnInit, OnDestroy {
   @Input() modalApply: Subject<any>;
@@ -13,9 +14,7 @@ export class TextLabelSettingsComponent implements OnInit, OnDestroy {
 
   labelText: string;
 
-  constructor(public settingsForm: NgForm) {
-    console.log(this.settingsForm);
-  }
+  constructor(public settingsForm: NgForm) { }
 
   ngOnInit() {
     this.labelText = this.widget.config.labelText;

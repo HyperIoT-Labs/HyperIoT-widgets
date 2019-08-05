@@ -1,11 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { ControlContainer, NgForm } from '@angular/forms';
 
 import { HPacket, HPacketField, HpacketsService } from '@hyperiot/core';
 
 @Component({
   selector: 'app-packet-select',
   templateUrl: './packet-select.component.html',
-  styleUrls: ['./packet-select.component.css']
+  styleUrls: ['./packet-select.component.css'],
+  viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
 })
 export class PacketSelectComponent implements OnInit {
   @Input() widget;
@@ -16,7 +18,9 @@ export class PacketSelectComponent implements OnInit {
   @Input()
   multiPacketSelect: false;
 
-  constructor(private packetService: HpacketsService) { }
+  constructor(private packetService: HpacketsService, public settingsForm: NgForm) {
+    this.multiPacketSelect = this.multiPacketSelect || false;
+  }
 
   ngOnInit() {
     this.loadPackets();

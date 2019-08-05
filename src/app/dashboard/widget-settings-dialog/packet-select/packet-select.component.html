@@ -2,28 +2,37 @@
 
     <ng-container *ngIf="widget.config">
 
-        <label for="packet-select" i18n="@@widgetSettingsDialog/packet-lbl-type">Select packet</label>
-        <select size="5"
-                [(ngModel)]="selectedPacket"
-                [compareWith]="packetCompare"
+        <div class="d-flex flex-column">
+            <label for="packet-select" [ngClass]="{error: selectedPacket == null}"
+                i18n="@@widgetSettingsDialog/packet-lbl-type">Select packet</label>
+            <select size="5"
+                [(ngModel)]="selectedPacket" [compareWith]="packetCompare"
                 (ngModelChange)="onPacketChange()"
-                name="packet-select" id="packet-select">
-            <option *ngFor="let packet of projectPackets" [ngValue]="packet">
-                {{packet.name}}
-                ({{packet.id}})
-            </option>
-        </select>
-    
+                name="packet-select" id="packet-select" required>
+                <option *ngFor="let packet of projectPackets" [ngValue]="packet">
+                    {{packet.name}}
+                    ({{packet.id}})
+                </option>
+            </select>
+        </div>
+
     </ng-container>
-    
+
     <ng-container *ngIf="selectedPacket != null">
-        <label for="field-select">Select field{{ multiPacketSelect ? 's' : '' }}</label>
-        <select [size]="multiPacketSelect ? 5 : null"
-                [(ngModel)]="selectedFields"
-                [multiple]="multiPacketSelect"
-                name="field-select" id="field-select">
-            <option *ngFor="let field of selectedPacket.fields" [ngValue]="field">{{field.name}}</option>
-        </select>
+
+        <div class="d-flex flex-column">
+            <label for="field-select" [ngClass]="{error: selectedFields == null || selectedFields.length === 0 || selectedFields[0] === ''}"
+                i18n="@@widgetSettingsDialog/packet-lbl-fields">
+                Select {multiPacketSelect?1:0, plural, =0 {field} other {fields}}
+            </label>
+            <select [size]="multiPacketSelect ? 5 : null"
+                [(ngModel)]="selectedFields" [multiple]="multiPacketSelect"
+                name="field-select" id="field-select" required>
+                <option *ngIf="!multiPacketSelect"></option>
+                <option *ngFor="let field of selectedPacket.fields" [ngValue]="field">{{field.name}}</option>
+            </select>
+        </div>
+
     </ng-container>
-    
+
 </div>

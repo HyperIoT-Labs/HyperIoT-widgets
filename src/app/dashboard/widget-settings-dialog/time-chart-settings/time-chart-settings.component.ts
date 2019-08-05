@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
+import { ControlContainer, NgForm } from '@angular/forms';
+
 import { Subject } from 'rxjs';
 
 import { PacketSelectComponent } from '../packet-select/packet-select.component';
@@ -6,7 +8,8 @@ import { PacketSelectComponent } from '../packet-select/packet-select.component'
 @Component({
   selector: 'app-time-chart-settings',
   templateUrl: './time-chart-settings.component.html',
-  styleUrls: ['./time-chart-settings.component.css']
+  styleUrls: ['./time-chart-settings.component.css'],
+  viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
 })
 export class TimeChartSettingsComponent implements OnInit, OnDestroy {
   @ViewChild(PacketSelectComponent, {static: true}) packetSelect: PacketSelectComponent;
@@ -74,9 +77,10 @@ export class TimeChartSettingsComponent implements OnInit, OnDestroy {
       }
   ]};
 
+  constructor(public settingsForm: NgForm) {}
 
   ngOnInit() {
-    if (this.widget.config.seriesConfig == null) {
+    if (this.widget.config.seriesConfig == null || this.widget.config.seriesConfig.length === 0) {
       Object.assign(this.widget.config, this.defaultConfig);
     }
     this.seriesTitle = this.widget.config.seriesConfig[0].layout.title.text;
@@ -87,11 +91,11 @@ export class TimeChartSettingsComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
-    this.widget.config.seriesConfig[0].layout.title.text = this.seriesTitle;
     this.modalApply.unsubscribe();
   }
 
   apply() {
+    this.widget.config.seriesConfig[0].layout.title.text = this.seriesTitle;
     this.packetSelect.apply();
   }
 }

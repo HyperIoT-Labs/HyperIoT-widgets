@@ -8,16 +8,18 @@ import {
 } from '@angular/core';
 
 import { DataStreamService } from '@hyperiot/core';
+import { WidgetComponent } from '../widget.component';
 
 @Component({
   selector: 'hyperiot-events-log',
   templateUrl: './events-log.component.html',
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './events-log.component.css']
 })
-export class EventsLogComponent implements OnInit, OnDestroy {
+export class EventsLogComponent extends WidgetComponent implements OnInit, OnDestroy {
   @Input()
   widget;
   @Output() widgetAction: EventEmitter<any> = new EventEmitter();
+  private isPaused = false;
 
   logMessages: {timestamp: Date, message: string, extra: string}[] = [];
 
@@ -25,10 +27,15 @@ export class EventsLogComponent implements OnInit, OnDestroy {
    * Contructor
    * @param dataStreamService Inject data stream service
    */
-  constructor(private dataStreamService: DataStreamService) { }
+  constructor(public dataStreamService: DataStreamService) {
+    super(dataStreamService);
+  }
 
   ngOnInit() {
     this.dataStreamService.eventStream.subscribe((event) => {
+      if (this.isPaused) {
+        return;
+      }
       let packet = JSON.parse(event.data);
       // packet = JSON.parse(packet.payload);
       // limit max log lines
@@ -50,15 +57,23 @@ export class EventsLogComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
+  pause(): void {
+    this.isPaused = true;
+  }
+  play(): void {
+    this.isPaused = false;
+  }
+  getOfflineData(startDate: Date, endDate: Date) {
+    throw new Error('Method not implemented.');
+  }
+
   onToolbarAction(action: string) {
     switch (action) {
       case 'toolbar:play':
-        // this.isPaused = false;
-        // this.play();
+        this.play();
         break;
       case 'toolbar:pause':
-        // this.isPaused = false;
-        // this.pause();
+        this.pause();
         break;
     }
     this.widgetAction.emit({widget: this.widget, action});
