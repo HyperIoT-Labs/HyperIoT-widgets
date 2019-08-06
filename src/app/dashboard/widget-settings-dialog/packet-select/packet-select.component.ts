@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import { HPacket, HPacketField, HpacketsService } from '@hyperiot/core';
@@ -13,7 +13,10 @@ export class PacketSelectComponent implements OnInit {
   @Input() widget;
   @Input()
   selectedPacket: HPacket = null;
+  @Input()
   selectedFields: HPacketField[] = [];
+  @Output()
+  selectedFieldsChange = new EventEmitter();
   projectPackets: HPacket[] = [];
   @Input()
   multiPacketSelect: false;
@@ -28,6 +31,16 @@ export class PacketSelectComponent implements OnInit {
 
   onPacketChange() {
     this.selectedFields = [];
+    this.selectedFieldsChange.emit(this.selectedFields);
+  }
+
+  onPacketFieldChange($event) {
+    const nullIndex = this.selectedFields.indexOf(null);
+    if (nullIndex >= 0) {
+      delete this.selectedFields[nullIndex];
+    }
+    console.log($event, this.selectedFields);
+    this.selectedFieldsChange.emit(this.selectedFields);
   }
 
   apply() {

@@ -2,6 +2,8 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
+import { MomentModule } from 'ngx-moment';
+
 import { DataStreamService } from '@hyperiot/core';
 
 import { CommonToolbarComponent } from './common-toolbar/common-toolbar.component';
@@ -33,7 +35,12 @@ export * from './widget.component';
   imports: [
     BrowserModule,
     HttpClientModule,
-    PlotlyModule
+    PlotlyModule,
+    MomentModule.forRoot({
+      relativeTimeThresholdOptions: {
+        m: 59
+      }
+    })
   ],
   providers: [
     DataStreamService

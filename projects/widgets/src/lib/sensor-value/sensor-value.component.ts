@@ -10,9 +10,12 @@ import { WidgetComponent } from '../widget.component';
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './sensor-value.component.css']
 })
 export class SensorValueComponent extends WidgetComponent {
+  timestamp = new Date();
   sensorField: string;
   sensorValue: number;
   sensorUnitSymbol: string;
+  isActivityLedOn = false;
+  private ledTimeout: any = null;
 
   constructor(public dataStreamService: DataStreamService) {
     super(dataStreamService);
@@ -41,11 +44,16 @@ export class SensorValueComponent extends WidgetComponent {
       this.isConfigured = false;
       return;
     }
+    // reset fields
+    this.sensorValue = null;
+    this.sensorField = name;
+    // subscribe data stream
     const cfg = this.widget.config;
     const dataPacketFilter = new DataPacketFilter(cfg.packetId, cfg.packetFields);
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
-      const date = eventData[0];
+      this.timestamp = eventData[0];
       const field = eventData[1];
+      this.blinkLed();
       // get the sensor field name and value
       const name = cfg.packetFields[0];
       const value = +field[name];
@@ -56,7 +64,11 @@ export class SensorValueComponent extends WidgetComponent {
         case 'humidity':
           this.displayHumidity(name, value, cfg.displayUnit);
           break;
-      }
+        default:
+          this.sensorField = name;
+          this.sensorValue = Math.round(value * 10) / 10;
+          this.sensorUnitSymbol = '';
+        }
     });
   }
 
@@ -88,6 +100,15 @@ export class SensorValueComponent extends WidgetComponent {
     this.sensorUnitSymbol = '%';
     this.sensorValue = Math.round(value * 10) / 10;
     this.sensorField = name;
+  }
+
+  blinkLed() {
+    this.isActivityLedOn = true;
+    if (this.ledTimeout != null) {
+      clearTimeout(this.ledTimeout);
+      this.ledTimeout = null;
+    }
+    this.ledTimeout = setTimeout(() => this.isActivityLedOn = false, 100);
   }
 
 }

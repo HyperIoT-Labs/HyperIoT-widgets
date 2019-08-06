@@ -16,12 +16,27 @@ export class TimeChartSettingsComponent implements OnInit, OnDestroy {
   @Input() modalApply: Subject<any>;
   @Input() widget;
   seriesTitle = 'Untitled';
+  selectedFields = [];
   private defaultConfig = {
     timeAxisRange: 10,
     maxDataPoints: 100,
     timeWindow: 60,
     seriesConfig: [
-      {
+        {
+            series: 'humidity',
+            layout: {
+                yaxis: {
+                    title: 'humidity',
+                    titlefont: {
+                        color: 'darkorange'
+                    },
+                    tickfont: {
+                        color: 'darkorange'
+                    }
+                }
+            }
+        },
+        {
           series: 'temperature',
           config: {
               yaxis: 'y2'
@@ -60,20 +75,6 @@ export class TimeChartSettingsComponent implements OnInit, OnDestroy {
                   ]
               }
           }
-      },
-      {
-          series: 'humidity',
-          layout: {
-              yaxis: {
-                  title: 'humidity',
-                  titlefont: {
-                      color: 'darkorange'
-                  },
-                  tickfont: {
-                      color: 'darkorange'
-                  }
-              }
-          }
       }
   ]};
 
@@ -92,6 +93,10 @@ export class TimeChartSettingsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.modalApply.unsubscribe();
+  }
+
+  onSelectedFieldsChange(fields) {
+      this.selectedFields = fields;
   }
 
   apply() {

@@ -1,7 +1,7 @@
 <div class="padding-6 d-flex flex-column align-items-stretch">
     <label for="content"
-        [ngClass]="{error: settingsForm && settingsForm.controls.content && settingsForm.controls.content.invalid}">
+        [ngClass]="{'error-color': content.invalid}">
         Content
     </label>
-    <input name="content" id="content" type="text" [(ngModel)]="labelText" required>
+    <input name="content" id="content" type="text" [(ngModel)]="labelText" #content="ngModel" required>
 </div>

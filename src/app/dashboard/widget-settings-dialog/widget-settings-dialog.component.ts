@@ -5,7 +5,6 @@ import {
   Output,
   EventEmitter,
   ElementRef,
-  OnDestroy,
   HostListener,
   ViewChild
 } from '@angular/core';
@@ -19,7 +18,7 @@ import { NgForm } from '@angular/forms';
   templateUrl: './widget-settings-dialog.component.html',
   styleUrls: ['./widget-settings-dialog.component.css']
 })
-export class WidgetSettingsDialogComponent implements OnInit, OnDestroy {
+export class WidgetSettingsDialogComponent implements OnInit {
   @Output() modalClose: EventEmitter<any> = new EventEmitter<any>();
   modalApply: Subject<any> = new Subject();
   @Input() widget;
@@ -42,14 +41,7 @@ export class WidgetSettingsDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.viewContainer.nativeElement
-      .addEventListener('click', this.dismiss.bind(this));
     this.open();
-  }
-
-  ngOnDestroy() {
-    this.viewContainer.nativeElement
-      .removeEventListener('click', this.dismiss.bind(this));
   }
 
   getWidgetId() {

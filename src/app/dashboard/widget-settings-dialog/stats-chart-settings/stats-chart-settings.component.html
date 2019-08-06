@@ -1,10 +1,10 @@
 <div class="padding-6 d-flex flex-column justify-content-stretch">
 
-    <label>Data URL for chart view</label>
-    <input type="text" [(ngModel)]="dataUrl" required>
+    <label [ngClass]="{'error-color': url.invalid}">Data URL for chart view</label>
+    <input type="text" [(ngModel)]="dataUrl" #url="ngModel" name="url" required>
 
-    <label>Data URL for table view</label>
-    <input type="text" [(ngModel)]="dataTableUrl" required>
+    <label [ngClass]="{'error-color': tableUrl.invalid}">Data URL for table view</label>
+    <input type="text" [(ngModel)]="dataTableUrl" #tableUrl="ngModel" name="table-url" required>
 
 </div>
 
@@ -12,7 +12,7 @@
 
 <div class="padding-6 d-flex flex-column justify-content-stretch">
 
-    <label i18n="@@widgetSettingsDialog/statschart-lbl-series" for="series-title">Series title</label>
-    <input type="text" [(ngModel)]="seriesTitle" name="series-title" id="series-title" required>
+    <label [ngClass]="{'error-color': title.invalid}" i18n="@@widgetSettingsDialog/statschart-lbl-series" for="series-title">Series title</label>
+    <input type="text" [(ngModel)]="seriesTitle" name="series-title" id="series-title" #title="ngModel" required>
 
 </div>

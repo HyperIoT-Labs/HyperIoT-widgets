@@ -8,12 +8,12 @@
             <div class="d-flex flex-row">
                 <div class="padding-6 d-flex flex-column align-items-stretch">
                     <label for="name"
-                        [ngClass]="{error: settingsForm.controls.name && settingsForm.controls.name.invalid}"
+                        [ngClass]="{'error-color': name.invalid}"
                         i18n="@@widgetSettingsDialog-lbl-name">
                         Name
                     </label>
                     <input name="name" id="name" type="text"
-                        [(ngModel)]="widgetName"
+                        [(ngModel)]="widgetName" #name="ngModel"
                         required
                         pattern="[A-Za-z0-9 ]*">
                 </div>

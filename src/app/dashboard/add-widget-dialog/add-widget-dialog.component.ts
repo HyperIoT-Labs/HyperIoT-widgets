@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   ElementRef,
-  OnDestroy,
   Output,
   EventEmitter,
   HostListener
@@ -16,7 +15,7 @@ import { DashboardConfigService } from '../dashboard-config.service';
   templateUrl: './add-widget-dialog.component.html',
   styleUrls: ['./add-widget-dialog.component.css']
 })
-export class AddWidgetDialogComponent implements OnInit, OnDestroy {
+export class AddWidgetDialogComponent implements OnInit {
   @Output() modalClose: EventEmitter<any> = new EventEmitter<any>();
   @Output() addWidgets: EventEmitter<any> = new EventEmitter();
   categorydWidgets: any = null;
@@ -41,14 +40,7 @@ export class AddWidgetDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.viewContainer.nativeElement
-      .addEventListener('click', this.dismiss.bind(this));
     this.open();
-  }
-
-  ngOnDestroy() {
-    this.viewContainer.nativeElement
-      .removeEventListener('click', this.dismiss.bind(this));
   }
 
   open() {
