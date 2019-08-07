@@ -9,8 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-lib": "ng build widgets && npm run copy-assets",
-    "copy-assets": "cpx \"./src/assets/**/*\" \"./dist/widgets/assets\"",
-    "postinstall": "patch-package"
+    "copy-assets": "cpx \"./src/assets/**/*\" \"./dist/widgets/assets\""
   },
   "private": true,
   "dependencies": {
@@ -31,7 +30,7 @@
     "moment": "^2.24.0",
     "ng-dynamic-component": "^5.0.0",
     "ngx-moment": "^3.4.0",
-    "plotly.js": "1.48.3",
+    "plotly.js": "^1.49.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
@@ -55,7 +54,6 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
     "ng-packagr": "^5.1.0",
-    "patch-package": "^6.1.2",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tsickle": "^0.35.0",

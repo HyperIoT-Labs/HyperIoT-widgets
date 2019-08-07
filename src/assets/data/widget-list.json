@@ -1,19 +1,19 @@
 [
-	{
+    {
         "id": 0,
-		"categoryId": 3,
-		"name": "Events log",
+        "categoryId": 3,
+        "name": "Events log",
         "cols": 4,
         "rows": 2,
         "y": 0,
         "x": 0,
         "type": "events-log",
         "config": {}
-	},
-	{
+    },
+    {
         "id": 0,
-		"categoryId": 3,
-		"name": "Classic pie chart",
+        "categoryId": 3,
+        "name": "Classic pie chart",
         "cols": 4,
         "rows": 3,
         "y": 0,
@@ -22,11 +22,11 @@
         "config": {
             "data": []
         }
-	},
-	{
+    },
+    {
         "id": 0,
-		"name": "Realttime line chart",
-		"categoryId": 2,
+        "name": "Realttime line chart",
+        "categoryId": 2,
         "cols": 4,
         "rows": 3,
         "y": 0,
@@ -35,11 +35,11 @@
         "config": {
             "data": []
         }
-	},
-	{
+    },
+    {
         "id": 0,
-		"name": "Classic line chart",
-		"categoryId": 2,
+        "name": "Classic line chart",
+        "categoryId": 2,
         "cols": 4,
         "rows": 3,
         "y": 0,
@@ -48,11 +48,11 @@
         "config": {
             "data": []
         }
-	},
-	{
+    },
+    {
         "id": 0,
-		"name": "Classic bar chart",
-		"categoryId": 1,
+        "name": "Classic bar chart",
+        "categoryId": 1,
         "cols": 4,
         "rows": 3,
         "y": 0,
@@ -61,11 +61,11 @@
         "config": {
             "data": []
         }
-	},
-	{
+    },
+    {
         "id": 0,
-		"name": "Sensor value",
-		"categoryId": 5,
+        "name": "Sensor value",
+        "categoryId": 5,
         "cols": 2,
         "rows": 2,
         "y": 0,
@@ -74,11 +74,154 @@
         "config": {
             "data": []
         }
-	},
-	{
+    },
+    {
         "id": 0,
-		"name": "Simple text",
-		"categoryId": 5,
+        "name": "Pressure Gauge",
+        "categoryId": 5,
+        "cols": 4,
+        "rows": 3,
+        "y": 0,
+        "x": 0,
+        "type": "gauge-value",
+        "config": {
+            "data": [
+                {
+                    "domain": {
+                        "x": [
+                            0,
+                            1
+                        ],
+                        "y": [
+                            0,
+                            1
+                        ]
+                    },
+                    "value": 850,
+                    "type": "indicator",
+                    "mode": "gauge+number",
+                    "gauge": {
+                        "axis": {
+                            "range": [
+                                null,
+                                2500
+                            ]
+                        },
+                        "steps": [
+                            {
+                                "range": [
+                                    0,
+                                    500
+                                ],
+                                "color": "lightgreen"
+                            },
+                            {
+                                "range": [
+                                    500,
+                                    1250
+                                ],
+                                "color": "yellow"
+                            },
+                            {
+                                "range": [
+                                    1250,
+                                    2100
+                                ],
+                                "color": "orange"
+                            },
+                            {
+                                "range": [
+                                    2100,
+                                    2500
+                                ],
+                                "color": "red"
+                            }
+                        ],
+                        "threshold": {
+                            "line": {
+                                "color": "magenta",
+                                "width": 4
+                            },
+                            "thickness": 0.75,
+                            "value": 2300
+                        }
+                    }
+                }
+            ],
+            "layout": {
+                "autosize": true,
+                "margin": {
+                    "t": 24,
+                    "b": 8
+                }
+            }
+        }
+    },
+    {
+        "id": 0,
+        "name": "Speed Gauge",
+        "categoryId": 5,
+        "cols": 4,
+        "rows": 3,
+        "y": 0,
+        "x": 0,
+        "type": "gauge-value",
+        "config": {
+            "data": [
+                {
+                    "domain": {
+                        "x": [
+                            0,
+                            1
+                        ],
+                        "y": [
+                            0,
+                            1
+                        ]
+                    },
+                    "value": 850,
+                    "type": "indicator",
+                    "mode": "gauge+number",
+                    "gauge": {
+                        "axis": {
+                            "range": [
+                                null,
+                                280
+                            ]
+                        },
+                        "steps": [
+                            {
+                                "range": [
+                                    0,
+                                    280
+                                ],
+                                "color": "lightgrey"
+                            }
+                        ],
+                        "threshold": {
+                            "line": {
+                                "color": "red",
+                                "width": 4
+                            },
+                            "thickness": 0.75,
+                            "value": 220
+                        }
+                    }
+                }
+            ],
+            "layout": {
+                "autosize": true,
+                "margin": {
+                    "t": 24,
+                    "b": 8
+                }
+            }
+        }
+    },
+    {
+        "id": 0,
+        "name": "Simple text",
+        "categoryId": 5,
         "cols": 2,
         "rows": 1,
         "y": 0,
@@ -87,5 +230,5 @@
         "config": {
             "labelText": "Change me!"
         }
-	}
+    }
 ]

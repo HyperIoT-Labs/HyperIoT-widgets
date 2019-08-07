@@ -13,6 +13,7 @@ import { TextLabelComponent } from './text-label/text-label.component';
 import { SensorValueComponent } from './sensor-value/sensor-value.component';
 import { StatsChartComponent } from './stats-chart/stats-chart.component';
 import { TimeChartComponent } from './time-chart/time-chart.component';
+import { GaugeValueComponent } from './gauge-value/gauge-value.component';
 
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
@@ -30,7 +31,8 @@ export * from './widget.component';
     TextLabelComponent,
     SensorValueComponent,
     StatsChartComponent,
-    TimeChartComponent
+    TimeChartComponent,
+    GaugeValueComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ export * from './widget.component';
     TextLabelComponent,
     SensorValueComponent,
     StatsChartComponent,
-    TimeChartComponent
+    TimeChartComponent,
+    GaugeValueComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

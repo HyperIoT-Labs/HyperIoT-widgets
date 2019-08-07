@@ -246,6 +246,18 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     const Plotly = this.plotly.getPlotly();
     const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
     Plotly.relayout(graph, { 'xaxis.range': [rangeStart, rangeEnd] });
+    /*
+    Plotly.animate(graph, {
+      layout: {
+        xaxis: {range: [rangeStart, rangeEnd]},
+      }
+    }, {
+      transition: {
+        duration: 500,
+        easing: 'cubic-in-out'
+      }
+    });
+    */
   }
 
   private applyStoredConfig(timeSeriesData: any) {

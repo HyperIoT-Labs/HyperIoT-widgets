@@ -33,7 +33,6 @@ export class AddWidgetDialogComponent implements OnInit {
   ) { }
 
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    console.log(event.key)
     if (event.key.toUpperCase() === 'ESCAPE') {
       this.close(event);
     }

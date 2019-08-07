@@ -15,6 +15,11 @@
   [widget]="widget"
   (widgetAction)="onWidgetAction($event)"></hyperiot-sensor-value>
 
+<hyperiot-gauge-value
+  *ngIf="widget.type === 'gauge-value'"
+  [widget]="widget"
+  (widgetAction)="onWidgetAction($event)"></hyperiot-gauge-value>
+
 <hyperiot-events-log
   *ngIf="widget.type === 'events-log'"
   [widget]="widget"

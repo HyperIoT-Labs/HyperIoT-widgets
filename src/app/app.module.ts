@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID,TRANSLATIONS, TRANSLATIONS_FORMAT, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, LOCALE_ID, TRANSLATIONS, TRANSLATIONS_FORMAT, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -53,7 +53,7 @@ export function apiConfigFactory(): Configuration {
     username: '',
     password: '',
     accessToken: ''
-  }
+  };
   return new Configuration(params);
 }
 

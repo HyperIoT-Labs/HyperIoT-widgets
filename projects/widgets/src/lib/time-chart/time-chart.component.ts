@@ -60,7 +60,7 @@ export class TimeChartComponent extends WidgetChartComponent {
   }
 
   onToolbarAction(action: string) {
-    switch(action) {
+    switch (action) {
       case 'toolbar:play':
         this.isPaused = false;
         this.play();
