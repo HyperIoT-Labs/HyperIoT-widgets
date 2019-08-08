@@ -90,17 +90,11 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     layout: {
       responsive: true,
       autosize: true,
-      margin: { l: 32, r: 16, t: 32, b: 32, pad: 8 },
+      margin: { l: 0, r: 0, t: 8, b: 0, pad: 0 },
       font: {
         size: 9
       },
-      title: {
-        font: { size: 14, color: '#16A4FA' },
-        xref: 'container', yref: 'container',
-        x: 0, y: 1,
-        pad: { t: 10, l: 10 },
-        text: '<b>Statistics</b>'
-      },
+      title: null,
       xaxis: {
         showgrid: false,
         range: []
@@ -113,7 +107,7 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
   private defaultSeriesConfig = {
     type: 'scatter',
     mode: 'lines+markers',
-    line: { simplify: false, width: 3, shape: 'spline', smoothing: 1.3 },
+    line: { simplify: false, width: 3, /*shape: 'spline',*/ smoothing: 1.3 },
     connectgaps: true
   };
 
@@ -200,7 +194,7 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
       if (config) {
         Object.assign(tsd, config);
       }
-      // FIXME: should replace item with same name
+      // FIXME: should replace item with same index
       this.graph.data.push(tsd);
     });
   }
@@ -245,7 +239,10 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     // relayout x-axis range with new data
     const Plotly = this.plotly.getPlotly();
     const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
-    Plotly.relayout(graph, { 'xaxis.range': [rangeStart, rangeEnd] });
+    Plotly.relayout(graph, {
+      'xaxis.range': [rangeStart, rangeEnd],
+      'xaxis.domain': [0.125, 1 - (0.075) * (this.graph.data.length - 1)]
+    });
     /*
     Plotly.animate(graph, {
       layout: {
@@ -261,12 +258,13 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
   }
 
   private applyStoredConfig(timeSeriesData: any) {
-    const sc = this.widget.config.seriesConfig.find((cfg) => cfg.series === timeSeriesData.name);
+    const config = this.widget.config;
+    if (config.layout != null) {
+      Object.assign(this.graph.layout, config.layout);
+    }
+    const sc = config.seriesConfig.find((cfg) => cfg.series === timeSeriesData.name);
     if (sc != null) {
       Object.assign(timeSeriesData, sc.config);
-      if (sc.layout != null) {
-        Object.assign(this.graph.layout, sc.layout);
-      }
     }
   }
 

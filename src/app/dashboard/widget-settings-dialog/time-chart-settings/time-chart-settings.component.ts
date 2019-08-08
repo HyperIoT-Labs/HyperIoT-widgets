@@ -6,101 +6,59 @@ import { Subject } from 'rxjs';
 import { PacketSelectComponent } from '../packet-select/packet-select.component';
 
 @Component({
-  selector: 'app-time-chart-settings',
-  templateUrl: './time-chart-settings.component.html',
-  styleUrls: ['./time-chart-settings.component.css'],
-  viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
+    selector: 'app-time-chart-settings',
+    templateUrl: './time-chart-settings.component.html',
+    styleUrls: ['./time-chart-settings.component.css'],
+    viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
 })
 export class TimeChartSettingsComponent implements OnInit, OnDestroy {
-  @ViewChild(PacketSelectComponent, {static: true}) packetSelect: PacketSelectComponent;
-  @Input() modalApply: Subject<any>;
-  @Input() widget;
-  seriesTitle = 'Untitled';
-  selectedFields = [];
-  private defaultConfig = {
-    timeAxisRange: 10,
-    maxDataPoints: 100,
-    timeWindow: 60,
-    seriesConfig: [
-        {
-            series: 'humidity',
-            layout: {
-                yaxis: {
-                    title: 'humidity',
-                    titlefont: {
-                        color: 'darkorange'
-                    },
-                    tickfont: {
-                        color: 'darkorange'
-                    }
-                }
+    @ViewChild(PacketSelectComponent, { static: true }) packetSelect: PacketSelectComponent;
+    @Input() modalApply: Subject<any>;
+    @Input() widget;
+    selectedFields = [];
+    private defaultConfig = {
+        timeAxisRange: 10,
+        maxDataPoints: 100,
+        timeWindow: 60,
+        layout: {
+            showlegend: true,
+            legend: {
+                orientation: 'h',
+                x: 0.25,
+                y: 1,
+                traceorder: 'normal',
+                font: {
+                    family: 'sans-serif',
+                    size: 10,
+                    color: '#000'
+                },
+                bgcolor: '#FFFFFF85',
+                borderwidth: 0
             }
-        },
-        {
-          series: 'temperature',
-          config: {
-              yaxis: 'y2'
-          },
-          layout: {
-              title: {
-                  font: {
-                      size: 14,
-                      color: '#16A4FA'
-                  },
-                  xref: 'container',
-                  yref: 'container',
-                  x: 0,
-                  y: 1,
-                  pad: {
-                      t: 10,
-                      l: 10
-                  },
-                  text: '<b>Real time temperature and humidity</b>'
-              },
-              yaxis2: {
-                  title: 'temperature',
-                  titlefont: {
-                      color: '#00f'
-                  },
-                  tickfont: {
-                      color: '#00f'
-                  },
-                  anchor: 'free',
-                  overlaying: 'y',
-                  side: 'right',
-                  position: 1,
-                  range: [
-                      -50,
-                      50
-                  ]
-              }
-          }
-      }
-  ]};
-
-  constructor(public settingsForm: NgForm) {}
-
-  ngOnInit() {
-    if (this.widget.config.seriesConfig == null || this.widget.config.seriesConfig.length === 0) {
-      Object.assign(this.widget.config, this.defaultConfig);
-    }
-    this.seriesTitle = this.widget.config.seriesConfig[0].layout.title.text;
-    this.modalApply.subscribe((event) => {
-        if (event === 'apply') {
-          this.apply();
         }
-    });
-  }
-  ngOnDestroy() {
-    this.modalApply.unsubscribe();
-  }
+    };
 
-  onSelectedFieldsChange(fields) {
-      this.selectedFields = fields;
-  }
+    constructor(public settingsForm: NgForm) { }
 
-  apply() {
-    this.widget.config.seriesConfig[0].layout.title.text = this.seriesTitle;
-    this.packetSelect.apply();
-  }
+    ngOnInit() {
+        if (this.widget.config.seriesConfig == null || this.widget.config.seriesConfig.length === 0) {
+            Object.assign(this.widget.config, this.defaultConfig);
+        }
+        this.modalApply.subscribe((event) => {
+            if (event === 'apply') {
+                this.apply();
+            }
+        });
+    }
+    ngOnDestroy() {
+        this.modalApply.unsubscribe();
+    }
+
+    onSelectedFieldsChange(fields) {
+        this.selectedFields = fields;
+    }
+
+    apply() {
+        this.packetSelect.apply();
+    }
 }

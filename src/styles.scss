@@ -9,6 +9,9 @@
 @import "../node_modules/bootstrap/scss/utilities/display";
 @import "../node_modules/bootstrap/scss/utilities/flex";
 
+body {
+    background: lightblue;
+}
 label {
     font-weight: 800;
     padding-top: 8px; 

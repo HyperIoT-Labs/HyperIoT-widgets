@@ -1,6 +1,15 @@
+header {
+    right: 84px;
+}
+.value-container {
+    background: white;
+    position: absolute;
+    top: 32px; bottom: 18px; left: 0; right: 0;
+    border-bottom: solid 1px lightgrey;
+}
 .sensor-value {
     position: relative;
-    margin-top: 12px;
+    margin-top: 6px;
     top: 50%;
     transform: translateY(-50%);
     font-family: serif;
@@ -9,25 +18,27 @@
     text-align: center;
     color: gray;
     text-shadow:
-    -1px -1px 0 #ddd,  
-     1px -1px 0 #ddd,
-     -1px 1px 0 #ddd,
-      1px 1px 0 #ddd;
-    }
+    -1px -1px 0 #ccc,  
+     1px -1px 0 #ccc,
+     -1px 1px 0 #ccc,
+      1px 1px 0 #ccc;
+}
 .sensor-field {
+    background: white;
+    border-radius: 4px;
     position: absolute;
     bottom: 0;
     width: 100%;
     font-size: 11px;
     font-weight: 200;
     text-transform: uppercase;
-    padding-left: 12px;
-    border-top: solid 1px lightgrey;
+    padding-left: 10px;
+    padding-top: 1px;
 }
 .activity-led {
     position: absolute;
     display: block;
-    bottom: 4px; right: 10px;
+    bottom: 5px; right: 10px;
     width: 12px; height: 6px;
     border-color: 2px green;
     border-radius: 2px;
@@ -39,7 +50,7 @@
 }
 .timestamp {
     position: absolute;
-    top: 30px;
+    top: 32px;
     left: 12px;
     font-size: 11px;
     opacity: 0.6;

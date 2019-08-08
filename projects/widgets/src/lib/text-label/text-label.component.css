@@ -1,7 +1,13 @@
+header {
+    right: 84px;
+}
 .centered-text {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    font-weight: bold;
+    position: absolute;
+    top: 30px; bottom: 0;
+    background: white;
+    border-radius: 4px;
+    width: 100%;
+    font-weight: 600;
+    font-size: 12px;
     text-align: center;
 }

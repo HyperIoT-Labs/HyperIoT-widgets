@@ -1,15 +1,17 @@
 <header>{{widget.name}}</header>
 
-<div class="sensor-field" *ngIf="isConfigured">
-  {{ sensorField }}
-</div>  
-<div *ngIf="sensorValue && isConfigured" class="sensor-value ">
-  <span [innerHTML]="sensorValue"></span>
-  <span [innerHTML]="sensorUnitSymbol" class="unit"></span>
+<div class="value-container">
+  <div *ngIf="sensorValue && isConfigured" class="sensor-value ">
+    <span [innerHTML]="sensorValue"></span>
+    <span [innerHTML]="sensorUnitSymbol" class="unit"></span>
+  </div>  
 </div>
 <div class="timestamp" *ngIf="isConfigured">
   Updated {{ timestamp | amTimeAgo }}
 </div>
+<div class="sensor-field" *ngIf="isConfigured">
+  {{ sensorField }}
+</div>  
 <div class="activity-led" [ngClass]="{ on: isActivityLedOn }" *ngIf="isConfigured"></div>
 
 <div *ngIf="!isConfigured" class="configure-notice">

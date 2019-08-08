@@ -26,13 +26,61 @@ export class TimeChartComponent extends WidgetChartComponent {
       return;
     }
     const cfg = this.widget.config;
+    cfg.layout = cfg.layout || {};
+    cfg.layout.margin = cfg.layout.margin || {
+      l: 0,
+      r: 32,
+      b: 0,
+      t: 0,
+      pad: 0
+    };
+    cfg.seriesConfig = cfg.seriesConfig || [];
     // cfg.packetId = this.widget.config.packetId || cfg.packetId;
     // cfg.packetFields = this.widget.config.packetFields || cfg.packetFields;
+    // Set counter for configuring series axes
+    let axisCount = 0;
+    const axesConfig = {
+      layout: {}
+    };
+    let sideMargin = 1.0;
     // Create time series to display for this chart
     const seriesItems: TimeSeries[] = [];
+    // Set layout for the first two axes
     cfg.packetFields.forEach((fieldName) => {
       seriesItems.push(new TimeSeries(fieldName));
+      // Set the chart axis and legend
+      axisCount++;
+      cfg.seriesConfig[axisCount - 1] = {
+        series: fieldName,
+      };
+      switch (axisCount) {
+        case 1:
+          Object.assign(axesConfig.layout, {
+            yaxis: {
+              title: fieldName
+            }
+          });
+          break;
+        default:
+          const axisConfig = {};
+          axisConfig[`yaxis${axisCount}`] = {
+            title: fieldName,
+            autorange: true,
+            anchor: 'free',
+            overlaying: 'y',
+            side: 'right',
+            position: sideMargin
+          };
+          Object.assign(axesConfig.layout, axisConfig);
+          Object.assign(cfg.seriesConfig[axisCount - 1], { config: {
+            yaxis: 'y' + axisCount
+          }});
+          sideMargin -= 0.125;
+          break;
+      }
     });
+    Object.assign(cfg.layout, axesConfig.layout);
+    console.log(cfg)
     this.chartData.push(...seriesItems);
     // Bind time series to the chart
     this.addTimeSeries(this.chartData);
@@ -70,7 +118,6 @@ export class TimeChartComponent extends WidgetChartComponent {
         this.pause();
         break;
     }
-    this.widgetAction.emit({widget: this.widget, action});
+    this.widgetAction.emit({ widget: this.widget, action });
   }
-
 }

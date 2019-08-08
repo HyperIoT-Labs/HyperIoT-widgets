@@ -14,25 +14,9 @@ export class StatsChartSettingsComponent implements OnInit, OnDestroy {
   @Input() widget;
   dataUrl: string;
   dataTableUrl: string;
-  seriesTitle = 'Untitled';
   private defaultConfig = {
     data: [],
     layout: {
-      title: {
-        font: {
-          size: 14,
-          color: '#16A4FA'
-        },
-        xref: 'container',
-        yref: 'container',
-        x: 0,
-        y: 1,
-        pad: {
-          t: 10,
-          l: 10
-        },
-        text: '<b>Untitled</b>'
-      },
       xaxis: {
         tickangle: -45
       }
@@ -45,7 +29,6 @@ export class StatsChartSettingsComponent implements OnInit, OnDestroy {
     if (this.widget.config.data == null || this.widget.config.data.length === 0) {
       Object.assign(this.widget.config, this.defaultConfig);
     }
-    this.seriesTitle = this.widget.config.layout.title.text;
     this.dataUrl = this.widget.dataUrl;
     this.dataTableUrl = this.widget.dataTableUrl;
     this.modalApply.subscribe((event) => {
@@ -60,7 +43,6 @@ export class StatsChartSettingsComponent implements OnInit, OnDestroy {
   }
 
   apply() {
-    this.widget.config.layout.title.text = this.seriesTitle;
     this.widget.dataUrl = this.dataUrl;
     this.widget.dataTableUrl = this.dataTableUrl;
   }

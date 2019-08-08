@@ -19,6 +19,8 @@
         "y": 0,
         "x": 0,
         "type": "stats-chart",
+        "dataUrl": "assets/data/test.widget-stats.2.json",
+        "dataTableUrl": "assets/data/test.widget-stats.2-table.json",
         "config": {
             "data": []
         }
@@ -45,6 +47,8 @@
         "y": 0,
         "x": 0,
         "type": "stats-chart",
+        "dataUrl": "assets/data/test.widget-stats.3.json",
+        "dataTableUrl": "assets/data/test.widget-stats.3-table.json",
         "config": {
             "data": []
         }
@@ -58,6 +62,8 @@
         "y": 0,
         "x": 0,
         "type": "stats-chart",
+        "dataUrl": "assets/data/test.widget-stats.1.json",
+        "dataTableUrl": "assets/data/test.widget-stats.1-table.json",
         "config": {
             "data": []
         }
