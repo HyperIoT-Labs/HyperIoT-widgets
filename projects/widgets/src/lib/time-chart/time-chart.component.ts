@@ -42,7 +42,8 @@ export class TimeChartComponent extends WidgetChartComponent {
     const axesConfig = {
       layout: {}
     };
-    let sideMargin = 1.0;
+    const sideMarginGap = 0.15;
+    let sideMargin = 1 - (sideMarginGap * (cfg.packetFields.length - 2));
     // Create time series to display for this chart
     const seriesItems: TimeSeries[] = [];
     // Set layout for the first two axes
@@ -57,7 +58,8 @@ export class TimeChartComponent extends WidgetChartComponent {
         case 1:
           Object.assign(axesConfig.layout, {
             yaxis: {
-              title: fieldName
+              title: fieldName,
+              domain: [ 0.15, 0.85 ]
             }
           });
           break;
@@ -75,12 +77,11 @@ export class TimeChartComponent extends WidgetChartComponent {
           Object.assign(cfg.seriesConfig[axisCount - 1], { config: {
             yaxis: 'y' + axisCount
           }});
-          sideMargin -= 0.125;
+          sideMargin += sideMarginGap;
           break;
       }
     });
     Object.assign(cfg.layout, axesConfig.layout);
-    console.log(cfg)
     this.chartData.push(...seriesItems);
     // Bind time series to the chart
     this.addTimeSeries(this.chartData);

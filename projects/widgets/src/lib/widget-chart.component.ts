@@ -98,6 +98,9 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
       xaxis: {
         showgrid: false,
         range: []
+      },
+      yaxis: {
+        domain: [ 0.15, 0.85 ]
       }
     }
   };
