@@ -63,6 +63,7 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
       compactType: CompactType.CompactUp,
       displayGrid: DisplayGrid.OnDragAndResize,
       disableWindowResize: true,
+      disableAutoPositionOnConflict: false,
       scrollToNewItems: true,
       disableWarnings: true,
       ignoreMarginInRow: false,
@@ -91,7 +92,6 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
     if (this.options.maxCols > 1) {
       this.options.mobileBreakpoint = 0;
     }
-    console.log(this.options.mobileBreakpoint, this.options.maxCols);
     //const cellSize = (availableWidth - (this.options.margin * this.options.maxCols)) / this.options.maxCols;
     const cellSize = 160;
     this.options.fixedColWidth = cellSize;
@@ -150,20 +150,29 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    const availableWidth = event.target.innerWidth;
-    console.log(availableWidth, this.options.maxCols);
     const columns = this.getResponsiveColumns();
     if (columns !== this.options.maxCols) {
-      this.router
-        .navigateByUrl('/dashboards', { skipLocationChange: true })
-        .then(() => this.router.navigate(['/dashboards/1']));
+      /*
+      // TODO: Angular-Gridster2 won't apply maxCols option on change (bug??)
+      this.options.maxCols = columns;
+      if (this.options.maxCols > 1) {
+        this.options.mobileBreakpoint = 0;
+      }
+      this.options.api.optionsChanged();
+      */
+      // the following is a work around for the above issue (forcing component reload)
+      const currentRouteUrl = this.router.url;
+      const parentRouteUrl = currentRouteUrl.substring(0, currentRouteUrl.lastIndexOf('/'));
+      this.router.navigateByUrl(
+        parentRouteUrl, { skipLocationChange: true }
+      ).then(() => this.router.navigate([currentRouteUrl]));
     }
   }
 
   // Gridster events/methods
 
   onGridSizeChanged(gridster, a, b, c) {
-    console.log(gridster, a, b, c);
+    // TODO: ... this event seems not to be working as expected
   }
 
   onItemChange(item, itemComponent) {
@@ -230,7 +239,6 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
       const bp = this.responsiveBreakPoints.find((p) => p.breakPoint <= availableWidth);
       if (bp) {
         columns = bp.columns;
-        console.log('#', columns, availableWidth, bp.breakPoint);
       }
     }
     return columns;
