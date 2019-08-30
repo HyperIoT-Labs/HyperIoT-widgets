@@ -1,26 +1,26 @@
 
 <button *ngIf="config.showPlay" class="toolbar-button" (click)="onPlayPause()">
-    <img *ngIf="!isPaused" i18n-title="@@widgetsToolbar-title-pause" title="Pause" src="assets/widgets/images/baseline-pause-24px.svg">
-    <img *ngIf="isPaused" i18n-title="@@widgetsToolbar-title-play" title="Play" src="assets/widgets/images/baseline-play_arrow-24px.svg">
+    <img *ngIf="!isPaused" i18n-title="@@widgetsToolbar-title-pause" title="HYT_toolbar_pause" src="assets/widgets/images/baseline-pause-24px.svg">
+    <img *ngIf="isPaused" i18n-title="@@widgetsToolbar-title-play" title="HYT_toolbar_play" src="assets/widgets/images/baseline-play_arrow-24px.svg">
 </button>
 
 <button *ngIf="config.showTable" class="toolbar-button" (click)="onTableView()">
-    <img *ngIf="!showTable" i18n-title="@@widgetsToolbar-title-tableview" title="Table view" src="assets/widgets/images/outline-view_list-24px.svg">
-    <img *ngIf="showTable" i18n-title="@@widgetsToolbar-title-chartview" title="Chart view" src="assets/widgets/images/outline-show_chart-24px.svg">
+    <img *ngIf="!showTable" i18n-title="@@widgetsToolbar-title-tableview" title="HYT_toolbar_table_view" src="assets/widgets/images/outline-view_list-24px.svg">
+    <img *ngIf="showTable" i18n-title="@@widgetsToolbar-title-chartview" title="HYT_toolbar_chart_view" src="assets/widgets/images/outline-show_chart-24px.svg">
 </button>
 
-<button *ngIf="config.showSettings" i18n-title="@@widgetsToolbar-title-settings" title="Settings" class="toolbar-button" (click)="onSettings()">
+<button *ngIf="config.showSettings" i18n-title="@@widgetsToolbar-title-settings" title="HYT_toolbar_settings" class="toolbar-button" (click)="onSettings()">
     <img src="assets/widgets/images/outline-settings-24px.svg">
 </button>
 
-<button *ngIf="config.showRefresh" i18n-title="@@widgetsToolbar-title-refresh" title="Refresh" class="toolbar-button" (click)="onRefresh()">
+<button *ngIf="config.showRefresh" i18n-title="@@widgetsToolbar-title-refresh" title="HYT_toolbar_refresh" class="toolbar-button" (click)="onRefresh()">
     <img src="assets/widgets/images/outline-refresh-24px.svg">
 </button>
 
-<button *ngIf="config.showClose" i18n-title="@@widgetsToolbar-title-close" title="Close" class="toolbar-button" (click)="onClose()">
+<button *ngIf="config.showClose" i18n-title="@@widgetsToolbar-title-close" title="HYT_toolbar_close" class="toolbar-button" (click)="onClose()">
     <img src="assets/widgets/images/outline-close-24px.svg">
 </button>
 
-<button class="toolbar-button drag-handle" i18n-title="@@widgetsToolbar-title-move" title="Move" (click)="onDrag()">
+<button class="toolbar-button drag-handle" i18n-title="@@widgetsToolbar-title-move" title="HYT_toolbar_move" (click)="onDrag()">
     <img src="assets/widgets/images/baseline-drag_handle-24px.svg">
 </button>

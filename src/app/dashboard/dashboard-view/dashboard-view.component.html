@@ -1,6 +1,6 @@
 <div>
-    <button (click)="saveDashboard()" [disabled]="dashboardLayout.isDirty()" i18n="@@dashboardButtonSave">Save</button>
-    <button [routerLink]="[{outlets: { modal: [ 'widgets' ] }}]">Add widget</button>
+    <button (click)="saveDashboard()" [disabled]="dashboardLayout.isDirty()" i18n="@@dashboardButtonSave">HYT_dashboard_save</button>
+    <button [routerLink]="[{outlets: { modal: [ 'widgets' ] }}]" i18n="@@dashboardButtonAddWidget">HYT_dashboard_add_widget</button>
 </div>
 
 <app-widgets-layout [dashboardId]="dashboardId"></app-widgets-layout>
