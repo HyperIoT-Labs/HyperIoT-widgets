@@ -14,11 +14,12 @@ header {
     position: absolute;
     top: 4px; left: 12px; right: 110px;
     color: #16A4FA;
-    font-weight: 600;
-    font-size: 16px;
+    font-weight: 400;
+    font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 27px;
 }
 .play-pause {
     position: absolute;
