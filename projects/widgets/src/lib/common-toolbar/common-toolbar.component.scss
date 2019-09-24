@@ -1,0 +1,37 @@
+:host {
+    position: absolute;
+    display: block;
+    top: 1px; right: 1px;
+}
+
+.toolbar-button {
+    float: left;
+    width: 24px; height: 24px;
+    border: 0;
+    background: transparent;
+    padding: 0; margin: 0;
+    outline: none;
+    opacity: 1;
+
+    span {
+        &.hyt-icon {
+            font-size: 1.2em;
+            vertical-align: middle;
+            color: #0d416d;
+
+            &:hover {
+                color: #1e58a5;
+            }
+
+            &.icon-hyt_HamOpen {
+                cursor: grab;
+
+                &:active {
+                    cursor: grabbing;
+                }
+            }
+
+        }
+    }
+
+}

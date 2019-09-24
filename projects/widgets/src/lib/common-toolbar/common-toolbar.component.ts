@@ -8,7 +8,7 @@ import {
 @Component({
     selector: 'hyperiot-common-toolbar',
     templateUrl: './common-toolbar.component.html',
-    styleUrls: [ './common-toolbar.component.css']
+    styleUrls: [ './common-toolbar.component.scss']
 })
 export class CommonToolbarComponent {
     @Input() config = {
