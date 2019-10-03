@@ -10,10 +10,12 @@ import { TimeSeries } from '../data/time-series';
 @Component({
   selector: 'hyperiot-time-chart',
   templateUrl: './time-chart.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.css']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.scss']
 })
 export class TimeChartComponent extends WidgetChartComponent {
   private chartData: TimeSeries[] = [];
+
+  callBackEnd : boolean = false;
 
   configure() {
     super.configure();

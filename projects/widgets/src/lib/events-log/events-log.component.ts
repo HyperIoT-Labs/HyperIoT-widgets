@@ -13,7 +13,7 @@ import { WidgetComponent } from '../widget.component';
 @Component({
   selector: 'hyperiot-events-log',
   templateUrl: './events-log.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './events-log.component.css']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './events-log.component.scss']
 })
 export class EventsLogComponent extends WidgetComponent implements OnInit, OnDestroy {
   @Input()
@@ -22,6 +22,8 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
   private isPaused = false;
 
   logMessages: {timestamp: Date, message: string, extra: string}[] = [];
+
+  callBackEnd : boolean = false;
 
   /**
    * Contructor
@@ -33,6 +35,7 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
 
   ngOnInit() {
     this.dataStreamService.eventStream.subscribe((event) => {
+
       if (this.isPaused) {
         return;
       }
@@ -51,6 +54,12 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
       if (this.logMessages.length > maxLogLines) {
         this.logMessages.pop();
       }
+    },
+    (err) => {
+      console.log('Errore nella subscribe EVENT LOG ', err);
+    },
+    () => {
+      this.callBackEnd = true;
     });
   }
 

@@ -6,11 +6,13 @@ import { WidgetChartComponent } from '../widget-chart.component';
 @Component({
   selector: 'hyperiot-gauge-value',
   templateUrl: './gauge-value.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './gauge-value.component.css']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './gauge-value.component.scss']
 })
 export class GaugeValueComponent extends WidgetChartComponent {
   sensorValue = 0;
   timestamp = new Date();
+
+  callBackEnd : boolean = false;
 
   configure() {
     super.configure();
@@ -24,6 +26,10 @@ export class GaugeValueComponent extends WidgetChartComponent {
     // TODO: ...
     this.graph.data = this.widget.config.data || [];
     this.graph.layout = this.widget.config.layout;
+
+    // set callback End
+    this.callBackEnd = true;
+    
     // reset fields
     this.sensorValue = null;
     // subscribe data stream

@@ -10,10 +10,12 @@ import { WidgetChartComponent } from '../widget-chart.component';
 @Component({
   selector: 'hyperiot-stats-chart',
   templateUrl: './stats-chart.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './stats-chart.component.css']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './stats-chart.component.scss']
 })
 export class StatsChartComponent extends WidgetChartComponent {
+  
   private chartMode = 'chart';
+  callBackEnd : boolean = false;
 
   // This constructor Inject the HTTP client
   // just for testing purposes.
@@ -54,15 +56,32 @@ export class StatsChartComponent extends WidgetChartComponent {
   private showChart() {
     // get chart data from JSON asset file
     if (this.widget.dataUrl != null && this.widget.dataUrl.trim().length > 0) {
-      this.http.get(this.widget.dataUrl)
-        .subscribe((data: any) => {
+
+      this.http.get(this.widget.dataUrl).subscribe(
+        (data: any) => {
           this.graph.data = data.data;
           Object.assign(this.graph.layout, data.layout);
           this.checkConfigured();
-        });
+        },
+        (err) => {
+          console.log('ERRORE NEL CARICAMENTO DEI DATI', err);
+        },
+        () => {
+          setTimeout(() => {
+            this.callBackEnd = true;
+          }, 500);
+        }
+      );
+
     } else if (this.widget.config) {
+
       this.graph.data = this.widget.config.data || [];
       this.graph.layout = this.widget.config.layout;
+
+      setTimeout(() => {
+        this.callBackEnd = true;
+      }, 500);
+
     }
     this.checkConfigured();
   }

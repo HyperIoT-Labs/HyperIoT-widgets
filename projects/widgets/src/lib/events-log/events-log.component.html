@@ -1,4 +1,39 @@
-<header>Events log</header>
+<div id="container-widget">
+
+    <header>Events log</header>
+
+    <div id="loader" *ngIf="!callBackEnd">
+        <div class="lds-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    </div> <!-- END LOADER -->
+
+    <div *ngIf="callBackEnd" class="event-log grid" #log>
+        <ng-container *ngFor="let log of logMessages">
+            <div class="time">
+                {{log.timestamp.toLocaleTimeString()}}
+            </div>
+            <div class="message">
+                {{log.message}}
+            </div>
+            <div class="extra">
+                {{log.extra}}
+            </div>
+        </ng-container>
+    </div>
+    
+    <hyperiot-common-toolbar *ngIf="callBackEnd" (action)="onToolbarAction($event)" [config]="{
+        showClose: true,
+        showPlay: true
+    }"></hyperiot-common-toolbar>
+
+    <hyperiot-common-toolbar *ngIf="!callBackEnd" (action)="onToolbarAction($event)" [config]="{
+        showClose: true
+    }"></hyperiot-common-toolbar>
+
+</div>
+<!-- <header>Events log</header>
 
 <div class="event-log grid" #log>
     <ng-container *ngFor="let log of logMessages">
@@ -17,4 +52,4 @@
 <hyperiot-common-toolbar (action)="onToolbarAction($event)" [config]="{
     showClose: true,
     showPlay: true
-}"></hyperiot-common-toolbar>
+}"></hyperiot-common-toolbar> -->

@@ -1,21 +1,36 @@
-<header>{{widget.name}}</header>
+<div id="container-widget">
 
-<plotly-plot
-    *ngIf="graph.data && graph.data.length > 0"
-    divId="widget-{{widget.id}}"
-    [data]="graph.data"
-    [layout]="graph.layout"
-    [useResizeHandler]="true"
-    [config]="{displayModeBar: false}"
-    [style]="{position: 'relative', width: '100%', height: '100%'}"></plotly-plot>
+    <header>{{widget.name}}</header>
 
-<div *ngIf="!isConfigured" class="configure-notice">
-    <div>
-        <strong i18n="@@widgetsCommon-msg-notconfigured">HYT_common_not_configured</strong>
+    <div id="loader" *ngIf="!callBackEnd">
+        <div class="lds-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    </div> <!-- END LOADER -->
+
+    <plotly-plot
+        *ngIf="graph.data && graph.data.length > 0 && callBackEnd"
+        divId="widget-{{widget.id}}"
+        [data]="graph.data"
+        [layout]="graph.layout"
+        [useResizeHandler]="true"
+        [config]="{displayModeBar: false}"
+        [style]="{position: 'relative', width: '100%', height: '100%'}"></plotly-plot>
+
+    <div *ngIf="!isConfigured && callBackEnd" class="configure-notice">
+        <div>
+            <strong i18n="@@widgetsCommon-msg-notconfigured">HYT_common_not_configured</strong>
+        </div>
     </div>
-</div>
 
-<hyperiot-common-toolbar (action)="onToolbarAction($event)" [config]="{
-    showClose: true,
-    showSettings: true
-}"></hyperiot-common-toolbar>
+    <hyperiot-common-toolbar *ngIf="callBackEnd" (action)="onToolbarAction($event)" [config]="{
+        showClose: true,
+        showSettings: true
+    }"></hyperiot-common-toolbar>
+
+    <hyperiot-common-toolbar *ngIf="!callBackEnd" (action)="onToolbarAction($event)" [config]="{
+        showClose: true
+    }"></hyperiot-common-toolbar>
+
+</div>

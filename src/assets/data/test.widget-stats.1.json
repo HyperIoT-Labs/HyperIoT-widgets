@@ -30,7 +30,15 @@
                 12.88,
                 6.73
             ],
-            "type": "bar"
+            "type": "bar",
+            "marker": {
+                "color": "purple"
+            },
+            "textfont": {
+                "family": "Exo",
+                "color": "yellow",
+                "size": "44"
+            }
         },
         {
             "name": "2019",
@@ -62,12 +70,24 @@
                 14.88,
                 8.73
             ],
-            "type": "bar"
+            "type": "bar",
+            "textfont": {
+                "family": "Exo",
+                "color": "purple"
+            }
+            
         }
     ],
     "layout": {
+        "font": {
+            "family": "Exo"
+        },
         "xaxis": {
-            "tickangle": -45
+            "tickangle": -45,
+            "tickfont": {
+                "color": "red",
+                "family": "Exo"
+              }
         }
     }
 }

@@ -7,7 +7,7 @@ import { WidgetComponent } from '../widget.component';
 @Component({
   selector: 'hyperiot-sensor-value',
   templateUrl: './sensor-value.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './sensor-value.component.css']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './sensor-value.component.scss']
 })
 export class SensorValueComponent extends WidgetComponent {
   timestamp = new Date();
@@ -16,6 +16,8 @@ export class SensorValueComponent extends WidgetComponent {
   sensorUnitSymbol: string;
   isActivityLedOn = false;
   private ledTimeout: any = null;
+
+  callBackEnd : boolean = false;
 
   constructor(public dataStreamService: DataStreamService) {
     super(dataStreamService);
@@ -42,11 +44,17 @@ export class SensorValueComponent extends WidgetComponent {
       && this.widget.config.packetFields != null
       && this.widget.config.packetFields.length > 0)) {
       this.isConfigured = false;
+      // set callback end
+      this.callBackEnd = true;
       return;
     }
     // reset fields
     this.sensorValue = null;
     this.sensorField = name;
+    
+    // Set Callback End
+    this.callBackEnd = true;
+
     // subscribe data stream
     const cfg = this.widget.config;
     const dataPacketFilter = new DataPacketFilter(cfg.packetId, cfg.packetFields);

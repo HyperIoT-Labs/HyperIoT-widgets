@@ -13,7 +13,7 @@ import { DataStreamService } from '@hyperiot/core';
 @Component({
   selector: 'hyperiot-text-label',
   templateUrl: './text-label.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './text-label.component.css']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './text-label.component.scss']
 })
 export class TextLabelComponent extends WidgetComponent implements OnInit, OnDestroy {
   @Input()

@@ -1,10 +1,14 @@
-<header>{{widget.name}}</header>
+<div id="container-widget">
 
-<div class="centered-text">
-  {{widget.config.labelText}}
+  <header>{{widget.name}}</header>
+
+  <div class="centered-text">
+    {{widget.config.labelText}}
+  </div>
+
+  <hyperiot-common-toolbar (action)="onToolbarAction($event)" [config]="{
+    showClose: true,
+    showSettings: true
+  }"></hyperiot-common-toolbar>
+
 </div>
-
-<hyperiot-common-toolbar (action)="onToolbarAction($event)" [config]="{
-  showClose: true,
-  showSettings: true
-}"></hyperiot-common-toolbar>
