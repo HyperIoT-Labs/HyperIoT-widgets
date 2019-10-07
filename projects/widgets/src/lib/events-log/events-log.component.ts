@@ -4,7 +4,8 @@ import {
   OnInit,
   OnDestroy,
   Output,
-  EventEmitter
+  EventEmitter,
+  ViewEncapsulation
 } from '@angular/core';
 
 import { DataStreamService } from '@hyperiot/core';
@@ -34,8 +35,9 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
   }
 
   ngOnInit() {
+    console.log('Siamo nell\'OnInit');
     this.dataStreamService.eventStream.subscribe((event) => {
-
+      console.log('Siamo nella subscribe dell\'Event Log');
       if (this.isPaused) {
         return;
       }
@@ -56,11 +58,29 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
       }
     },
     (err) => {
-      console.log('Errore nella subscribe EVENT LOG ', err);
+      //console.log('Errore nella subscribe EVENT LOG ', err);
     },
     () => {
       this.callBackEnd = true;
+      //console.log('CallBack Event Log')
     });
+    
+    if(this.logMessages.length === 0) {
+
+      //console.log('LogMessage è VUOTO!!')
+      setTimeout(() => {
+        this.callBackEnd = true;
+      }, 500);
+
+    } else {
+      
+      //console.log('LogMessage è PIENO!!')
+      setTimeout(() => {
+        this.callBackEnd = true;
+      }, 500);
+
+    }
+
   }
 
   ngOnDestroy() {

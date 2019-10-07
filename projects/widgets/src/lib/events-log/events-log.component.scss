@@ -10,7 +10,7 @@
     font-size: 9px;
     padding: 10px;
     padding-top: 2px;
-    border-top: .5px solid #c7d9e3;
+    // border-top: .5px solid #c7d9e3;
 }
 
 .grid {
@@ -44,6 +44,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.log-no-messages {
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  position: absolute;
+  top: 32px;
+  left: 2px;
+  bottom: 2px;
+  right: 2px;
+  display: flex;
+  border-top: .5px solid #aac3d7;
 }
 
 #loader {

@@ -6,11 +6,13 @@ import { DataPacketFilter } from '@hyperiot/core';
 
 import { WidgetChartComponent } from '../widget-chart.component';
 import { TimeSeries } from '../data/time-series';
+import { ViewEncapsulation } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'hyperiot-time-chart',
   templateUrl: './time-chart.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.scss']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TimeChartComponent extends WidgetChartComponent {
   private chartData: TimeSeries[] = [];
@@ -20,6 +22,9 @@ export class TimeChartComponent extends WidgetChartComponent {
   configure() {
     super.configure();
     this.chartData = [];
+    
+    //console.log('configure data init', this.chartData);
+
     if (!(this.widget.config != null
       && this.widget.config.packetId != null
       && this.widget.config.packetFields != null
@@ -85,10 +90,19 @@ export class TimeChartComponent extends WidgetChartComponent {
     });
     Object.assign(cfg.layout, axesConfig.layout);
     this.chartData.push(...seriesItems);
+    
+    //console.log('Chart Data 2: ' ,this.chartData);
+    
+    setTimeout(()=> {
+      this.callBackEnd = true;
+    }, 500);
+
     // Bind time series to the chart
     this.addTimeSeries(this.chartData);
+
     // Create the real time data channel
     const dataPacketFilter = new DataPacketFilter(cfg.packetId, cfg.packetFields);
+
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
       const date = eventData[0];
       const field = eventData[1];
@@ -100,6 +114,7 @@ export class TimeChartComponent extends WidgetChartComponent {
         }
       });
     });
+
     /*
     // get some history data to prepend to
     // the realtime data before now

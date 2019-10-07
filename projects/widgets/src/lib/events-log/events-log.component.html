@@ -9,7 +9,7 @@
         </div>
     </div> <!-- END LOADER -->
 
-    <div *ngIf="callBackEnd" class="event-log grid" #log>
+    <div *ngIf="callBackEnd && logMessages.length != 0" class="event-log grid" #log>
         <ng-container *ngFor="let log of logMessages">
             <div class="time">
                 {{log.timestamp.toLocaleTimeString()}}
@@ -21,6 +21,10 @@
                 {{log.extra}}
             </div>
         </ng-container>
+    </div>
+
+    <div *ngIf="callBackEnd && logMessages.length === 0" class="log-no-messages">
+        We have no messages to show!!
     </div>
     
     <hyperiot-common-toolbar *ngIf="callBackEnd" (action)="onToolbarAction($event)" [config]="{
