@@ -6,13 +6,11 @@ import { DataPacketFilter } from '@hyperiot/core';
 
 import { WidgetChartComponent } from '../widget-chart.component';
 import { TimeSeries } from '../data/time-series';
-import { ViewEncapsulation } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'hyperiot-time-chart',
   templateUrl: './time-chart.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.scss']
 })
 export class TimeChartComponent extends WidgetChartComponent {
   private chartData: TimeSeries[] = [];
