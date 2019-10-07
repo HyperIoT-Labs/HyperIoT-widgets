@@ -9,6 +9,7 @@ import {
     DashboardsService,
     DashboardWidget
 } from '@hyperiot/core';
+import { DashboardWidgetPlus } from '../models/dashboard-models';
 
 @Injectable()
 export class DashboardConfigService {
@@ -35,7 +36,7 @@ export class DashboardConfigService {
         // creates a copy of widget object and
         // remove redundant properties
         delete widget.id;
-        const dashboardWidget: DashboardWidget = {
+        const dashboardWidget: DashboardWidgetPlus = {
             dashboard: { id: dashboardId, entityVersion: null },
             widgetConf: JSON.stringify(widget),
             entityVersion: null
