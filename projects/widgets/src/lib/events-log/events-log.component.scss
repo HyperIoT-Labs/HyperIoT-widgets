@@ -1,4 +1,12 @@
-#container-widget {
+hyperiot-events-log {
+  position: absolute;
+  background: #f0fbff;
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+}
+
+.container-widget {
     font-family: 'Exo';
 }
 
@@ -10,7 +18,7 @@
     font-size: 9px;
     padding: 10px;
     padding-top: 2px;
-    // border-top: .5px solid #c7d9e3;
+    border-top: .5px solid #c7d9e3;
 }
 
 .grid {
@@ -36,6 +44,10 @@
     padding: 5px;
     border-right: solid .5px rgba(0, 0, 0, 0.25);
     border-bottom: solid .5px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    word-break: break-all;
 }
 
 .extra {
@@ -56,7 +68,7 @@
   bottom: 2px;
   right: 2px;
   display: flex;
-  // border-top: .5px solid #aac3d7;
+  border-top: .5px solid #c7d9e3;
 }
 
 #loader {

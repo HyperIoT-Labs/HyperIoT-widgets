@@ -14,7 +14,8 @@ import { WidgetComponent } from '../widget.component';
 @Component({
   selector: 'hyperiot-events-log',
   templateUrl: './events-log.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './events-log.component.scss']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './events-log.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EventsLogComponent extends WidgetComponent implements OnInit, OnDestroy {
   @Input()
@@ -35,9 +36,9 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
   }
 
   ngOnInit() {
-    console.log('Siamo nell\'OnInit');
+    //console.log('Siamo nell\'OnInit');
     this.dataStreamService.eventStream.subscribe((event) => {
-      console.log('Siamo nella subscribe dell\'Event Log');
+      //console.log('Siamo nella subscribe dell\'Event Log');
       if (this.isPaused) {
         return;
       }

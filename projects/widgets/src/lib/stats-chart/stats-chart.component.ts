@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { PlotlyService } from 'angular-plotly.js';
@@ -10,7 +10,8 @@ import { WidgetChartComponent } from '../widget-chart.component';
 @Component({
   selector: 'hyperiot-stats-chart',
   templateUrl: './stats-chart.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './stats-chart.component.scss']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './stats-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StatsChartComponent extends WidgetChartComponent {
   

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { DataStreamService, DataPacketFilter } from '@hyperiot/core';
 
@@ -7,7 +7,8 @@ import { WidgetComponent } from '../widget.component';
 @Component({
   selector: 'hyperiot-sensor-value',
   templateUrl: './sensor-value.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './sensor-value.component.scss']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './sensor-value.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SensorValueComponent extends WidgetComponent {
   timestamp = new Date();

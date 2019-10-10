@@ -18,6 +18,8 @@ gridster.mobile {
 }
 gridster-item {
     background: transparent;
+    box-shadow: rgb(0, 0, 0) 0px 0px 11px -4px;
+    border-radius: 4px;
 }
 
 label {

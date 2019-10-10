@@ -1,15 +1,25 @@
-#container-widget {
+hyperiot-sensor-value {
+  position: absolute;
+  background: #f0fbff;
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+}
+
+.container-widget {
     font-family: 'Exo';
 }
 
 header {
-    right: 84px;
+    // right: 84px;
 }
+
 .value-container {
-    background: white;
+    background: #ffffff;
     position: absolute;
     top: 32px; bottom: 18px; left: 0; right: 0;
-    border-bottom: solid 1px lightgrey;
+    border-top: .5px solid #c7d9e3;
+    border-bottom: .5px solid #c7d9e3;
 }
 .sensor-value {
     position: relative;

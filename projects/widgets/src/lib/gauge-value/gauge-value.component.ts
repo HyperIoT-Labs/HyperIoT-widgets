@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { DataPacketFilter } from '@hyperiot/core';
 import { WidgetChartComponent } from '../widget-chart.component';
@@ -6,7 +6,8 @@ import { WidgetChartComponent } from '../widget-chart.component';
 @Component({
   selector: 'hyperiot-gauge-value',
   templateUrl: './gauge-value.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './gauge-value.component.scss']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './gauge-value.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class GaugeValueComponent extends WidgetChartComponent {
   sensorValue = 0;
@@ -21,14 +22,20 @@ export class GaugeValueComponent extends WidgetChartComponent {
       && this.widget.config.packetFields != null
       && this.widget.config.packetFields.length > 0)) {
       this.isConfigured = false;
+      
+      setTimeout(() => {
+        this.callBackEnd = true;
+      }, 500);
+
       return;
     }
     // TODO: ...
     this.graph.data = this.widget.config.data || [];
     this.graph.layout = this.widget.config.layout;
 
-    // set callback End
-    this.callBackEnd = true;
+    setTimeout(() => {
+      this.callBackEnd = true;
+    }, 500);
     
     // reset fields
     this.sensorValue = null;
@@ -43,6 +50,7 @@ export class GaugeValueComponent extends WidgetChartComponent {
       const value = +field[name];
       // set the new graph value
       this.graph.data[0].value = value;
+      console.log('Secondo Chekc Graph Data:\n', this.graph.data);
     });
   }
 

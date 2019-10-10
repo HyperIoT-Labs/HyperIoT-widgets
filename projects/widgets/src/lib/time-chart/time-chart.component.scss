@@ -1,4 +1,12 @@
-#container-widget {
+hyperiot-time-chart {
+  position: absolute;
+  background: #f0fbff;
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+}
+
+.container-widget {
     font-family: 'Exo';
 }
 
@@ -6,6 +14,11 @@ plotly-plot {
     position: absolute;
     top: 32px; left: 2px; bottom: 2px; right: 2px;
     display: block;
+
+    .js-plotly-plot {
+      border-top: .5px solid #c7d9e3;
+    }
+
 }
 
 #loader {

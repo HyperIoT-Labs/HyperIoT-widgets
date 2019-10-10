@@ -1,4 +1,4 @@
-<div id="container-widget">
+<div class="container-widget">
 
   <header>{{widget.name}}</header>
 
@@ -9,12 +9,13 @@
       </div>
   </div> <!-- END LOADER -->
 
-  <div class="value-container">
-    <div *ngIf="sensorValue && isConfigured && callBackEnd" class="sensor-value ">
+  <div *ngIf="sensorValue && isConfigured && callBackEnd" class="value-container">
+    <div class="sensor-value ">
       <span [innerHTML]="sensorValue"></span>
       <span [innerHTML]="sensorUnitSymbol" class="unit"></span>
     </div>  
   </div>
+
   <div class="timestamp" *ngIf="isConfigured && callBackEnd">
     {{ timestamp | amTimeAgo }}
   </div>

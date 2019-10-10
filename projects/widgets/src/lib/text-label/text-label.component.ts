@@ -4,7 +4,8 @@ import {
   OnInit,
   OnDestroy,
   Output,
-  EventEmitter
+  EventEmitter,
+  ViewEncapsulation
 } from '@angular/core';
 
 import { WidgetComponent } from '../widget.component';
@@ -13,7 +14,8 @@ import { DataStreamService } from '@hyperiot/core';
 @Component({
   selector: 'hyperiot-text-label',
   templateUrl: './text-label.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './text-label.component.scss']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './text-label.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TextLabelComponent extends WidgetComponent implements OnInit, OnDestroy {
   @Input()

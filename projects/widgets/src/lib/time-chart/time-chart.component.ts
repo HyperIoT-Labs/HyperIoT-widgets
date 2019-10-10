@@ -1,5 +1,5 @@
 import {
-  Component
+  Component, ViewEncapsulation
 } from '@angular/core';
 
 import { DataPacketFilter } from '@hyperiot/core';
@@ -10,7 +10,8 @@ import { TimeSeries } from '../data/time-series';
 @Component({
   selector: 'hyperiot-time-chart',
   templateUrl: './time-chart.component.html',
-  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.scss']
+  styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TimeChartComponent extends WidgetChartComponent {
   private chartData: TimeSeries[] = [];
@@ -28,6 +29,11 @@ export class TimeChartComponent extends WidgetChartComponent {
       && this.widget.config.packetFields != null
       && this.widget.config.packetFields.length > 0)) {
       this.isConfigured = false;
+
+      setTimeout(()=> {
+        this.callBackEnd = true;
+      }, 500);
+
       return;
     }
     const cfg = this.widget.config;

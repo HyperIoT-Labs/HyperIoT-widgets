@@ -1,17 +1,28 @@
-#container-widget {
+hyperiot-text-label {
+    position: absolute;
+    background: #f0fbff;
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.container-widget {
     font-family: 'Exo';
 }
 
 header {
-    right: 84px;
+    // right: 84px;
 }
+
 .centered-text {
     position: absolute;
     top: 30px; bottom: 0;
-    background: white;
-    border-radius: 4px;
+    background: #ffffff;
     width: 100%;
     font-weight: 600;
     font-size: 12px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: .5px solid #c7d9e3;
 }
