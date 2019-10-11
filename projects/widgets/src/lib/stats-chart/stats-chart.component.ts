@@ -52,6 +52,9 @@ export class StatsChartComponent extends WidgetChartComponent {
   private checkConfigured() {
     this.isConfigured = (this.graph.data != null && this.graph.data.length > 0)
                         || (this.widget.dataUrl != null && this.widget.dataUrl.length > 0);
+    if(!this.isConfigured){
+      this.callBackEnd = true;
+    }
   }
 
   private showChart() {
@@ -63,14 +66,13 @@ export class StatsChartComponent extends WidgetChartComponent {
           this.graph.data = data.data;
           Object.assign(this.graph.layout, data.layout);
           this.checkConfigured();
+          console.log('RES STATS CHARTS');
         },
         (err) => {
-          console.log('ERRORE NEL CARICAMENTO DEI DATI', err);
+          console.log('ERRORE NEL CARICAMENTO STATS CHARTS', err);
         },
         () => {
-          setTimeout(() => {
-            this.callBackEnd = true;
-          }, 500);
+          console.log('CALLBACK STATS CHARTS');
         }
       );
 
