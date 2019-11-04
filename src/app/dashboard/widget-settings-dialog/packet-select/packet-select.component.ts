@@ -39,7 +39,6 @@ export class PacketSelectComponent implements OnInit {
     if (nullIndex >= 0) {
       delete this.selectedFields[nullIndex];
     }
-    console.log($event, this.selectedFields);
     this.selectedFieldsChange.emit(this.selectedFields);
   }
 
