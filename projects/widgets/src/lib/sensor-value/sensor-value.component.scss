@@ -28,6 +28,15 @@ hyperiot-sensor-value {
     color: #275691;
     text-shadow: 3px 2px 3px #c0c0c0;
 }
+.sensor-value-min {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Exo';
+  text-align: center;
+  color: #275691;
+  text-shadow: 3px 2px 3px #c0c0c0;
+}
 .sensor-field {
     background: white;
     border-radius: 4px;
