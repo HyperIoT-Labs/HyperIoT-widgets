@@ -52,7 +52,7 @@ export class SensorValueComponent extends WidgetComponent {
     // reset fields
     this.sensorValue = null;
     this.sensorField = name;
-    
+
     // Set Callback End
     this.callBackEnd = true;
 
@@ -64,19 +64,22 @@ export class SensorValueComponent extends WidgetComponent {
       const field = eventData[1];
       this.blinkLed();
       // get the sensor field name and value
-      const name = cfg.packetFields[0];
-      const value = +field[name];
-      switch (name) {
-        case 'temperature':
-          this.displayTemperature(name, value, cfg.displayUnit);
-          break;
-        case 'humidity':
-          this.displayHumidity(name, value, cfg.displayUnit);
-          break;
-        default:
-          this.sensorField = name;
-          this.sensorValue = Math.round(value * 10) / 10;
-          this.sensorUnitSymbol = '';
+      const fieldIds = Object.keys(cfg.packetFields);
+      if (fieldIds.length > 0) {
+        const name = cfg.packetFields[fieldIds[0]];
+        const value = +field[name];
+        switch (name) {
+          case 'temperature':
+            this.displayTemperature(name, value, cfg.displayUnit);
+            break;
+          case 'humidity':
+            this.displayHumidity(name, value, cfg.displayUnit);
+            break;
+          default:
+            this.sensorField = name;
+            this.sensorValue = Math.round(value * 10) / 10;
+            this.sensorUnitSymbol = '';
+          }
         }
     });
   }

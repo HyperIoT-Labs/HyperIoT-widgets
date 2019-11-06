@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-lib": "ng build widgets && npm run copy-assets",
-    "copy-assets": "cpx \"./src/assets/**/*\" \"./dist/widgets/assets\""
+    "copy-assets": "cpx \"./src/assets/**/*\" \"./dist/widgets/assets\"",
+    "postinstall": "patch-package"
   },
   "private": true,
   "dependencies": {
@@ -25,7 +26,7 @@
     "@hyperiot/widgets": "file:./dist/widgets",
     "@ngx-translate/i18n-polyfill": "^1.0.0",
     "angular-gridster2": "^8.2.0",
-    "angular-plotly.js": "^1.4.2",
+    "angular-plotly.js": "1.3.2",
     "bootstrap": "^4.3.1",
     "caniuse-lite": "^1.0.30000997",
     "moment": "^2.24.0",
@@ -54,6 +55,7 @@
     "karma-coverage-istanbul-reporter": "^2.0.6",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "patch-package": "^6.1.2",
     "ng-packagr": "^5.7.1",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",

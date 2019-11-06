@@ -36,7 +36,7 @@ export class GaugeValueComponent extends WidgetChartComponent {
     setTimeout(() => {
       this.callBackEnd = true;
     }, 500);
-    
+
     // reset fields
     this.sensorValue = null;
     // subscribe data stream
@@ -46,11 +46,14 @@ export class GaugeValueComponent extends WidgetChartComponent {
       this.timestamp = eventData[0];
       const field = eventData[1];
       // get the sensor field name and value
-      const name = cfg.packetFields[0];
-      const value = +field[name];
-      // set the new graph value
-      this.graph.data[0].value = value;
-      console.log('Secondo Chekc Graph Data:\n', this.graph.data);
+      const fieldIds = Object.keys(cfg.packetFields);
+      if (fieldIds.length > 0) {
+        const name = cfg.packetFields[fieldIds[0]];
+        const value = +field[name];
+        // set the new graph value
+        this.graph.data[0].value = value;
+        console.log('Secondo Chekc Graph Data:\n', this.graph.data);
+        }
     });
   }
 
