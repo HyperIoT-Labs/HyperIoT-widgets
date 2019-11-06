@@ -27,10 +27,11 @@
     "angular-gridster2": "^8.2.0",
     "angular-plotly.js": "^1.4.2",
     "bootstrap": "^4.3.1",
+    "caniuse-lite": "^1.0.30000997",
     "moment": "^2.24.0",
     "ng-dynamic-component": "^5.0.0",
     "ngx-moment": "^3.4.0",
-    "plotly.js": "^1.51.1",
+    "plotly.js": "1.49.4",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
