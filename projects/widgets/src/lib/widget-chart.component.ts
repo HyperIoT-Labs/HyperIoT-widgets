@@ -242,10 +242,12 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     // relayout x-axis range with new data
     const Plotly = this.plotly.getPlotly();
     const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
-    Plotly.relayout(graph, {
-      'xaxis.range': [rangeStart, rangeEnd],
-      'xaxis.domain': [0.125, 1 - (0.075) * (this.graph.data.length - 1)]
-    });
+    if (graph) {
+      Plotly.relayout(graph, {
+        'xaxis.range': [rangeStart, rangeEnd],
+        'xaxis.domain': [0.125, 1 - (0.075) * (this.graph.data.length - 1)]
+      });
+    }
     /*
     Plotly.animate(graph, {
       layout: {
