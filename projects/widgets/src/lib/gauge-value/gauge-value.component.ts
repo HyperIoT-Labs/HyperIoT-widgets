@@ -20,9 +20,9 @@ export class GaugeValueComponent extends WidgetChartComponent {
     if (!(this.widget.config != null
       && this.widget.config.packetId != null
       && this.widget.config.packetFields != null
-      && this.widget.config.packetFields.length > 0)) {
+      && Object.keys(this.widget.config.packetFields).length > 0)) {
       this.isConfigured = false;
-      
+
       setTimeout(() => {
         this.callBackEnd = true;
       }, 500);

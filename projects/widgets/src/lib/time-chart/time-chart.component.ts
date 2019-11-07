@@ -16,18 +16,18 @@ import { TimeSeries } from '../data/time-series';
 export class TimeChartComponent extends WidgetChartComponent {
   private chartData: TimeSeries[] = [];
 
-  callBackEnd : boolean = false;
+  callBackEnd = false;
 
   configure() {
     super.configure();
     this.chartData = [];
-    
+
     //console.log('configure data init', this.chartData);
 
     if (!(this.widget.config != null
       && this.widget.config.packetId != null
       && this.widget.config.packetFields != null
-      && this.widget.config.packetFields.length > 0)) {
+      && Object.keys(this.widget.config.packetFields).length > 0)) {
       this.isConfigured = false;
 
       setTimeout(()=> {
@@ -58,45 +58,60 @@ export class TimeChartComponent extends WidgetChartComponent {
     // Create time series to display for this chart
     const seriesItems: TimeSeries[] = [];
     // Set layout for the first two axes
-    cfg.packetFields.forEach((fieldName) => {
-      seriesItems.push(new TimeSeries(fieldName));
-      // Set the chart axis and legend
-      axisCount++;
-      cfg.seriesConfig[axisCount - 1] = {
-        series: fieldName,
-      };
-      switch (axisCount) {
-        case 1:
-          Object.assign(axesConfig.layout, {
-            yaxis: {
-              title: fieldName,
-              domain: [ 0.15, 0.85 ]
-            }
-          });
-          break;
-        default:
-          const axisConfig = {};
-          axisConfig[`yaxis${axisCount}`] = {
-            title: fieldName,
-            autorange: true,
-            anchor: 'free',
-            overlaying: 'y',
-            side: 'right',
-            position: sideMargin
-          };
-          Object.assign(axesConfig.layout, axisConfig);
-          Object.assign(cfg.seriesConfig[axisCount - 1], { config: {
-            yaxis: 'y' + axisCount
-          }});
-          sideMargin += sideMarginGap;
-          break;
+    Object.keys(cfg.packetFields).forEach((fieldId) => {
+      let fields = [ cfg.packetFields[fieldId] ];
+      // apply field mappings (this is the case of packet field type ARRAY / MATRIX )
+      const fieldMapping = cfg.packetFieldsMapping.find((fm) => fm.field.id == fieldId);
+      if (fieldMapping) {
+        fields = [];
+        fieldMapping.map.forEach((m) => {
+          fields.push(cfg.packetFields[fieldId] + ':' + m.name);
+        });
       }
+      // add a time serie for each field
+      fields.forEach((fieldName) => {
+
+        seriesItems.push(new TimeSeries(fieldName));
+        // Set the chart axis and legend
+        axisCount++;
+        cfg.seriesConfig[axisCount - 1] = {
+          series: fieldName,
+        };
+        switch (axisCount) {
+          case 1:
+            Object.assign(axesConfig.layout, {
+              yaxis: {
+                title: fieldName,
+                domain: [ 0.15, 0.85 ]
+              }
+            });
+            break;
+          default:
+            const axisConfig = {};
+            axisConfig[`yaxis${axisCount}`] = {
+              title: fieldName,
+              autorange: true,
+              anchor: 'free',
+              overlaying: 'y',
+              side: 'right',
+              position: sideMargin
+            };
+            Object.assign(axesConfig.layout, axisConfig);
+            Object.assign(cfg.seriesConfig[axisCount - 1], { config: {
+              yaxis: 'y' + axisCount
+            }});
+            sideMargin += sideMarginGap;
+            break;
+        }
+
+
+      });
     });
     Object.assign(cfg.layout, axesConfig.layout);
     this.chartData.push(...seriesItems);
-    
+
     //console.log('Chart Data 2: ' ,this.chartData);
-    
+
     setTimeout(()=> {
       this.callBackEnd = true;
     }, 500);
@@ -110,6 +125,10 @@ export class TimeChartComponent extends WidgetChartComponent {
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
       const date = eventData[0];
       const field = eventData[1];
+//console.log(eventData, field)
+      // TODO: implement field mappings
+      // TODO: implement field mappings
+      // TODO: implement field mappings
       // Map received packet field to the corresponding time series
       Object.keys(field).map((k) => {
         const series = this.chartData.find((ts) => ts.name === k);

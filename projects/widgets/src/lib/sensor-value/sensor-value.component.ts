@@ -43,7 +43,7 @@ export class SensorValueComponent extends WidgetComponent {
     if (!(this.widget.config != null
       && this.widget.config.packetId != null
       && this.widget.config.packetFields != null
-      && this.widget.config.packetFields.length > 0)) {
+      && Object.keys(this.widget.config.packetFields).length > 0)) {
       this.isConfigured = false;
       // set callback end
       this.callBackEnd = true;
