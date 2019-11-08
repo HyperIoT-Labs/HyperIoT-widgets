@@ -53,24 +53,13 @@ export class TimeChartComponent extends WidgetChartComponent {
     const axesConfig = {
       layout: {}
     };
-    const sideMarginGap = 0.15;
-    let sideMargin = 1 - (sideMarginGap * (cfg.packetFields.length - 2));
+    const sideMarginGap = 0.12;
+    let sideMargin = 1 - (sideMarginGap * (this.getMappedFieldsCount() - 2));
     // Create time series to display for this chart
     const seriesItems: TimeSeries[] = [];
     // Set layout for the first two axes
     Object.keys(cfg.packetFields).forEach((fieldId) => {
-      let fields = [ cfg.packetFields[fieldId] ];
-      // apply field mappings (this is the case of packet field type ARRAY / MATRIX )
-      const fieldMapping = cfg.packetFieldsMapping.find((fm) => fm.field.id == fieldId);
-      if (fieldMapping) {
-        fields = [];
-        fieldMapping.map.forEach((m) => {
-          fields.push(cfg.packetFields[fieldId] + ':' + m.name);
-        });
-      }
-      // add a time serie for each field
-      fields.forEach((fieldName) => {
-
+      this.mapField(fieldId, (fieldName) => {
         seriesItems.push(new TimeSeries(fieldName));
         // Set the chart axis and legend
         axisCount++;
@@ -103,8 +92,6 @@ export class TimeChartComponent extends WidgetChartComponent {
             sideMargin += sideMarginGap;
             break;
         }
-
-
       });
     });
     Object.assign(cfg.layout, axesConfig.layout);
@@ -125,19 +112,23 @@ export class TimeChartComponent extends WidgetChartComponent {
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
       const date = eventData[0];
       const field = eventData[1];
-//console.log(eventData, field)
-      // TODO: implement field mappings
-      // TODO: implement field mappings
-      // TODO: implement field mappings
       // Map received packet field to the corresponding time series
       Object.keys(field).map((k) => {
-        const series = this.chartData.find((ts) => ts.name === k);
-        if (series != null) {
-          this.addTimeSeriesData(series, date, field[k]);
-        }
+        const fieldId = this.getFieldIdFromName(k);
+        this.mapField(fieldId, (fieldName, mappedField) => {
+          let value = field[k];
+          const series = this.chartData.find((ts) => ts.name === fieldName);
+          if (series != null) {
+            if (mappedField) {
+              mappedField.coords.split(',').forEach((c) => {
+                value = value[+c];
+              });
+            }
+            this.addTimeSeriesData(series, date, value);
+          }
+        });
       });
     });
-
     /*
     // get some history data to prepend to
     // the realtime data before now
@@ -160,5 +151,38 @@ export class TimeChartComponent extends WidgetChartComponent {
         break;
     }
     this.widgetAction.emit({ widget: this.widget, action });
+  }
+
+  private getFieldIdFromName(fieldName) {
+    const cfg = this.widget.config;
+    for (const id of Object.keys(cfg.packetFields)) {
+      if (cfg.packetFields[id] === fieldName) {
+        return id;
+      }
+    }
+  }
+  private mapField(fieldId: any, callback) {
+    const cfg = this.widget.config;
+    // apply field mappings (this is the case of packet field type ARRAY / MATRIX )
+    const fieldMapping = cfg.packetFieldsMapping.find((fm) => fm.field.id == fieldId);
+    if (fieldMapping) {
+      fieldMapping.map.forEach((m) => {
+        callback(cfg.packetFields[fieldId] + ':' + m.name, m);
+      });
+    } else {
+      callback(cfg.packetFields[fieldId]);
+    }
+  }
+  private getMappedFieldsCount() {
+    const cfg = this.widget.config;
+    let count = 0;
+    for (const fieldId of Object.keys(cfg.packetFields)) {
+      const fieldMapping = cfg.packetFieldsMapping.find((fm) => fm.field.id == fieldId);
+      if (fieldMapping) {
+        count += fieldMapping.map.length - 1;
+      }
+      count++;
+    }
+    return count;
   }
 }
