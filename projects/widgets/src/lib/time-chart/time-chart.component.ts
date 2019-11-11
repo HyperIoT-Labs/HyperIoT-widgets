@@ -164,7 +164,10 @@ export class TimeChartComponent extends WidgetChartComponent {
   private mapField(fieldId: any, callback) {
     const cfg = this.widget.config;
     // apply field mappings (this is the case of packet field type ARRAY / MATRIX )
-    const fieldMapping = cfg.packetFieldsMapping.find((fm) => fm.field.id == fieldId);
+    let fieldMapping;
+    if (cfg.packetFieldsMapping) {
+      fieldMapping = cfg.packetFieldsMapping.find((fm) => fm.field.id == fieldId);
+    }
     if (fieldMapping) {
       fieldMapping.map.forEach((m) => {
         callback(cfg.packetFields[fieldId] + ':' + m.name, m);
