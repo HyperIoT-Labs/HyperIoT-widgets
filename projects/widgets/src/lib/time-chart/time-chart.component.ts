@@ -177,9 +177,11 @@ export class TimeChartComponent extends WidgetChartComponent {
     const cfg = this.widget.config;
     let count = 0;
     for (const fieldId of Object.keys(cfg.packetFields)) {
-      const fieldMapping = cfg.packetFieldsMapping.find((fm) => fm.field.id == fieldId);
-      if (fieldMapping) {
-        count += fieldMapping.map.length - 1;
+      if (cfg.packetFieldsMapping) {
+        const fieldMapping = cfg.packetFieldsMapping.find((fm) => fm.field.id == fieldId);
+        if (fieldMapping) {
+          count += fieldMapping.map.length - 1;
+        }
       }
       count++;
     }
