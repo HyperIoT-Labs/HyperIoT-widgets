@@ -6,6 +6,8 @@ import { MomentModule } from 'ngx-moment';
 
 import { DataStreamService } from '@hyperiot/core';
 
+import { WidgetsService } from './widgets.service';
+
 import { CommonToolbarComponent } from './common-toolbar/common-toolbar.component';
 import { WidgetChartComponent } from './widget-chart.component';
 import { EventsLogComponent } from './events-log/events-log.component';
@@ -19,9 +21,6 @@ import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
 PlotlyModule.plotlyjs = PlotlyJS;
 export { PlotlyModule, PlotlyJS };
-
-export * from './data/time-series';
-export * from './widget.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,8 @@ export * from './widget.component';
     })
   ],
   providers: [
-    DataStreamService
+    DataStreamService,
+    WidgetsService
   ],
   exports: [
     CommonToolbarComponent,
@@ -60,3 +60,7 @@ export * from './widget.component';
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class WidgetsModule { }
+
+export * from './widgets.service';
+export * from './data/time-series';
+export * from './widget.component';

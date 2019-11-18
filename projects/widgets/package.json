@@ -1,6 +1,6 @@
 {
   "name": "@hyperiot/widgets",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "publishConfig": {
     "registry": "https://nexus.acsoftware.it/nexus/repository/acs-npm/",
     "always-auth": "true"

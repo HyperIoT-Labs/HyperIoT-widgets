@@ -3,6 +3,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { DataStreamService, DataPacketFilter } from '@hyperiot/core';
 
 import { WidgetComponent } from '../widget.component';
+import { WidgetsService } from '../widgets.service';
 
 @Component({
   selector: 'hyperiot-sensor-value',
@@ -13,14 +14,17 @@ import { WidgetComponent } from '../widget.component';
 export class SensorValueComponent extends WidgetComponent {
   timestamp = new Date();
   sensorField: string;
-  sensorValue: number;
+  sensorValue: string;
   sensorUnitSymbol: string;
   isActivityLedOn = false;
   private ledTimeout: any = null;
 
-  callBackEnd : boolean = false;
+  callBackEnd = false;
 
-  constructor(public dataStreamService: DataStreamService) {
+  constructor(
+    public dataStreamService: DataStreamService,
+    private widgetsService: WidgetsService
+  ) {
     super(dataStreamService);
   }
 
@@ -68,50 +72,27 @@ export class SensorValueComponent extends WidgetComponent {
       if (fieldIds.length > 0) {
         const name = cfg.packetFields[fieldIds[0]];
         const value = +field[name];
-        switch (name) {
-          case 'temperature':
-            this.displayTemperature(name, value, cfg.displayUnit);
-            break;
-          case 'humidity':
-            this.displayHumidity(name, value, cfg.displayUnit);
-            break;
-          default:
-            this.sensorField = name;
-            this.sensorValue = Math.round(value * 10) / 10;
-            this.sensorUnitSymbol = '';
+        // set display values
+        this.sensorField = name;
+        this.sensorValue = value.toString();
+        this.sensorUnitSymbol = '';
+        // Apply packet conversion if set
+        if (cfg.packetUnitsConversion) {
+          const unitConversion = cfg.packetUnitsConversion.find((uc) => uc.field.id == fieldIds[0]);
+          if (unitConversion) {
+            this.sensorUnitSymbol = unitConversion.convertFrom;
+            if (unitConversion.convertFrom !== unitConversion.convertTo) {
+              this.sensorValue = this.widgetsService.convert(value)
+                .from(unitConversion.convertFrom)
+                .to(unitConversion.convertTo);
+              this.sensorUnitSymbol = unitConversion.convertTo;
+            }
+            // round to configured decimal digits
+            this.sensorValue = (+this.sensorValue).toFixed(unitConversion.decimals);
           }
         }
+      }
     });
-  }
-
-  displayTemperature(name: string, value: number, unit: string) {
-    if (unit == null) {
-      unit = 'celsius';
-    }
-    // apply configured display unit
-    switch (unit.toLowerCase()) {
-      case 'fahrenheit':
-        // convert value from celsius to Fahrenheit
-        value = (value * 9 / 5) + 32;
-        this.sensorUnitSymbol = '&#8457;';
-        break;
-      case 'kelvin':
-        value = value + 273.15;
-        this.sensorUnitSymbol = '&#8490;';
-        break;
-      default:
-        this.sensorUnitSymbol = '&#8451;';
-        break;
-    }
-    // round up to 1 decimal digit
-    this.sensorValue = Math.round(value * 10) / 10;
-    this.sensorField = name;
-  }
-
-  displayHumidity(name: string, value: number, unit: string) {
-    this.sensorUnitSymbol = '%';
-    this.sensorValue = Math.round(value * 10) / 10;
-    this.sensorField = name;
   }
 
   blinkLed() {
