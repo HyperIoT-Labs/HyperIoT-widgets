@@ -14,9 +14,9 @@ import { WidgetChartComponent } from '../widget-chart.component';
   encapsulation: ViewEncapsulation.None
 })
 export class StatsChartComponent extends WidgetChartComponent {
-  
+
   private chartMode = 'chart';
-  callBackEnd : boolean = false;
+  callBackEnd = false;
 
   // This constructor Inject the HTTP client
   // just for testing purposes.

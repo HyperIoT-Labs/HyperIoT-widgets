@@ -1,6 +1,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { DataPacketFilter } from '@hyperiot/core';
+import { DataPacketFilter, DataStreamService } from '@hyperiot/core';
+
+import { PlotlyService } from 'angular-plotly.js';
+import { WidgetsService } from '../widgets.service';
+
 import { WidgetChartComponent } from '../widget-chart.component';
 
 @Component({
@@ -13,7 +17,15 @@ export class GaugeValueComponent extends WidgetChartComponent {
   sensorValue = 0;
   timestamp = new Date();
 
-  callBackEnd : boolean = false;
+  callBackEnd = false;
+
+  constructor(
+    public dataStreamService: DataStreamService,
+    public plotly: PlotlyService,
+    private widgetsService: WidgetsService
+  ) {
+    super(dataStreamService, plotly);
+  }
 
   configure() {
     super.configure();
@@ -49,7 +61,21 @@ export class GaugeValueComponent extends WidgetChartComponent {
       const fieldIds = Object.keys(cfg.packetFields);
       if (fieldIds.length > 0) {
         const name = cfg.packetFields[fieldIds[0]];
-        const value = +field[name];
+        let value = +field[name];
+        // Apply unit conversion to packet field if set
+        if (cfg.packetUnitsConversion) {
+          const unitConversion = cfg.packetUnitsConversion.find((uc) => uc.field.id == fieldIds[0]);
+          if (unitConversion) {
+            if (unitConversion.convertFrom !== unitConversion.convertTo) {
+              value = this.widgetsService
+                .convert(value)
+                .from(unitConversion.convertFrom)
+                .to(unitConversion.convertTo);
+            }
+            // round to configured decimal digits
+            //value = (+value).toFixed(unitConversion.decimals);
+          }
+        }
         // set the new graph value
         this.graph.data[0].value = value;
         console.log('Secondo Chekc Graph Data:\n', this.graph.data);

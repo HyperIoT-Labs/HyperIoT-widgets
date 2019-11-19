@@ -2,7 +2,10 @@ import {
   Component, ViewEncapsulation
 } from '@angular/core';
 
-import { DataPacketFilter } from '@hyperiot/core';
+import { DataPacketFilter, DataStreamService } from '@hyperiot/core';
+
+import { PlotlyService } from 'angular-plotly.js';
+import { WidgetsService } from '../widgets.service';
 
 import { WidgetChartComponent } from '../widget-chart.component';
 import { TimeSeries } from '../data/time-series';
@@ -18,6 +21,14 @@ export class TimeChartComponent extends WidgetChartComponent {
 
   callBackEnd = false;
 
+  constructor(
+    public dataStreamService: DataStreamService,
+    public plotly: PlotlyService,
+    private widgetsService: WidgetsService
+  ) {
+    super(dataStreamService, plotly);
+  }
+
   configure() {
     super.configure();
     this.chartData = [];
@@ -30,7 +41,7 @@ export class TimeChartComponent extends WidgetChartComponent {
       && Object.keys(this.widget.config.packetFields).length > 0)) {
       this.isConfigured = false;
 
-      setTimeout(()=> {
+      setTimeout(() => {
         this.callBackEnd = true;
       }, 500);
 
@@ -124,6 +135,21 @@ export class TimeChartComponent extends WidgetChartComponent {
                 value = value[+c];
               });
             }
+            // Apply unit conversion to packet field if set
+            if (cfg.packetUnitsConversion) {
+              const unitConversion = cfg.packetUnitsConversion.find((uc) => uc.field.id == fieldId);
+              if (unitConversion) {
+                if (unitConversion.convertFrom !== unitConversion.convertTo) {
+                  value = this.widgetsService
+                    .convert(value)
+                    .from(unitConversion.convertFrom)
+                    .to(unitConversion.convertTo);
+                }
+                // round to configured decimal digits
+                value = (+value).toFixed(unitConversion.decimals);
+              }
+            }
+            // Add processed value to time-series 
             this.addTimeSeriesData(series, date, value);
           }
         });

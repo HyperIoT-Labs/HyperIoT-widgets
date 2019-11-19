@@ -1,9 +1,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import { DataStreamService, DataPacketFilter } from '@hyperiot/core';
+import { WidgetsService } from '../widgets.service';
 
 import { WidgetComponent } from '../widget.component';
-import { WidgetsService } from '../widgets.service';
 
 @Component({
   selector: 'hyperiot-sensor-value',
@@ -76,13 +76,14 @@ export class SensorValueComponent extends WidgetComponent {
         this.sensorField = name;
         this.sensorValue = value.toString();
         this.sensorUnitSymbol = '';
-        // Apply packet conversion if set
+        // Apply unit conversion to packet field if set
         if (cfg.packetUnitsConversion) {
           const unitConversion = cfg.packetUnitsConversion.find((uc) => uc.field.id == fieldIds[0]);
           if (unitConversion) {
             this.sensorUnitSymbol = unitConversion.convertFrom;
             if (unitConversion.convertFrom !== unitConversion.convertTo) {
-              this.sensorValue = this.widgetsService.convert(value)
+              this.sensorValue = this.widgetsService
+                .convert(value)
                 .from(unitConversion.convertFrom)
                 .to(unitConversion.convertTo);
               this.sensorUnitSymbol = unitConversion.convertTo;

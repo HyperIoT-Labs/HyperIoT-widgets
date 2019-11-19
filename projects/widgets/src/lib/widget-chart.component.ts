@@ -3,6 +3,7 @@ import { Component, AfterContentInit } from '@angular/core';
 import { DataStreamService } from '@hyperiot/core';
 
 import { PlotlyService } from 'angular-plotly.js';
+import { WidgetsService } from './widgets.service';
 
 import { WidgetComponent } from './widget.component';
 import { TimeSeries } from './data/time-series';
@@ -114,7 +115,10 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     connectgaps: true
   };
 
-  constructor(public dataStreamService: DataStreamService, public plotly: PlotlyService) {
+  constructor(
+    public dataStreamService: DataStreamService,
+    public plotly: PlotlyService
+  ) {
     super(dataStreamService);
   }
 
