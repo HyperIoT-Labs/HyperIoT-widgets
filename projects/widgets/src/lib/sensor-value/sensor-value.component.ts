@@ -39,7 +39,7 @@ export class SensorValueComponent extends WidgetComponent {
   }
 
   onToolbarAction(action: string) {
-    this.widgetAction.emit({widget: this.widget, action});
+    this.widgetAction.emit({ widget: this.widget, action });
   }
 
   configure() {
@@ -91,6 +91,9 @@ export class SensorValueComponent extends WidgetComponent {
             // round to configured decimal digits
             this.sensorValue = (+this.sensorValue).toFixed(unitConversion.decimals);
           }
+        } else {
+          // round to configured decimal digits
+          this.sensorValue = (+this.sensorValue).toFixed(2);
         }
       }
     });
