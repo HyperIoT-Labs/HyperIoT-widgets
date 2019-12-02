@@ -42,8 +42,7 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
       if (this.isPaused) {
         return;
       }
-      let packet = JSON.parse(event.data);
-      // packet = JSON.parse(packet.payload);
+      const packet = JSON.stringify(event.data);
       // limit max log lines
       let maxLogLines = 100;
       if (this.widget.config && this.widget.config.maxLogLines) {
@@ -51,7 +50,7 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
       }
       this.logMessages.unshift({
         timestamp: new Date(),
-        message: packet.payload,
+        message: packet,
         extra: '---'
       });
       if (this.logMessages.length > maxLogLines) {
@@ -65,8 +64,8 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
       this.callBackEnd = true;
       //console.log('CallBack Event Log')
     });
-    
-    if(this.logMessages.length === 0) {
+
+    if (this.logMessages.length === 0) {
 
       //console.log('LogMessage è VUOTO!!')
       setTimeout(() => {
@@ -74,7 +73,7 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
       }, 500);
 
     } else {
-      
+
       //console.log('LogMessage è PIENO!!')
       setTimeout(() => {
         this.callBackEnd = true;

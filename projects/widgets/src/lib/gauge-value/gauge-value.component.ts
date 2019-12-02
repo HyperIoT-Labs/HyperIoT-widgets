@@ -72,7 +72,7 @@ export class GaugeValueComponent extends WidgetChartComponent {
                 .from(unitConversion.convertFrom)
                 .to(unitConversion.convertTo);
             }
-            // round to configured decimal digits
+            // round to configured decimal digits TODO: not implemented
             //value = (+value).toFixed(unitConversion.decimals);
           }
         }
