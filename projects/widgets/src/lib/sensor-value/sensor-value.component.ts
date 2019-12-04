@@ -74,26 +74,30 @@ export class SensorValueComponent extends WidgetComponent {
         const value = +field[name];
         // set display values
         this.sensorField = name;
-        this.sensorValue = value.toString();
         this.sensorUnitSymbol = '';
         // Apply unit conversion to packet field if set
+        let unitConversion;
         if (cfg.packetUnitsConversion) {
-          const unitConversion = cfg.packetUnitsConversion.find((uc) => uc.field.id == fieldIds[0]);
+          unitConversion = cfg.packetUnitsConversion.find((uc) => uc.field.id == fieldIds[0]);
           if (unitConversion) {
             this.sensorUnitSymbol = unitConversion.convertFrom;
             if (unitConversion.convertFrom !== unitConversion.convertTo) {
               this.sensorValue = this.widgetsService
-                .convert(value)
+                .convert(+value)
                 .from(unitConversion.convertFrom)
                 .to(unitConversion.convertTo);
               this.sensorUnitSymbol = unitConversion.convertTo;
+            } else {
+              this.sensorValue = value.toString();
             }
-            // round to configured decimal digits
-            this.sensorValue = (+this.sensorValue).toFixed(unitConversion.decimals);
           }
-        } else {
+        }
+        if (!unitConversion) {
+          // round to 2 decimal digits if no unit conversion is configured
+          this.sensorValue = (+value).toFixed(2);
+        } else if (!isNaN(unitConversion.decimals)) {
           // round to configured decimal digits
-          this.sensorValue = (+this.sensorValue).toFixed(2);
+          this.sensorValue = (+this.sensorValue).toFixed(unitConversion.decimals);
         }
       }
     });
