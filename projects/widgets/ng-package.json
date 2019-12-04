@@ -3,5 +3,9 @@
   "dest": "../../dist/widgets",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "plotly.js",
+    "angular-plotly.js"
+  ]
 }
