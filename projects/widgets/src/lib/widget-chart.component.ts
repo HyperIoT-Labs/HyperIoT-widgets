@@ -3,7 +3,6 @@ import { Component, AfterContentInit } from '@angular/core';
 import { DataStreamService } from '@hyperiot/core';
 
 import { PlotlyService } from 'angular-plotly.js';
-import { WidgetsService } from './widgets.service';
 
 import { WidgetComponent } from './widget.component';
 import { TimeSeries } from './data/time-series';
@@ -114,6 +113,9 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     line: { simplify: false, width: 3, /*shape: 'spline',*/ smoothing: 1.3 },
     connectgaps: true
   };
+
+  private relayoutTimeout = null;
+  private relayoutTimestamp;
 
   constructor(
     public dataStreamService: DataStreamService,
@@ -233,12 +235,21 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
       // keeps data length < this.maxDataPoints
       this.applySizeConstraints(series);
       // reset x axis range to default
-      this.relayout(x);
+      this.requestRelayout(x);
     }
   }
 
   // Private methods
 
+  private requestRelayout(lastEventDate: Date) {
+    this.relayoutTimestamp = lastEventDate;
+    if (this.relayoutTimeout === null) {
+      this.relayoutTimeout = setTimeout(() => {
+        this.relayoutTimeout = null;
+        this.relayout(this.relayoutTimestamp);
+      }, 100);
+    }
+  }
   private relayout(lastEventDate: Date) {
     // set x range to the last 30 seconds of data
     const rangeEnd = new Date(lastEventDate);
