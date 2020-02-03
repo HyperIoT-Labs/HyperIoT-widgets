@@ -17,8 +17,12 @@ import { StatsChartComponent } from './stats-chart/stats-chart.component';
 import { TimeChartComponent } from './time-chart/time-chart.component';
 import { GaugeValueComponent } from './gauge-value/gauge-value.component';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
+import { OfflineHpacketTableComponent } from './offline-hpacket-table/offline-hpacket-table.component';
 PlotlyModule.plotlyjs = PlotlyJS;
 export { PlotlyModule, PlotlyJS };
 
@@ -31,12 +35,15 @@ export { PlotlyModule, PlotlyJS };
     SensorValueComponent,
     StatsChartComponent,
     TimeChartComponent,
-    GaugeValueComponent
+    GaugeValueComponent,
+    OfflineHpacketTableComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     PlotlyModule,
+    MatTableModule,
+    MatPaginatorModule,
     MomentModule.forRoot({
       relativeTimeThresholdOptions: {
         m: 59
@@ -55,7 +62,8 @@ export { PlotlyModule, PlotlyJS };
     SensorValueComponent,
     StatsChartComponent,
     TimeChartComponent,
-    GaugeValueComponent
+    GaugeValueComponent,
+    OfflineHpacketTableComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

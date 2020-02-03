@@ -6,6 +6,7 @@
   },
   "whitelistedNonPeerDependencies": [
     "plotly.js",
-    "angular-plotly.js"
+    "angular-plotly.js",
+    "@angular/material"
   ]
 }

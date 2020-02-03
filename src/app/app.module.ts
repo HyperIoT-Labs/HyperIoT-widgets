@@ -43,6 +43,7 @@ import { TextLabelSettingsComponent } from './dashboard/widget-settings-dialog/t
 import { StatsChartSettingsComponent } from './dashboard/widget-settings-dialog/stats-chart-settings/stats-chart-settings.component';
 import { SensorValueSettingsComponent } from './dashboard/widget-settings-dialog/sensor-value-settings/sensor-value-settings.component';
 import { PacketSelectComponent } from './dashboard/widget-settings-dialog/packet-select/packet-select.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // use the require method provided by webpack
 declare const require;
@@ -86,6 +87,7 @@ export function apiConfigFactory(): Configuration {
     CoreModule,
     HyperiotBaseModule,
     HUserClientModule.forRoot(apiConfigFactory),
+    BrowserAnimationsModule,
   ],
   providers: [
     AuthenticationService,

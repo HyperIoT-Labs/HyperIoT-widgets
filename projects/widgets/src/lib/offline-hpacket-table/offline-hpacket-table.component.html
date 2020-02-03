@@ -1,0 +1,38 @@
+<div class="container-widget d-flex flex-column" style="height:100%">
+
+    <header>{{widget.name}}</header>
+  
+    <div id="loader" *ngIf="!callBackEnd">
+        <div class="lds-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    </div> <!-- END LOADER -->
+
+    <div class="example-container flex-grow-1">    
+        <table mat-table [dataSource]="dataSource">
+            <div *ngFor="let column of displayedColumns">
+                <ng-container matColumnDef={{column}}>
+                    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        {{element.get(column)}}
+                    </td>
+                </ng-container>
+            </div>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+
+    <hyperiot-common-toolbar *ngIf="callBackEnd" (action)="onToolbarAction($event)" [config]="{
+        showClose: true,
+        showSettings: true,
+        showRefresh: true
+    }"></hyperiot-common-toolbar>
+
+    <hyperiot-common-toolbar *ngIf="!callBackEnd" (action)="onToolbarAction($event)" [config]="{
+        showClose: true
+    }"></hyperiot-common-toolbar>
+
+</div>

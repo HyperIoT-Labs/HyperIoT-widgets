@@ -30,6 +30,21 @@
     }"></hyperiot-stats-chart>
 </div>
 
+<div class="test-widget">
+    <hyperiot-offline-hpacket-table [widget]="{
+        id: 'my-offline-id',
+        config: {
+        data: [],
+        packetId: 23,
+        packetFields: [
+            'temperature',
+            'humidity',
+            'timestamp'
+        ]
+        }
+    }"></hyperiot-offline-hpacket-table>
+</div>
+
 <!-- <div>
     <hyperiot-stats-chart></hyperiot-stats-chart>
 </div> -->

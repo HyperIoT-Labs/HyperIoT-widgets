@@ -21,6 +21,23 @@
         }
     },
     {
+        "id": 2,
+        "cols": 3,
+        "rows": 3,
+        "y": 0,
+        "x": 4,
+        "type": "offline-table",
+        "config": {
+            "packetId": 2945,
+            "packetFields": [
+                "temperature",
+                "humidity",
+                "timestamp",
+                "anotherField"
+            ]
+        }
+    },
+    {
         "id": 3,
         "cols": 2,
         "rows": 2,

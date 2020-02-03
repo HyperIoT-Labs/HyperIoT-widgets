@@ -1,3 +1,5 @@
 .test-widget {
     position: relative;
+    height: 400px;
+    display: block;
 }
