@@ -18,11 +18,14 @@ import { DashboardOfflineDataService } from '@hyperiot/core';
 export class OfflineHpacketTableComponent extends WidgetComponent {
 
   callBackEnd: boolean = false;
-  dataSource: MatTableDataSource<Map<string, any>>;
+  dataSource: MatTableDataSource<Object>;
+  DEFAULT_MAX_TABLE_LINES: number = 100;
   displayedColumns: string[];
   hPacketId: number;
+  isPaused: boolean;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   provaMap: Map<number, any[]>;
+  timestamp = new Date();
 
   constructor(public dataStreamService: DataStreamService,
     private dashboardOfflineDataService: DashboardOfflineDataService) {
@@ -30,7 +33,6 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
   }
 
   configure() {
-    console.log(this.widget.config);
     super.configure();
     if (!(this.widget.config != null
       && this.widget.config.packetId != null
@@ -38,15 +40,20 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
       && Object.keys(this.widget.config.packetFields).length > 0)) {
       this.isConfigured = false;
       // set callback end
-      this.callBackEnd = true;
+      setTimeout(() => {
+        this.callBackEnd = true;
+      }, 500);
       return;
     }
     // reset fields
     this.displayedColumns = [];
-    this.dataSource = new MatTableDataSource<Map<string, any>>();
+    //this.dataSource = new MatTableDataSource<Map<string, any>>();
+    this.dataSource = new MatTableDataSource<Object>();
     this.provaMap = new Map<number, any[]>();
     // Set Callback End
-    this.callBackEnd = true;
+    setTimeout(() => {
+      this.callBackEnd = true;
+    }, 500);
     // set widget data configuration
     this.hPacketId = this.widget.config.packetId;
     this.displayedColumns = this.widget.config.packetFields;
@@ -55,6 +62,22 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
       this.displayedColumns = [];
       fieldIds.forEach(hPacketFieldId => this.displayedColumns.push(this.widget.config.packetFields[hPacketFieldId]));
     }
+    // subscribe data stream
+    const dataPacketFilter = new DataPacketFilter(this.hPacketId, this.widget.config.packetFields, true);
+    this.subscribeDataStream(dataPacketFilter);
+  }
+
+  private subscribeDataStream(dataPacketFilter: DataPacketFilter): void {
+    let array: Object[] = [];
+    let maxTableLines = this.widget.config.maxLogLines? this.widget.config.maxLogLines : this.DEFAULT_MAX_TABLE_LINES;
+    this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
+      if (this.isPaused)
+        return;
+      array.unshift(eventData[1]);
+      if (array.length > maxTableLines)
+        array.pop();
+      this.dataSource = new MatTableDataSource<Object>(array);
+    });
   }
 
   private setDatasource(): void {
@@ -62,35 +85,36 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
     // per ora non è così visto che non si sa a quale azione il service si collegherà
     // quindi alla richiesta di aggiornamento si invocherà il metodo del service che recupera tutti i pacchetti
     
-    this.dashboardOfflineDataService.getHPacketMap(1580296888685, 1580296974843).subscribe((response: any) => {
-      let array: Map<string, any>[] = [];
-      console.log(response);
-      if(response[0]["hPacketId"] === this.hPacketId) {
-        response[0]["values"].forEach(hPacket => {
-          let cells: Map<string, any> = new Map();
-          if(hPacket["fields"]) {
-            this.displayedColumns.forEach(column => {
-              if(hPacket["fields"]["map"][column]) {
-                let type: string = hPacket["fields"]["map"][column]["type"] ? 
-                    hPacket["fields"]["map"][column]["type"].toLowerCase() : null;
-                if(type) {
-                  type = (type === "timestamp" ? "long" : type);
-                  cells.set(column, hPacket["fields"]["map"][column]["value"] && hPacket["fields"]["map"][column]["value"][type] ? 
-                    hPacket["fields"]["map"][column]["value"][type] : "-");
+    if (this.isPaused) {  // realtime streaming is in pause, widget can receive offline data
+      this.dashboardOfflineDataService.getHPacketMap(1580296888685, 1580296974843).subscribe((response: any) => {
+        let array: Object[] = [];
+        if(response[0]["hPacketId"] === this.hPacketId) {
+          response[0]["values"].forEach(hPacket => {
+            let cells: Object = new Object();
+            if(hPacket["fields"]) {
+              this.displayedColumns.forEach(column => {
+                if(hPacket["fields"]["map"][column]) {
+                  let type: string = hPacket["fields"]["map"][column]["type"] ? 
+                      hPacket["fields"]["map"][column]["type"].toLowerCase() : null;
+                  if(type) {
+                    type = (type === "timestamp" ? "long" : type);
+                    cells[column] = hPacket["fields"]["map"][column]["value"] && hPacket["fields"]["map"][column]["value"][type] ? 
+                      hPacket["fields"]["map"][column]["value"][type] : "-";
+                  }
+                  else
+                    cells[column] = "-";
                 }
                 else
-                  cells.set(column, "-");
-              }
-              else
-                cells.set(column, "-");
-            });
-            array.push(cells);
-          }
-        });
-      }
-      this.dataSource = new MatTableDataSource<Map<string, any>>(array);
-      this.dataSource.paginator = this.paginator;
-    });
+                  cells[column] = "-";
+              });
+              array.push(cells);
+            }
+          });
+        }
+        this.dataSource = new MatTableDataSource<Object>(array);
+        this.dataSource.paginator = this.paginator;
+      });
+    }
   }
 
   getOfflineData(startDate: Date, endDate: Date) {
@@ -100,19 +124,24 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
   onToolbarAction(action: string) {
     switch (action) {
       case 'toolbar:refresh':
-        console.log(this.widget.config);
         this.setDatasource();
+        break;
+      case 'toolbar:play':
+        this.play();
+        break;
+      case 'toolbar:pause':
+        this.pause();
         break;
     }
     this.widgetAction.emit({ widget: this.widget, action });
   }
 
   play(): void {
-    throw new Error('Method not implemented.');
+    this.isPaused = false;
   }
 
   pause(): void {
-    throw new Error('Method not implemented.');
+    this.isPaused = true;
   }
 
 }

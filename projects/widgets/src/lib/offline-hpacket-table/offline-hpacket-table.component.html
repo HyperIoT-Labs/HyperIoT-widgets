@@ -15,7 +15,7 @@
                 <ng-container matColumnDef={{column}}>
                     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                     <td mat-cell *matCellDef="let element"> 
-                        {{element.get(column)}}
+                        {{element[column]}}
                     </td>
                 </ng-container>
             </div>
@@ -27,8 +27,9 @@
 
     <hyperiot-common-toolbar *ngIf="callBackEnd" (action)="onToolbarAction($event)" [config]="{
         showClose: true,
-        showSettings: true,
-        showRefresh: true
+        showPlay: true,
+        showRefresh: true,
+        showSettings: true
     }"></hyperiot-common-toolbar>
 
     <hyperiot-common-toolbar *ngIf="!callBackEnd" (action)="onToolbarAction($event)" [config]="{
