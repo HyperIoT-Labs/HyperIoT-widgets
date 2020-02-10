@@ -23,7 +23,7 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
   displayedColumns: string[];
   hPacketId: number;
   isPaused: boolean;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   provaMap: Map<number, any[]>;
   timestamp = new Date();
 
@@ -65,11 +65,14 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
     // subscribe data stream
     const dataPacketFilter = new DataPacketFilter(this.hPacketId, this.widget.config.packetFields, true);
     this.subscribeDataStream(dataPacketFilter);
+
+    this.setDatasource();
+
   }
 
   private subscribeDataStream(dataPacketFilter: DataPacketFilter): void {
     let array: Object[] = [];
-    let maxTableLines = this.widget.config.maxLogLines? this.widget.config.maxLogLines : this.DEFAULT_MAX_TABLE_LINES;
+    let maxTableLines = this.widget.config.maxLogLines ? this.widget.config.maxLogLines : this.DEFAULT_MAX_TABLE_LINES;
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
       if (this.isPaused)
         return;
@@ -84,36 +87,37 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
     // ci sarà un metodo che recupererà solo i pacchetti che gli interessano
     // per ora non è così visto che non si sa a quale azione il service si collegherà
     // quindi alla richiesta di aggiornamento si invocherà il metodo del service che recupera tutti i pacchetti
-    
+
     if (this.isPaused) {  // realtime streaming is in pause, widget can receive offline data
-      this.dashboardOfflineDataService.getHPacketMap(1580296888685, 1580296974843).subscribe((response: any) => {
-        let array: Object[] = [];
-        if(response[0]["hPacketId"] === this.hPacketId) {
-          response[0]["values"].forEach(hPacket => {
-            let cells: Object = new Object();
-            if(hPacket["fields"]) {
+
+      this.dashboardOfflineDataService.getPacketDataSubject(this.hPacketId).subscribe(
+        res => {
+          const array: Object[] = [];
+          res.forEach(hPacket => {
+            const cells: Object = new Object();
+            if (hPacket['fields']) {
               this.displayedColumns.forEach(column => {
-                if(hPacket["fields"]["map"][column]) {
-                  let type: string = hPacket["fields"]["map"][column]["type"] ? 
-                      hPacket["fields"]["map"][column]["type"].toLowerCase() : null;
-                  if(type) {
-                    type = (type === "timestamp" ? "long" : type);
-                    cells[column] = hPacket["fields"]["map"][column]["value"] && hPacket["fields"]["map"][column]["value"][type] ? 
-                      hPacket["fields"]["map"][column]["value"][type] : "-";
+                if (hPacket['fields']['map'][column]) {
+                  let type: string = hPacket['fields']['map'][column]['type'] ?
+                    hPacket['fields']['map'][column]['type'].toLowerCase() : null;
+                  if (type) {
+                    type = (type === 'timestamp' ? 'long' : type);
+                    cells[column] = hPacket['fields']['map'][column]['value'] && hPacket['fields']['map'][column]['value'][type] ?
+                      hPacket['fields']['map'][column]['value'][type] : '-';
+                  } else {
+                    cells[column] = '-';
                   }
-                  else
-                    cells[column] = "-";
+                } else {
+                  cells[column] = '-';
                 }
-                else
-                  cells[column] = "-";
               });
               array.push(cells);
             }
           });
-        }
-        this.dataSource = new MatTableDataSource<Object>(array);
-        this.dataSource.paginator = this.paginator;
-      });
+
+          this.dataSource = new MatTableDataSource<Object>(array);
+          this.dataSource.paginator = this.paginator;
+        });
     }
   }
 
@@ -123,9 +127,6 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
 
   onToolbarAction(action: string) {
     switch (action) {
-      case 'toolbar:refresh':
-        this.setDatasource();
-        break;
       case 'toolbar:play':
         this.play();
         break;
