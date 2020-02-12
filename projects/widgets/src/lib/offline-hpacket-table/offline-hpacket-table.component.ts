@@ -1,13 +1,9 @@
-import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
-
-import { DataStreamService, DataPacketFilter } from '@hyperiot/core';
-
-import { WidgetsService } from '../widgets.service';
-import { WidgetComponent } from '../widget.component';
-
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { DashboardOfflineDataService } from '@hyperiot/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { DashboardOfflineDataService, DataPacketFilter, DataStreamService } from '@hyperiot/core';
+import { Subscription } from 'rxjs';
+import { WidgetComponent } from '../widget.component';
 
 @Component({
   selector: 'hyperiot-offline-hpacket-table',
@@ -17,9 +13,9 @@ import { DashboardOfflineDataService } from '@hyperiot/core';
 })
 export class OfflineHpacketTableComponent extends WidgetComponent {
 
-  callBackEnd: boolean = false;
-  dataSource: MatTableDataSource<Object>;
-  DEFAULT_MAX_TABLE_LINES: number = 100;
+  callBackEnd = false;
+  dataSource: MatTableDataSource<object>;
+  DEFAULT_MAX_TABLE_LINES = 100;
   displayedColumns: string[];
   hPacketId: number;
   isPaused: boolean;
@@ -27,8 +23,12 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
   provaMap: Map<number, any[]>;
   timestamp = new Date();
 
-  constructor(public dataStreamService: DataStreamService,
-    private dashboardOfflineDataService: DashboardOfflineDataService) {
+  offlineDataSubscription: Subscription;
+
+  constructor(
+    public dataStreamService: DataStreamService,
+    private dashboardOfflineDataService: DashboardOfflineDataService
+  ) {
     super(dataStreamService);
   }
 
@@ -43,12 +43,13 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
       setTimeout(() => {
         this.callBackEnd = true;
       }, 500);
+      this.setDatasource();
       return;
     }
     // reset fields
     this.displayedColumns = [];
     //this.dataSource = new MatTableDataSource<Map<string, any>>();
-    this.dataSource = new MatTableDataSource<Object>();
+    this.dataSource = new MatTableDataSource<object>();
     this.provaMap = new Map<number, any[]>();
     // Set Callback End
     setTimeout(() => {
@@ -71,15 +72,17 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
   }
 
   private subscribeDataStream(dataPacketFilter: DataPacketFilter): void {
-    let array: Object[] = [];
-    let maxTableLines = this.widget.config.maxLogLines ? this.widget.config.maxLogLines : this.DEFAULT_MAX_TABLE_LINES;
+    const array: object[] = [];
+    const maxTableLines = this.widget.config.maxLogLines ? this.widget.config.maxLogLines : this.DEFAULT_MAX_TABLE_LINES;
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
-      if (this.isPaused)
+      if (this.isPaused) {
         return;
+      }
       array.unshift(eventData[1]);
-      if (array.length > maxTableLines)
+      if (array.length > maxTableLines) {
         array.pop();
-      this.dataSource = new MatTableDataSource<Object>(array);
+      }
+      this.dataSource = new MatTableDataSource<object>(array);
     });
   }
 
@@ -90,20 +93,24 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
 
     if (this.isPaused) {  // realtime streaming is in pause, widget can receive offline data
 
-      this.dashboardOfflineDataService.getPacketDataSubject(this.hPacketId).subscribe(
+      // TODO make unsubscribe previous subscribtion
+      if (this.offlineDataSubscription) {
+        this.offlineDataSubscription.unsubscribe();
+      }
+      this.offlineDataSubscription = this.dashboardOfflineDataService.getPacketDataSubject(this.hPacketId).subscribe(
         res => {
-          const array: Object[] = [];
+          const array: object[] = [];
           res.forEach(hPacket => {
-            const cells: Object = new Object();
-            if (hPacket['fields']) {
+            const cells: object = new Object();
+            if (hPacket.fields) {
               this.displayedColumns.forEach(column => {
-                if (hPacket['fields']['map'][column]) {
-                  let type: string = hPacket['fields']['map'][column]['type'] ?
-                    hPacket['fields']['map'][column]['type'].toLowerCase() : null;
+                if (hPacket.fields.map[column]) {
+                  let type: string = hPacket.fields.map[column].type ?
+                    hPacket.fields.map[column].type.toLowerCase() : null;
                   if (type) {
                     type = (type === 'timestamp' ? 'long' : type);
-                    cells[column] = hPacket['fields']['map'][column]['value'] && hPacket['fields']['map'][column]['value'][type] ?
-                      hPacket['fields']['map'][column]['value'][type] : '-';
+                    cells[column] = hPacket.fields.map[column].value && hPacket.fields.map[column].value[type] ?
+                      hPacket.fields.map[column].value[type] : '-';
                   } else {
                     cells[column] = '-';
                   }
@@ -114,8 +121,7 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
               array.push(cells);
             }
           });
-
-          this.dataSource = new MatTableDataSource<Object>(array);
+          this.dataSource = new MatTableDataSource<object>(array);
           this.dataSource.paginator = this.paginator;
         });
     }
