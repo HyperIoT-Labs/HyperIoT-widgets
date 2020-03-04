@@ -20,6 +20,8 @@ import { GaugeValueComponent } from './gauge-value/gauge-value.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
+import { ComponentsModule } from '@hyperiot/components'
+
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
 import { OfflineHpacketTableComponent } from './offline-hpacket-table/offline-hpacket-table.component';
@@ -42,6 +44,7 @@ export { PlotlyModule, PlotlyJS };
     BrowserModule,
     HttpClientModule,
     PlotlyModule,
+    ComponentsModule,
     MatTableModule,
     MatPaginatorModule,
     MomentModule.forRoot({
@@ -65,7 +68,7 @@ export { PlotlyModule, PlotlyJS };
     GaugeValueComponent,
     OfflineHpacketTableComponent
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class WidgetsModule { }
 

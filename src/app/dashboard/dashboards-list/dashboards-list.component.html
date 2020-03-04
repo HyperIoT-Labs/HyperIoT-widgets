@@ -1,5 +1,8 @@
 <h2>Dashboard List</h2>
 
+<hyt-lazy-pagination-table [totalRows]="123" [headers]="['random', 'random2']" [pageData]="[]"
+(pageRequest)="null"></hyt-lazy-pagination-table>
+
 <p *ngIf="dashboardList.length === 0">No dashboards found for this user</p>
 <ul>
     <ng-container *ngFor="let dashboard of dashboardList">
