@@ -83,7 +83,7 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
         this.array.pop();
       }
       // TODO modify totalLength only and avoid resetTable()
-      this.tableChild.resetTable(this.array.length);
+      this.tableChild.resetTable(this.array.length, false);
     });
   }
 
@@ -101,7 +101,7 @@ export class OfflineHpacketTableComponent extends WidgetComponent {
     this.offlineDataSubscription = this.dashboardOfflineDataService.getPacketDataSubject(this.hPacketId).subscribe(
       res => {
         this.totalLength = res;
-        this.tableChild.resetTable(this.totalLength);
+        this.tableChild.resetTable(this.totalLength, true);
       });
   }
 
