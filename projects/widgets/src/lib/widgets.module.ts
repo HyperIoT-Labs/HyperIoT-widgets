@@ -24,7 +24,8 @@ import { ComponentsModule } from '@hyperiot/components'
 
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
-import { OfflineHpacketTableComponent } from './offline-hpacket-table/offline-hpacket-table.component';
+import { HpacketTableComponent } from './hpacket-table/hpacket-table.component';
+import { RealtimeHPacketTableComponent } from './realtime-hpacket-table/realtime-hpacket-table.component';
 PlotlyModule.plotlyjs = PlotlyJS;
 export { PlotlyModule, PlotlyJS };
 
@@ -38,7 +39,8 @@ export { PlotlyModule, PlotlyJS };
     StatsChartComponent,
     TimeChartComponent,
     GaugeValueComponent,
-    OfflineHpacketTableComponent
+    HpacketTableComponent,
+    RealtimeHPacketTableComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +68,8 @@ export { PlotlyModule, PlotlyJS };
     StatsChartComponent,
     TimeChartComponent,
     GaugeValueComponent,
-    OfflineHpacketTableComponent
+    HpacketTableComponent,
+    RealtimeHPacketTableComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
