@@ -15,7 +15,7 @@ export class HpacketTableComponent extends WidgetComponent {
   hPacketId: number;
   isPaused: boolean;
   DEFAULT_MAX_TABLE_LINES = 1000;
-  @ViewChild('tableChild', { static: false }) tableChild;
+  @ViewChild('tableChild') tableChild;
   array: object[] = [];
   pRequest;
   tableSource: Subject<any[]> = new Subject<any[]>();

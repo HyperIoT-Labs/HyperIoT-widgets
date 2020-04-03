@@ -1,6 +1,6 @@
 <div class="dialog d-flex flex-column align-self-center">
 
-    <header i18n="@@widgetSettingsDialog-header">HYT_widget_settings_title</header>
+    <header i18n="@@HYT_widget_settings_title">Widget Settings</header>
 
     <form class="content flex-grow-1" #settingsForm="ngForm">
 
@@ -9,16 +9,14 @@
                 <div class="padding-6 d-flex flex-column align-items-stretch">
                     <label for="name"
                         [ngClass]="{'error-color': name.invalid}"
-                        i18n="@@widgetSettingsDialog-lbl-name">
-                        HYT_widget_settings_name
-                    </label>
+                        i18n="@@HYT_widget_settings_name">Name</label>
                     <input name="name" id="name" type="text"
                         [(ngModel)]="widgetName" #name="ngModel"
                         required
                         pattern="[A-Za-z0-9 ]*">
                 </div>
                 <div class="padding-6 d-flex flex-column align-items-stretch">
-                    <label i18n="@@widgetSettingsDialog-lbl-type">HYT_widget_settings_type</label>
+                    <label i18n="@@HYT_widget_settings_type">Type</label>
                     {{ widget.type }}
                 </div>
                 <div class="padding-6 d-flex flex-column align-items-stretch">
@@ -58,10 +56,10 @@
 
     <footer class="d-flex flex-row align-items-center justify-content-end">
         <button class="button-confirm" (click)="confirm($event)" [disabled]="settingsForm.invalid">
-            <span i18n="@@widgetSettingsDialog-btn-apply">HYT_widget_settings_apply</span> &#10004;
+            <span i18n="@@HYT_widget_settings_apply">Apply</span> &#10004;
         </button>
         <button class="button-close" (click)="close($event)">
-            <span i18n="@@widgetSettingsDialog-btn-cancel">HYT_widget_settings_cancel</span> &#10006;
+            <span i18n="@@HYT_widget_settings_cancel">Cancel</span> &#10006;
         </button>
     </footer>
 
