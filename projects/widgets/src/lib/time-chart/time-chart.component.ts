@@ -128,7 +128,16 @@ export class TimeChartComponent extends WidgetChartComponent {
         const fieldId = this.getFieldIdFromName(k);
         this.mapField(fieldId, (fieldName, mappedField) => {
           let value = field[k];
-          const series = this.chartData.find((ts) => ts.name === fieldName);
+          let series = null;
+          let seriesIndex = -1;
+          for (let s = 0; s < this.chartData.length; s++) {
+              const cs = this.chartData[s];
+              if (cs.name === fieldName) {
+                  series = cs;
+                  seriesIndex = s;
+                  break;
+              }
+          }
           if (series != null) {
             if (mappedField) {
               mappedField.coords.split(',').forEach((c) => {
@@ -149,9 +158,16 @@ export class TimeChartComponent extends WidgetChartComponent {
                 value = (+value).toFixed(unitConversion.decimals);
               }
             }
-            // Add processed value to time-series 
+            // Add processed value to time-series
             this.addTimeSeriesData(series, date, value);
-          }
+            const Plotly = this.plotly.getPlotly();
+            const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
+            if (graph) {
+                Plotly.extendTraces(graph, {
+                    x: [[date]],
+                    y: [[value]]
+                }, [seriesIndex]);
+            }}
         });
       });
     });
