@@ -26,6 +26,7 @@ import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
 import { HpacketTableComponent } from './hpacket-table/hpacket-table.component';
 import { RealtimeHPacketTableComponent } from './realtime-hpacket-table/realtime-hpacket-table.component';
+import { FourierChartComponent } from './fourier-chart/fourier-chart.component';
 PlotlyModule.plotlyjs = PlotlyJS;
 export { PlotlyModule, PlotlyJS };
 
@@ -38,6 +39,7 @@ export { PlotlyModule, PlotlyJS };
     SensorValueComponent,
     StatsChartComponent,
     TimeChartComponent,
+    FourierChartComponent,
     GaugeValueComponent,
     HpacketTableComponent,
     RealtimeHPacketTableComponent
@@ -67,6 +69,7 @@ export { PlotlyModule, PlotlyJS };
     SensorValueComponent,
     StatsChartComponent,
     TimeChartComponent,
+    FourierChartComponent,
     GaugeValueComponent,
     HpacketTableComponent,
     RealtimeHPacketTableComponent
