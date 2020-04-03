@@ -20,14 +20,12 @@ import { GaugeValueComponent } from './gauge-value/gauge-value.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
-import { ComponentsModule } from '@hyperiot/components'
+import { ComponentsModule } from '@hyperiot/components';
 
-import * as PlotlyJS from 'plotly.js/dist/plotly.js';
-import { PlotlyModule } from 'angular-plotly.js';
 import { HpacketTableComponent } from './hpacket-table/hpacket-table.component';
 import { RealtimeHPacketTableComponent } from './realtime-hpacket-table/realtime-hpacket-table.component';
-PlotlyModule.plotlyjs = PlotlyJS;
-export { PlotlyModule, PlotlyJS };
+
+import { PlotlyModule } from 'angular-plotly.js';
 
 @NgModule({
   declarations: [

@@ -1,130 +1,151 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="en" datatype="plaintext" original="ng2.template">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
-      <!-- HyperIoT-widgets library TODO: this is not working -->
-      <trans-unit id="widgetsToolbar-title-play" datatype="html">
-        <source>HYT_toolbar_play</source>
+      <trans-unit id="HYT_toolbar_settings" datatype="html">
+        <source>Settings</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+          <context context-type="sourcefile">projects/widgets/src/lib/common-toolbar/common-toolbar.component.html</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="widgetsToolbar-title-pause" datatype="html">
-        <source>HYT_toolbar_pause</source>
+      <trans-unit id="HYT_toolbar_refresh" datatype="html">
+        <source>Refresh</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+          <context context-type="sourcefile">projects/widgets/src/lib/common-toolbar/common-toolbar.component.html</context>
+          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="widgetsToolbar-title-chartview" datatype="html">
-        <source>HYT_toolbar_chart_view</source>
+      <trans-unit id="HYT_toolbar_close" datatype="html">
+        <source>Close</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+          <context context-type="sourcefile">projects/widgets/src/lib/common-toolbar/common-toolbar.component.html</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="widgetsToolbar-title-tableview" datatype="html">
-        <source>HYT_toolbar_table_view</source>
+      <trans-unit id="HYT_toolbar_move" datatype="html">
+        <source>Move</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+          <context context-type="sourcefile">projects/widgets/src/lib/common-toolbar/common-toolbar.component.html</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="widgetsToolbar-title-settings" datatype="html">
-        <source>HYT_toolbar_settings</source>
+      <trans-unit id="HYT_common_not_configured" datatype="html">
+        <source>Click &apos;Settings&apos; button to configure.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
+          <context context-type="sourcefile">projects/widgets/src/lib/sensor-value/sensor-value.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">projects/widgets/src/lib/stats-chart/stats-chart.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">projects/widgets/src/lib/time-chart/time-chart.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">projects/widgets/src/lib/gauge-value/gauge-value.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">projects/widgets/src/lib/hpacket-table/hpacket-table.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">projects/widgets/src/lib/realtime-hpacket-table/realtime-hpacket-table.component.html</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="widgetsToolbar-title-refresh" datatype="html">
-        <source>HYT_toolbar_refresh</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="widgetsToolbar-title-close" datatype="html">
-        <source>HYT_toolbar_close</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="widgetsToolbar-title-move" datatype="html">
-        <source>HYT_toolbar_move</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/widgets/src/lib//common-toolbar/common-toolbar.component.html</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="widgetsCommon-msg-notconfigured" datatype="html">
-        <source>HYT_common_not_configured</source>
-      </trans-unit>
-      <!-- HyperIoT-widgets test application -->
-      <trans-unit id="addWidgetDialog-header" datatype="html">
-        <source>HYT_widget_add_widget</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/dashboard/add-widget-dialog/add-widget-dialog.component.html</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="addWidgetDialog-btn-add" datatype="html">
-        <source>HYT_widget_add</source>
+      <trans-unit id="HYT_widget_add_widget" datatype="html">
+        <source>Add Widget</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/dashboard/add-widget-dialog/add-widget-dialog.component.html</context>
+          <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="addWidgetDialog-btn-cancel" datatype="html">
-        <source>HYT_widget_cancel</source>
+      <trans-unit id="HYT_widget_cancel" datatype="html">
+        <source>Cancel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/dashboard/add-widget-dialog/add-widget-dialog.component.html</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="dashboardButtonSave" datatype="html">
-        <source>HYT_dashboard_save</source>
+      <trans-unit id="HYT_widget_add" datatype="html">
+        <source>Add</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/add-widget-dialog/add-widget-dialog.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="HYT_widget_settings_title" datatype="html">
+        <source>Widget Settings</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/widget-settings-dialog.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="HYT_widget_settings_name" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/widget-settings-dialog.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="HYT_widget_settings_type" datatype="html">
+        <source>Type</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/widget-settings-dialog.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="HYT_widget_settings_apply" datatype="html">
+        <source>Apply</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/widget-settings-dialog.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="HYT_widget_settings_cancel" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/widget-settings-dialog.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="HYT_dashboard_save" datatype="html">
+        <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/dashboard/dashboard-view/dashboard-view.component.html</context>
+          <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="dashboardButtonAddWidget" datatype="html">
-        <source>HYT_dashboard_add_widget</source>
+      <trans-unit id="HYT_dashboard_add_widget" datatype="html">
+        <source>Add widget</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/dashboard/dashboard-view/dashboard-view.component.html</context>
+          <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="widgetSettingsDialog-header" datatype="html">
-        <source>HYT_widget_settings_title</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/widget-settings-dialog.component.html</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="widgetSettingsDialog-lbl-name" datatype="html">
-        <source>HYT_widget_settings_name</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/widget-settings-dialog.component.html</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="widgetSettingsDialog-lbl-type" datatype="html">
-        <source>HYT_widget_settings_type</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/widget-settings-dialog.component.html</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="widgetSettingsDialog-btn-apply" datatype="html">
-        <source>HYT_widget_settings_apply</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/widget-settings-dialog.component.html</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="widgetSettingsDialog-btn-cancel" datatype="html">
-        <source>HYT_widget_settings_cancel</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/widget-settings-dialog.component.html</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="widgetSettingsDialog/packet-lbl-type" datatype="html">
-        <source>HYT_widget_settings_select_packet</source>
+      <trans-unit id="HYT_widget_settings_select_packet" datatype="html">
+        <source>Select packet</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/packet-select/packet-select.component.html</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="widgetSettingsDialog/packet-lbl-fields" datatype="html">
-        <source>HYT_widget_settings_select_fields</source>
+      <trans-unit id="HYT_widget_settings_select_fields" datatype="html">
+        <source>Select <x id="ICU" equiv-text="{multiPacketSelect?1:0, plural, =0 {...} other {...}}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/packet-select/packet-select.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6d3feb249c00ea98965786667429fa0079d9979f" datatype="html">
+        <source>{VAR_PLURAL, plural, =0 {field} other {fields} }</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/widget-settings-dialog/packet-select/packet-select.component.html</context>
+          <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
     </body>

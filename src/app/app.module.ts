@@ -3,9 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-// Internationalization
-import { I18n } from '@ngx-translate/i18n-polyfill';
-
 // App-specific imports
 
 import { AppRoutingModule } from './app-routing.module';
@@ -22,7 +19,7 @@ import { AddWidgetDialogComponent } from './dashboard/add-widget-dialog/add-widg
 
 import {
   WidgetsModule
-} from '@hyperiot/widgets';
+} from 'dist/widgets';
 
 import {
   Configuration,
@@ -44,6 +41,11 @@ import { StatsChartSettingsComponent } from './dashboard/widget-settings-dialog/
 import { SensorValueSettingsComponent } from './dashboard/widget-settings-dialog/sensor-value-settings/sensor-value-settings.component';
 import { PacketSelectComponent } from './dashboard/widget-settings-dialog/packet-select/packet-select.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { PlotlyModule } from 'angular-plotly.js';
+
+PlotlyModule.plotlyjs = PlotlyJS;
 
 // use the require method provided by webpack
 declare const require;
@@ -87,22 +89,12 @@ export function apiConfigFactory(): Configuration {
     CoreModule,
     HyperiotBaseModule,
     HUserClientModule.forRoot(apiConfigFactory),
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     AuthenticationService,
     DashboardConfigService,
-    DashboardwidgetsService,
-    I18n,
-    { provide: TRANSLATIONS_FORMAT, useValue: 'xlf' },
-    {
-      provide: TRANSLATIONS,
-      useFactory: (locale) => {
-        locale = locale || 'en-US'; // default to english if no locale provided
-        return require(`raw-loader!../locale/translations.${locale}.xlf`);
-      },
-      deps: [LOCALE_ID]
-    }
+    DashboardwidgetsService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -4,10 +4,18 @@
   "newProjectRoot": "projects",
   "projects": {
     "HyperIoT-widgets": {
+      "i18n": {
+        "locales": {
+          "it-IT": {
+            "translation": "src/locale/translations.it-IT.xlf",
+            "baseHref": ""
+          }
+        }
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "root": "",
@@ -17,6 +25,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/HyperIoT-widgets",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -54,10 +63,20 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             },
             "production-it": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -76,36 +95,16 @@
             },
             "it": {
               "aot": true,
-              "outputPath": "dist/hyperiot-it/",
-              "i18nFile": "src/locale/translations.it-IT.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "it-IT",
-              "i18nMissingTranslation": "error"
-            },
-            "production-en": {
-              "fileReplacements": [
+              "budgets": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            },
-            "en": {
-              "aot": true,
-              "outputPath": "dist/hyperiot-en/",
-              "i18nFile": "src/locale/translations.en-US.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "en-US",
-              "i18nMissingTranslation": "error"
+              "outputPath": "dist/hyperiot-it/",
+              "i18nFile": "src/locale/translations.it-IT.xlf",
+              "i18nLocale": "it-IT",
+              "i18nMissingTranslation": "warning"
             }
           }
         },
@@ -120,9 +119,6 @@
             },
             "it": {
               "browserTarget": "HyperIoT-widgets:build:it"
-            },
-            "en": {
-              "browserTarget": "HyperIoT-widgets:build:en"
             }
           }
         },
@@ -188,6 +184,11 @@
           "options": {
             "tsConfig": "projects/widgets/tsconfig.lib.json",
             "project": "projects/widgets/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/widgets/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -213,5 +214,8 @@
       }
     }
   },
-  "defaultProject": "HyperIoT-widgets"
+  "defaultProject": "HyperIoT-widgets",
+  "cli": {
+    "analytics": false
+  }
 }

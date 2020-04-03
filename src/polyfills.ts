@@ -63,3 +63,5 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 // patch to make 'convert-units' package work
 (window as any).global = window;
+
+import '@angular/localize/init';
