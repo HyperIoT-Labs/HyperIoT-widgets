@@ -166,19 +166,11 @@ export class TimeChartComponent extends WidgetChartComponent {
                 Plotly.extendTraces(graph, {
                     x: [[date]],
                     y: [[value]]
-                }, [seriesIndex]);
+                }, [seriesIndex], this.widget.config.maxDataPoints);
             }}
         });
       });
     });
-    /*
-    // get some history data to prepend to
-    // the realtime data before now
-    const startDate = new Date();
-    const pastDate = new Date(startDate.getTime());
-    pastDate.setDate(pastDate.getDate() - 1);
-    this.getOfflineData(pastDate, startDate);
-    */
   }
 
   onToolbarAction(action: string) {

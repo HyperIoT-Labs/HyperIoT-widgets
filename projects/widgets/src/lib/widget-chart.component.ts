@@ -7,12 +7,6 @@ import { PlotlyService } from 'angular-plotly.js';
 import { WidgetComponent } from './widget.component';
 import { TimeSeries } from './data/time-series';
 
-interface BufferedData {
-  series: TimeSeries;
-  x: Date[];
-  y: number[];
-}
-
 @Component({
   selector: 'hyperiot-widget-chart',
   template: ''
@@ -106,7 +100,6 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
   };
   isPaused: boolean;
 
-  private dataBuffer: BufferedData[] = [];
   private defaultSeriesConfig = {
     type: 'scatter',
     mode: 'lines+markers',
@@ -151,34 +144,6 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
 
   play(): void {
     this.isPaused = false;
-    if (this.dataBuffer != null) {
-      this.dataBuffer.forEach((bd) => {
-        bd.series.x.push(...bd.x);
-        bd.series.y.push(...bd.y);
-        // keeps data length < this.maxDataPoints
-        this.applySizeConstraints(bd.series);
-      });
-      this.dataBuffer = [];
-    }
-  }
-
-  getOfflineData(startDate: Date, endDate: Date): any {
-    // TODO: this method returns currently mocked data
-    const timeSeriesArray = [];
-    if (this.dataChannel != null) {
-      this.dataChannel.packet.fields.forEach((fieldName) => {
-        const timeSeries = new TimeSeries(fieldName + '-history');
-        timeSeries.randomize(startDate, endDate, 60);
-        const series = this.graph.data.find((ts: TimeSeries) => ts.name === fieldName);
-        if (series != null) {
-          series.x.push(...timeSeries.x);
-          series.y.push(...timeSeries.y);
-        }
-        timeSeriesArray.push(timeSeries);
-      });
-    }
-    // TODO: where to push the new data?
-    return timeSeriesArray;
   }
 
   // WidgetChartComponent public methods
@@ -216,20 +181,9 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
    * @param y The y value (number)
    */
   addTimeSeriesData(series: TimeSeries, x: Date, y: number): void {
-    if (this.isPaused) {
-      let bufferedData: BufferedData = this.dataBuffer.find((bd) => bd.series === series);
-      if (bufferedData == null) {
-        bufferedData = {
-          series,
-          x: [], y: []
-        };
-        this.dataBuffer.push(bufferedData);
-      }
-      bufferedData.x.push(x);
-      bufferedData.y.push(y);
-      // keeps data length < this.maxDataPoints
-      this.applySizeConstraints(bufferedData);
-    } else {
+    if (!this.isPaused) {
+      // NOTE: `series` is just a local copy of chart data,
+      // NOTE: the real data is stored in the plotly graph object
       series.x.push(x);
       series.y.push(y);
       // keeps data length < this.maxDataPoints

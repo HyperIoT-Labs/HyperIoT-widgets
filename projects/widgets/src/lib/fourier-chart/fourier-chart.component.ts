@@ -122,6 +122,9 @@ export class FourierChartComponent extends WidgetChartComponent {
 
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
       const date = eventData[0];
+      // TODO: This code must be adapted to work with array of values
+      // TODO: This code must be adapted to work with array of values
+      // TODO: This code must be adapted to work with array of values
       const field = eventData[1];
       // Map received packet field to the corresponding time series
       Object.keys(field).map((k) => {
@@ -166,19 +169,11 @@ export class FourierChartComponent extends WidgetChartComponent {
                 Plotly.extendTraces(graph, {
                     x: [[date]],
                     y: [[value]]
-                }, [seriesIndex]);
+                }, [seriesIndex], this.widget.config.maxDataPoints);
             }}
         });
       });
     });
-    /*
-    // get some history data to prepend to
-    // the realtime data before now
-    const startDate = new Date();
-    const pastDate = new Date(startDate.getTime());
-    pastDate.setDate(pastDate.getDate() - 1);
-    this.getOfflineData(pastDate, startDate);
-    */
   }
 
   onToolbarAction(action: string) {
