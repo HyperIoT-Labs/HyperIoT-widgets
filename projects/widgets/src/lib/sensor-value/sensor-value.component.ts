@@ -34,9 +34,6 @@ export class SensorValueComponent extends WidgetComponent {
   play(): void {
     throw new Error('Method not implemented.');
   }
-  getOfflineData(startDate: Date, endDate: Date) {
-    throw new Error('Method not implemented.');
-  }
 
   onToolbarAction(action: string) {
     this.widgetAction.emit({ widget: this.widget, action });

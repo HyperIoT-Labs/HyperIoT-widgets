@@ -67,15 +67,6 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
   abstract play(): void;
 
   /**
-   * Get widget data in the specified date range
-   *
-   * @param startDate Data range start date
-   * @param endDate Data range end date
-   * @returns A futurable or the requested data
-   */
-  abstract getOfflineData(startDate: Date, endDate: Date): any;
-
-  /**
    * Set the real-time data stream the widget will receive data from
    *
    * @param packetFilter Packet id and data filters (only listed fields will be streamed to the widget)

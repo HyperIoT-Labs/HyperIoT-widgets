@@ -44,7 +44,4 @@ export class TextLabelComponent extends WidgetComponent implements OnInit, OnDes
   play(): void {
     throw new Error('Method not implemented.');
   }
-  getOfflineData(startDate: Date, endDate: Date) {
-    throw new Error('Method not implemented.');
-  }
 }

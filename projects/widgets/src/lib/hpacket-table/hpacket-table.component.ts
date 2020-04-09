@@ -79,10 +79,6 @@ export class HpacketTableComponent extends WidgetComponent {
       });
   }
 
-  getOfflineData(startDate: Date, endDate: Date) {
-    throw new Error('Method not implemented.');
-  }
-
   onToolbarAction(action: string) {
     switch (action) {
       case 'toolbar:play':

@@ -92,9 +92,6 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
   play(): void {
     this.isPaused = false;
   }
-  getOfflineData(startDate: Date, endDate: Date) {
-    throw new Error('Method not implemented.');
-  }
 
   onToolbarAction(action: string) {
     switch (action) {
