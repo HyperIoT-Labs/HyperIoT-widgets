@@ -126,12 +126,6 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
       const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
       if (graph != null) {
         Plotly.relayout(graph, { autosize: true });
-        // not sure how to get rid of this timeout
-        this.widget.resize = () => {
-          setTimeout(() => {
-            Plotly.relayout(graph, { autosize: true });
-          }, 200);
-        };
       }
     }, 1000);
   }
@@ -193,6 +187,17 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     }
   }
 
+  applyStoredConfig(timeSeriesData: any) {
+    const config = this.widget.config;
+    if (config.layout != null) {
+      Object.assign(this.graph.layout, config.layout);
+    }
+    const sc = config.seriesConfig.find((cfg) => cfg.series === timeSeriesData.name);
+    if (sc != null) {
+      Object.assign(timeSeriesData, sc.config);
+    }
+  }
+
   // Private methods
 
   private requestRelayout(lastEventDate: Date) {
@@ -229,17 +234,6 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
       }
     });
     */
-  }
-
-  private applyStoredConfig(timeSeriesData: any) {
-    const config = this.widget.config;
-    if (config.layout != null) {
-      Object.assign(this.graph.layout, config.layout);
-    }
-    const sc = config.seriesConfig.find((cfg) => cfg.series === timeSeriesData.name);
-    if (sc != null) {
-      Object.assign(timeSeriesData, sc.config);
-    }
   }
 
   private applySizeConstraints(data: { x: Date[], y: number[] }) {
