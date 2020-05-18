@@ -142,6 +142,9 @@ export class TimeChartComponent extends WidgetChartComponent {
             if (mappedField) {
               mappedField.coords.split(',').forEach((c) => {
                 value = value[+c];
+                // value might be an object with one field with the type name (eg. {double: 22.2})
+                const keys = Object.keys(value);
+                if (keys.length > 0) value = value[keys[0]];
               });
             }
             // Apply unit conversion to packet field if set

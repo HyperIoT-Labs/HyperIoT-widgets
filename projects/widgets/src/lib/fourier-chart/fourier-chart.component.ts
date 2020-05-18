@@ -90,13 +90,18 @@ export class FourierChartComponent extends WidgetChartComponent {
     const dataPacketFilter = new DataPacketFilter(cfg.packetId, cfg.packetFields);
 
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
+      console.log(eventData);
       const date = eventData[0]; // TODO: this field is actually ignored
       const field = eventData[1];
       // Map received packet field to the corresponding time series
       Object.keys(field).map((k) => {
         const fieldId = this.getFieldIdFromName(k);
         const fieldName = cfg.packetFields[fieldId];
-        const valuesArray = field[k];
+        const valuesArray = field[k].map(v => {
+          // value might be an object with one field with the type name (eg. {double: 22.2})
+          const keys = Object.keys(v);
+          return keys.length > 0 ? v[keys[0]] : v;
+        });
 
         if (!Array.isArray(valuesArray)) {
           console.log('WARNING: FourierChart input data is not an array!');
