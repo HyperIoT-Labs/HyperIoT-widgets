@@ -14,6 +14,8 @@ export class ImageDataComponent extends WidgetComponent implements OnInit {
   isActivityLedOn = false;
   dataUrl: any;
 
+  callBackEnd = false;
+
   private ledTimeout: any = null;
 
   constructor(
@@ -31,6 +33,10 @@ export class ImageDataComponent extends WidgetComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
+  onToolbarAction(action: string) {
+    this.widgetAction.emit({ widget: this.widget, action });
+  }
+
   ngOnInit(): void {
   }
 
@@ -41,8 +47,12 @@ export class ImageDataComponent extends WidgetComponent implements OnInit {
       && this.widget.config.packetFields != null
       && Object.keys(this.widget.config.packetFields).length > 0)) {
       this.isConfigured = false;
+      this.callBackEnd = true;
       return;
     }
+
+    // Set Callback End
+    this.callBackEnd = true;
 
     // subscribe data stream
     const cfg = this.widget.config;
