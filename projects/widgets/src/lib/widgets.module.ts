@@ -27,6 +27,7 @@ import { RealtimeHPacketTableComponent } from './realtime-hpacket-table/realtime
 import { FourierChartComponent } from './fourier-chart/fourier-chart.component';
 
 import { PlotlyModule } from 'angular-plotly.js';
+import { ImageDataComponent } from './image-data/image-data.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PlotlyModule } from 'angular-plotly.js';
     FourierChartComponent,
     GaugeValueComponent,
     HpacketTableComponent,
-    RealtimeHPacketTableComponent
+    RealtimeHPacketTableComponent,
+    ImageDataComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +72,8 @@ import { PlotlyModule } from 'angular-plotly.js';
     FourierChartComponent,
     GaugeValueComponent,
     HpacketTableComponent,
-    RealtimeHPacketTableComponent
+    RealtimeHPacketTableComponent,
+    ImageDataComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
