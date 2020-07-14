@@ -9,7 +9,7 @@
         </div>
     </div> <!-- END LOADER -->
   
-    <img *ngIf="isConfigured && callBackEnd" [src]="dataUrl" width="320" height="240">
+    <img *ngIf="isConfigured && callBackEnd" [src]="dataUrl" width="100%" height="auto" style="margin-top: 32px;">
 
     <div *ngIf="!isConfigured && callBackEnd" class="configure-notice">
         <div>

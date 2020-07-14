@@ -65,7 +65,12 @@ export class ImageDataComponent extends WidgetComponent implements OnInit {
       const fieldIds = Object.keys(cfg.packetFields);
       if (fieldIds.length > 0) {
         const name = cfg.packetFields[fieldIds[0]];
-        const imageData: number[] = field[name];
+        const imageData: number[] = field[name].map(v => {
+          // value might be an object with one field with the type name (eg. {double: 22.2})
+          const keys = Object.keys(v);
+          return keys.length > 0 ? v[keys[0]] : v;
+        });
+
         this.drawImage(cfg.imageWidth, cfg.imageHeight, imageData.map((m) => m >> 3 & 0xFF));
       }
     });
