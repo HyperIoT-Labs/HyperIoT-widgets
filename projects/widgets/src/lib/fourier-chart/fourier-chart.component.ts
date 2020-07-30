@@ -90,7 +90,6 @@ export class FourierChartComponent extends WidgetChartComponent {
     const dataPacketFilter = new DataPacketFilter(cfg.packetId, cfg.packetFields);
 
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
-      console.log(eventData);
       const date = eventData[0]; // TODO: this field is actually ignored
       const field = eventData[1];
       // Map received packet field to the corresponding time series
@@ -126,11 +125,14 @@ export class FourierChartComponent extends WidgetChartComponent {
 
           // recreate time ticks for all values in the current sample
           const timeOffset = this.widget.config.timeAxis ? date.getTime() : 0;
+          if (timeOffset > 0 && this.lastSampleTick === 0) {
+            this.lastSampleTick = timeOffset;
+          }
           const timestamps = [];
           for (let i = 0; i < valuesArray.length; i++) {
             const relativeTimestamp = this.lastSampleTick + sampleTick*i;
             if (timeOffset > 0) {
-              const ts = new Date((timeOffset + relativeTimestamp));
+              const ts = new Date(relativeTimestamp);
               timestamps.push(ts);
             } else {
               timestamps.push(relativeTimestamp);
@@ -151,8 +153,11 @@ export class FourierChartComponent extends WidgetChartComponent {
 
             // set x range to show only showSamples samples
             const showSamples = this.widget.config.showSamples || 2;
-            const rangeStart = timeOffset + this.samplesDuration - (this.widget.config.sampleRate * (showSamples - 1));
-            const rangeEnd = rangeStart + this.widget.config.sampleRate * showSamples;
+            let rangeStart = this.samplesDuration - (sampleDuration * (showSamples - 1));
+            if (this.widget.config.timeAxis) {
+              rangeStart = (this.lastSampleTick - sampleDuration) - (sampleDuration * (showSamples - 1));
+            }
+            const rangeEnd = rangeStart + (sampleDuration * showSamples);
             // relayout x-axis range with new data
             if (graph) {
               Plotly.relayout(graph, {
@@ -172,7 +177,7 @@ export class FourierChartComponent extends WidgetChartComponent {
               */
             }
 
-            this.samplesDuration += this.widget.config.sampleRate;
+            this.samplesDuration += sampleDuration;
           }
         }
       });
