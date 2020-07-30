@@ -205,7 +205,7 @@ export class TimeChartComponent extends WidgetChartComponent {
     if (cfg.packetFieldsMapping) {
       fieldMapping = cfg.packetFieldsMapping.find((fm) => fm.field.id == fieldId);
     }
-    if (fieldMapping) {
+    if (fieldMapping && fieldMapping.map && fieldMapping.map.length > 0) {
       fieldMapping.map.forEach((m) => {
         callback(cfg.packetFields[fieldId] + ':' + m.name, m);
       });

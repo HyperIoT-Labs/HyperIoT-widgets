@@ -125,9 +125,16 @@ export class FourierChartComponent extends WidgetChartComponent {
           const sampleTick = sampleDuration / valuesArray.length;
 
           // recreate time ticks for all values in the current sample
-          const relativeTimestamps = [];
+          const timeOffset = this.widget.config.timeAxis ? date.getTime() : 0;
+          const timestamps = [];
           for (let i = 0; i < valuesArray.length; i++) {
-            relativeTimestamps.push(this.lastSampleTick + sampleTick*i);
+            const relativeTimestamp = this.lastSampleTick + sampleTick*i;
+            if (timeOffset > 0) {
+              const ts = new Date((timeOffset + relativeTimestamp));
+              timestamps.push(ts);
+            } else {
+              timestamps.push(relativeTimestamp);
+            }
           }
           this.lastSampleTick += sampleDuration;
 
@@ -136,16 +143,15 @@ export class FourierChartComponent extends WidgetChartComponent {
             this.samplesSize.shift();
           }
           this.samplesSize.push(valuesArray.length);
-
           if (graph) {
             Plotly.extendTraces(graph, {
-                x: [relativeTimestamps],
+                x: [timestamps],
                 y: [valuesArray]
             }, [seriesIndex], this.samplesSize.reduce((a, b) => a + b, 0));
 
             // set x range to show only showSamples samples
             const showSamples = this.widget.config.showSamples || 2;
-            const rangeStart = this.samplesDuration - (this.widget.config.sampleRate * (showSamples - 1));
+            const rangeStart = timeOffset + this.samplesDuration - (this.widget.config.sampleRate * (showSamples - 1));
             const rangeEnd = rangeStart + this.widget.config.sampleRate * showSamples;
             // relayout x-axis range with new data
             if (graph) {
