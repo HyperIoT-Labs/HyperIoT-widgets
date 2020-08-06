@@ -119,18 +119,21 @@ export class FourierChartComponent extends WidgetChartComponent {
         }
         if (series != null && !this.isPaused) {
           const Plotly = this.plotly.getPlotly();
-          const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
+          const plotlyGraph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
           const sampleDuration = +this.widget.config.sampleRate;
           const sampleTick = sampleDuration / valuesArray.length;
 
           // recreate time ticks for all values in the current sample
           const timeOffset = this.widget.config.timeAxis ? date.getTime() : 0;
-          if (timeOffset > 0 && this.lastSampleTick === 0) {
+          //if (timeOffset > 0 && this.lastSampleTick === 0) {
             this.lastSampleTick = timeOffset;
-          }
+          //}
           const timestamps = [];
           for (let i = 0; i < valuesArray.length; i++) {
-            const relativeTimestamp = this.lastSampleTick + sampleTick*i;
+            let relativeTimestamp = sampleTick*i;
+            if (timeOffset > 0) {
+              relativeTimestamp += this.lastSampleTick;
+            }
             timestamps.push(relativeTimestamp);
           }
           this.lastSampleTick += sampleDuration;
@@ -139,8 +142,12 @@ export class FourierChartComponent extends WidgetChartComponent {
             this.samplesSize.shift();
           }
           this.samplesSize.push(valuesArray.length);
-          if (graph) {
-            Plotly.extendTraces(graph, {
+          if (plotlyGraph) {
+            if (!this.widget.config.timeAxis) {
+              this.graph.data[seriesIndex].x = [];
+              this.graph.data[seriesIndex].y = [];
+            }
+            Plotly.extendTraces(plotlyGraph, {
                 x: [timestamps],
                 y: [valuesArray]
             }, [seriesIndex], this.samplesSize.reduce((a, b) => a + b, 0));
@@ -153,8 +160,8 @@ export class FourierChartComponent extends WidgetChartComponent {
             }
             const rangeEnd = rangeStart + (sampleDuration * showSamples);
             // relayout x-axis range with new data
-            if (graph) {
-              Plotly.relayout(graph, {
+            if (plotlyGraph) {
+              Plotly.relayout(plotlyGraph, {
                 'xaxis.range': [rangeStart, rangeEnd],
               });
               /*
@@ -170,8 +177,9 @@ export class FourierChartComponent extends WidgetChartComponent {
               });
               */
             }
-
-            this.samplesDuration += sampleDuration;
+            if (timeOffset > 0) {
+              this.samplesDuration += sampleDuration;
+            }
           }
         }
       });
