@@ -70,8 +70,7 @@ export class ImageDataComponent extends WidgetComponent implements OnInit {
           const keys = Object.keys(v);
           return keys.length > 0 ? v[keys[0]] : v;
         });
-
-        this.drawImage(cfg.imageWidth, cfg.imageHeight, imageData.map((m) => m >> 3 & 0xFF));
+        this.drawImage(cfg.imageWidth, cfg.imageHeight, imageData);
       }
     });
   }

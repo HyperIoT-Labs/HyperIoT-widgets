@@ -131,15 +131,9 @@ export class FourierChartComponent extends WidgetChartComponent {
           const timestamps = [];
           for (let i = 0; i < valuesArray.length; i++) {
             const relativeTimestamp = this.lastSampleTick + sampleTick*i;
-            if (timeOffset > 0) {
-              const ts = new Date(relativeTimestamp);
-              timestamps.push(ts);
-            } else {
-              timestamps.push(relativeTimestamp);
-            }
+            timestamps.push(relativeTimestamp);
           }
           this.lastSampleTick += sampleDuration;
-
           const bufferSamples = this.widget.config.bufferSamples || 20;
           if (this.samplesSize.length >= bufferSamples) {
             this.samplesSize.shift();
