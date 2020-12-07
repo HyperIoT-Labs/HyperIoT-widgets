@@ -2,6 +2,7 @@ import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DashboardOfflineDataService, DataStreamService } from '@hyperiot/core';
 import { Subject, Subscription } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'hyperiot-hpacket-table',
@@ -15,7 +16,7 @@ export class HpacketTableComponent extends WidgetComponent {
   hPacketId: number;
   isPaused: boolean;
   DEFAULT_MAX_TABLE_LINES = 1000;
-  @ViewChild('tableChild') tableChild;
+  @ViewChild('tableChild', {static: false}) tableChild;
   array: object[] = [];
   pRequest;
   tableSource: Subject<any[]> = new Subject<any[]>();
@@ -55,6 +56,7 @@ export class HpacketTableComponent extends WidgetComponent {
     if (fieldIds.length > 0) {
       this.tableHeaders = [];
       fieldIds.forEach(hPacketFieldId => this.tableHeaders.push(this.widget.config.packetFields[hPacketFieldId]));
+      this.tableHeaders.push(this.widget.config.timestampFieldName);  // display timestamp too
     }
 
     // set data source
@@ -112,6 +114,8 @@ export class HpacketTableComponent extends WidgetComponent {
         const asd = res[0].values.slice(realIndexes[0], realIndexes[1]);
         asd.forEach(a => {
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
+          const timestampFieldName = this.widget.config.timestampFieldName;
+          element[timestampFieldName] = moment(element[timestampFieldName]).format('L') + ' ' + moment(element[timestampFieldName]).format('LTS');
           pageData.push(element);
         });
         this.tableSource.next(pageData);
