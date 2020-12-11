@@ -16,3 +16,4 @@ export { GaugeValueComponent } from './lib/gauge-value/gauge-value.component';
 export { HpacketTableComponent } from './lib/hpacket-table/hpacket-table.component';
 export { RealtimeHPacketTableComponent } from './lib/realtime-hpacket-table/realtime-hpacket-table.component';
 export { ImageDataComponent } from './lib/image-data/image-data.component';
+export { AlgorithmTableComponent } from './lib/algorithm-table/algorithm-table.component';

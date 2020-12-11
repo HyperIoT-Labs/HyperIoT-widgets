@@ -28,6 +28,7 @@ import { FourierChartComponent } from './fourier-chart/fourier-chart.component';
 
 import { PlotlyModule } from 'angular-plotly.js';
 import { ImageDataComponent } from './image-data/image-data.component';
+import { AlgorithmTableComponent } from './algorithm-table/algorithm-table.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ImageDataComponent } from './image-data/image-data.component';
     GaugeValueComponent,
     HpacketTableComponent,
     RealtimeHPacketTableComponent,
-    ImageDataComponent
+    ImageDataComponent,
+    AlgorithmTableComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +75,8 @@ import { ImageDataComponent } from './image-data/image-data.component';
     GaugeValueComponent,
     HpacketTableComponent,
     RealtimeHPacketTableComponent,
-    ImageDataComponent
+    ImageDataComponent,
+    AlgorithmTableComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
