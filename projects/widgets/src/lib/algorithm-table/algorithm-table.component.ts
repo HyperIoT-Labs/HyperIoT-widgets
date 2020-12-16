@@ -13,7 +13,7 @@ import * as moment from 'moment';
 export class AlgorithmTableComponent extends WidgetComponent {
 
   callBackEnd = false;
-  algorithmId: number;
+  hProjectAlgorithmId: number;
   isPaused: boolean;
   DEFAULT_MAX_TABLE_LINES = 1000;
   @ViewChild('tableChild', {static: false}) tableChild;
@@ -33,7 +33,7 @@ export class AlgorithmTableComponent extends WidgetComponent {
   configure() {
     super.configure();
     if (!(this.widget.config != null
-        && this.widget.config.algorithmId != null
+        && this.widget.config.hProjectAlgorithmId != null
         && this.widget.config.outputFields.length > 0)) {
       this.isConfigured = false;
       // set callback end
@@ -59,12 +59,12 @@ export class AlgorithmTableComponent extends WidgetComponent {
   }
 
   private setDatasource(): void {
-    if (this.algorithmId !== this.widget.config.algorithmId) {
-      if (this.algorithmId) {
-        this.algorithmOfflineDataServices.removeWidget(this.widget.id, this.algorithmId);
+    if (this.hProjectAlgorithmId !== this.widget.config.hProjectAlgorithmId) {
+      if (this.hProjectAlgorithmId) {
+        this.algorithmOfflineDataServices.removeWidget(this.widget.id, this.hProjectAlgorithmId);
       }
-      this.algorithmId = this.widget.config.algorithmId;
-      this.algorithmOfflineDataServices.addWidget(this.widget.id, this.algorithmId);
+      this.hProjectAlgorithmId = this.widget.config.hProjectAlgorithmId;
+      this.algorithmOfflineDataServices.addWidget(this.widget.id, this.hProjectAlgorithmId);
     }
     setTimeout(() => {
       // first load
@@ -85,7 +85,7 @@ export class AlgorithmTableComponent extends WidgetComponent {
         this.pause();
         break;
       case 'toolbar:close': {
-        this.algorithmOfflineDataServices.removeWidget(this.widget.id, this.algorithmId);
+        this.algorithmOfflineDataServices.removeWidget(this.widget.id, this.hProjectAlgorithmId);
         break;
       }
     }
@@ -100,16 +100,22 @@ export class AlgorithmTableComponent extends WidgetComponent {
     if (this.pRequest) {
       this.pRequest.unsubscribe();
     }
-    this.pRequest = this.algorithmOfflineDataServices.getData(this.algorithmId).subscribe(
+    this.pRequest = this.algorithmOfflineDataServices.getData(this.hProjectAlgorithmId).subscribe(
       res => {
-        const pageData = [];
-        const rowKey = Object.keys(res.rows)[0];  // take only first value
-        const value = res.rows[rowKey].value;
-        const millis = +value.timestamp * 1000;
-        value.timestamp = moment(millis).format('L') + ' ' + moment(millis).format('LTS');
-        this.tableHeaders = Object.keys(value);
-        pageData.push(value);
-        this.tableSource.next(pageData);
+        if (Object.keys(res.rows).length > 0) {
+          const pageData = [];
+          const rowKey = Object.keys(res.rows)[0];  // take only first value
+          const value = res.rows[rowKey].value;
+          const millis = +value.timestamp * 1000;
+          value.timestamp = moment(millis).format('L') + ' ' + moment(millis).format('LTS');
+          this.tableHeaders = Object.keys(value);
+          pageData.push(value);
+          this.totalLength = 1;
+          this.tableSource.next(pageData);
+        } else {
+          this.totalLength = 0;
+          this.tableChild.resetTable(this.totalLength, true);
+        }
       },
       err => {
         // TODO send error to table
