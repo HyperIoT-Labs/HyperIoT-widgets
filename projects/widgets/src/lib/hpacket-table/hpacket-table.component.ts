@@ -111,7 +111,7 @@ export class HpacketTableComponent extends WidgetComponent {
         const realIndexes = [];
         realIndexes[0] = rowsIndexes[0] % 1000;
         realIndexes[1] = (rowsIndexes[1] % 1000 !== 0) ? rowsIndexes[1] % 1000 : 1000;
-        const asd = res[0].values.slice(realIndexes[0], realIndexes[1]);
+        const asd = res.values.slice(realIndexes[0], realIndexes[1]);
         asd.forEach(a => {
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
           const timestampFieldName = this.widget.config.timestampFieldName;
