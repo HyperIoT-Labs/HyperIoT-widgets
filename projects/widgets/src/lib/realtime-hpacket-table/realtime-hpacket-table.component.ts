@@ -14,7 +14,7 @@ export class RealtimeHPacketTableComponent extends WidgetComponent {
   callBackEnd = false;
   hPacketId: number;
   isPaused: boolean;
-  DEFAULT_MAX_TABLE_LINES = 1000;
+  DEFAULT_MAX_TABLE_LINES = 50;
   @ViewChild('tableChild') tableChild;
   tableSource: Subject<any[]> = new Subject<any[]>();
   array: object[] = [];

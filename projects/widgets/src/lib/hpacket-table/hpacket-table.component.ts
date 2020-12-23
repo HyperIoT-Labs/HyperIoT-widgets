@@ -15,7 +15,7 @@ export class HpacketTableComponent extends WidgetComponent {
   callBackEnd = false;
   hPacketId: number;
   isPaused: boolean;
-  DEFAULT_MAX_TABLE_LINES = 1000;
+  DEFAULT_MAX_TABLE_LINES = 50;
   @ViewChild('tableChild', {static: false}) tableChild;
   array: object[] = [];
   pRequest;
@@ -109,8 +109,8 @@ export class HpacketTableComponent extends WidgetComponent {
       res => {
         const pageData = [];
         const realIndexes = [];
-        realIndexes[0] = rowsIndexes[0] % 1000;
-        realIndexes[1] = (rowsIndexes[1] % 1000 !== 0) ? rowsIndexes[1] % 1000 : 1000;
+        realIndexes[0] = rowsIndexes[0] % this.DEFAULT_MAX_TABLE_LINES;
+        realIndexes[1] = (rowsIndexes[1] % this.DEFAULT_MAX_TABLE_LINES !== 0) ? rowsIndexes[1] % this.DEFAULT_MAX_TABLE_LINES : this.DEFAULT_MAX_TABLE_LINES;
         const asd = res.values.slice(realIndexes[0], realIndexes[1]);
         asd.forEach(a => {
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});

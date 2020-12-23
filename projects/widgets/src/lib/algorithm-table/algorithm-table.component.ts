@@ -15,7 +15,7 @@ export class AlgorithmTableComponent extends WidgetComponent {
   callBackEnd = false;
   hProjectAlgorithmId: number;
   isPaused: boolean;
-  DEFAULT_MAX_TABLE_LINES = 1000;
+  DEFAULT_MAX_TABLE_LINES = 50;
   @ViewChild('tableChild', {static: false}) tableChild;
   array: object[] = [];
   pRequest;
