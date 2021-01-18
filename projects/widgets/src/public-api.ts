@@ -17,3 +17,4 @@ export { HpacketTableComponent } from './lib/hpacket-table/hpacket-table.compone
 export { RealtimeHPacketTableComponent } from './lib/realtime-hpacket-table/realtime-hpacket-table.component';
 export { ImageDataComponent } from './lib/image-data/image-data.component';
 export { AlgorithmTableComponent } from './lib/algorithm-table/algorithm-table.component';
+export { EventTableComponent } from './lib/event-table/event-table.component';
