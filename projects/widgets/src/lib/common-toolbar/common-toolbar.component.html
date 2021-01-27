@@ -1,5 +1,5 @@
 
-<button *ngIf="config.showPlay" class="toolbar-button" (click)="onPlayPause()">
+<button *ngIf="config.showPlay" class="toolbar-button" (click)="onPlayPause()" [attr.disabled]="isDisabled ? true: null">
     <!-- <img *ngIf="!isPaused" i18n-title="@@HYT_toolbar_pause" title="Pause" src="assets/widgets/images/baseline-pause-24px.svg">
     <img *ngIf="isPaused" i18n-title="@@HYT_toolbar_play" title="Play" src="assets/widgets/images/baseline-play_arrow-24px.svg"> -->
     <span *ngIf="!isPaused" class="hyt-icon icon-hyt_pause"></span>

@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <hyperiot-common-toolbar *ngIf="callBackEnd" (action)="onToolbarAction($event)" [config]="{
+    <hyperiot-common-toolbar #toolbar *ngIf="callBackEnd" (action)="onToolbarAction($event)" [config]="{
         showClose: true,
         showPlay: true,
         showSettings: true

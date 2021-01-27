@@ -5,10 +5,12 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ViewChild
 } from '@angular/core';
 
 import { DataStreamService } from '@hyperiot/core';
+import { CommonToolbarComponent } from '../common-toolbar/common-toolbar.component';
 import { WidgetComponent } from '../widget.component';
 
 @Component({

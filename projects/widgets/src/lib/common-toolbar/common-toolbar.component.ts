@@ -21,6 +21,11 @@ export class CommonToolbarComponent {
     @Output() action = new EventEmitter<string>();
     isPaused: boolean;
     showTable: boolean;
+    isDisabled: boolean;
+
+    constructor() {
+        this.isDisabled = false;
+    } 
 
     onPlayPause() {
         if (this.isPaused) {
@@ -30,6 +35,21 @@ export class CommonToolbarComponent {
         }
         this.isPaused = !this.isPaused;
     }
+
+    /**
+     * This method tells if the toolbar is in play mode 
+     * @param play Whether to play or pause the data
+     */
+    play(play: boolean) {
+        if (play) {
+            this.action.emit('toolbar:play');
+        } else {
+            this.action.emit('toolbar:pause');
+        }
+        this.isPaused = !play;
+        this.isDisabled = !play;
+    }
+
     onTableView() {
         if (this.showTable) {
             this.action.emit('toolbar:chart');

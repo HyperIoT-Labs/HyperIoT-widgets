@@ -1,7 +1,8 @@
-import { OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges, AfterContentInit } from '@angular/core';
+import { OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges, AfterContentInit, ViewChild } from '@angular/core';
 import { PartialObserver } from 'rxjs';
 
 import { DataChannel, DataStreamService, DataPacketFilter } from '@hyperiot/core';
+import { CommonToolbarComponent } from './common-toolbar/common-toolbar.component';
 
 /**
  * Base class for widget implementation
@@ -25,6 +26,8 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
   // used to signal widget actions
   @Output() widgetAction: EventEmitter<any> = new EventEmitter();
   isConfigured = false;
+
+  @ViewChild('toolbar') toolbar: CommonToolbarComponent;
 
   /**
    * Contructor
@@ -88,4 +91,13 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
       this.dataStreamService.removeDataChannel(this.widget.id);
     }
   }
+
+  /**
+   * This method is invoked by the dashboard, which tells to all widget it contains that data streamed must be played or not
+   * @param play Whether the widget has to display data or not
+   */
+  onDashboardPlay(play: boolean) {
+    this.toolbar.play(play);
+  }
+
 }
