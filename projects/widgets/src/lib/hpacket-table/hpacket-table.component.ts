@@ -2,6 +2,7 @@ import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DashboardOfflineDataService, DataStreamService } from '@hyperiot/core';
 import { Subject, Subscription } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
+import { WidgetsService } from '../widgets.service';
 import * as moment from 'moment';
 
 @Component({
@@ -28,9 +29,29 @@ export class HpacketTableComponent extends WidgetComponent {
 
   constructor(
     public dataStreamService: DataStreamService,
-    private dashboardOfflineDataService: DashboardOfflineDataService
+    private dashboardOfflineDataService: DashboardOfflineDataService,
+    private widgetsService: WidgetsService
   ) {
     super(dataStreamService);
+  }
+
+  private applyUnitConvertion(packetUnitsConversion, element) {
+    const keys = Object.keys(element);    // packet field names
+    keys.forEach(key => {
+      const unitConversion = packetUnitsConversion.find((uc) => uc.field.name == key);
+      if (unitConversion) {
+        let value = element[key];
+        if (unitConversion.convertFrom !== unitConversion.convertTo) {
+          value = this.widgetsService
+            .convert(value)
+            .from(unitConversion.convertFrom)
+            .to(unitConversion.convertTo);
+        }
+        // round to configured decimal digits
+        value = (+value).toFixed(unitConversion.decimals);
+        element[key] = value;
+      }
+    });
   }
 
   configure() {
@@ -116,6 +137,8 @@ export class HpacketTableComponent extends WidgetComponent {
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
           const timestampFieldName = this.widget.config.timestampFieldName;
           element[timestampFieldName] = moment(element[timestampFieldName]).format('L') + ' ' + moment(element[timestampFieldName]).format('LTS');
+          if (this.widget.config.packetUnitsConversion)
+            this.applyUnitConvertion(this.widget.config.packetUnitsConversion, element);
           pageData.push(element);
         });
         this.tableSource.next(pageData);
