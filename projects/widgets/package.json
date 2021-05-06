@@ -1,17 +1,13 @@
 {
   "name": "@hyperiot/widgets",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "publishConfig": {
     "registry": "https://nexus.acsoftware.it/nexus/repository/acs-npm/",
     "always-auth": "true"
   },
   "peerDependencies": {
-    "@angular/common": "~9.0.6",
-    "@angular/core": "~9.0.6",
-    "@angular/material": "^8.2.3"
-  },
-  "dependencies": {
-    "plotly.js": "1.49.4",
-    "angular-plotly.js": "2.0.0"
+    "@hyperiot/components": "0.1.15",
+    "angular-plotly.js": "2.0.0",
+    "plotly.js": "1.49.4"
   }
 }
