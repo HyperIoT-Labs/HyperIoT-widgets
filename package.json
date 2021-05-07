@@ -18,6 +18,7 @@
   "dependencies": {
     "@compodoc/compodoc": "^1.1.11",
     "@hyperiot/components": "0.1.15",
+    "acorn": "^6.4.2",
     "angular-gridster2": "^9.3.4",
     "bootstrap": "^4.3.1",
     "caniuse-lite": "^1.0.30000997",
@@ -27,7 +28,7 @@
     "gulp-json-editor": "^2.5.4",
     "map-stream": "0.0.7",
     "moment": "^2.24.0",
-    "ng-dynamic-component": "^5.0.0",
+    "ng-dynamic-component": "^6.1.0",
     "ngx-mask": "^9.1.4",
     "plotly.js": "1.49.4",
     "yargs": "^16.2.0"
