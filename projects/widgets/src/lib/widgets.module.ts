@@ -1,5 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MomentModule } from 'ngx-moment';
@@ -30,6 +31,8 @@ import { PlotlyModule } from 'angular-plotly.js';
 import { ImageDataComponent } from './image-data/image-data.component';
 import { AlgorithmTableComponent } from './algorithm-table/algorithm-table.component';
 import { EventTableComponent } from './event-table/event-table.component';
+import { CronEditorComponent } from './cron-editor/cron-editor.component';
+import { TimePickerComponent } from './cron-editor/time-picker/time-picker.component';
 
 @NgModule({
   declarations: [
@@ -46,11 +49,14 @@ import { EventTableComponent } from './event-table/event-table.component';
     RealtimeHPacketTableComponent,
     ImageDataComponent,
     AlgorithmTableComponent,
-    EventTableComponent
+    EventTableComponent,
+    CronEditorComponent, 
+    TimePickerComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     PlotlyModule,
     ComponentsModule,
     MatTableModule,
@@ -79,7 +85,8 @@ import { EventTableComponent } from './event-table/event-table.component';
     RealtimeHPacketTableComponent,
     ImageDataComponent,
     AlgorithmTableComponent,
-    EventTableComponent
+    EventTableComponent,
+    CronEditorComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
