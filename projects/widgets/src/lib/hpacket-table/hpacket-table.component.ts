@@ -12,7 +12,7 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None
 })
 export class HpacketTableComponent extends WidgetComponent {
-
+  TIMESTAMP_DEFAULT_FIELD_NAME : string = "timestamp_default";
   callBackEnd = false;
   hPacketId: number;
   isPaused: boolean;
@@ -119,7 +119,7 @@ export class HpacketTableComponent extends WidgetComponent {
   }
 
   getDatum(array, name) {
-    return array.some(y => y.name === name) ? array.find(y => y.name === name).value : '-';
+    return array.some(y => y.name === name) ? array.find(y => y.name === name).value : null;
   }
 
   pageRequest(rowsIndexes) {
@@ -135,8 +135,9 @@ export class HpacketTableComponent extends WidgetComponent {
         const asd = res.values.slice(realIndexes[0], realIndexes[1]);
         asd.forEach(a => {
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
+          const timestampValue = this.getDatum(a.fields,a.timestampField);
           const timestampFieldName = this.widget.config.timestampFieldName;
-          element[timestampFieldName] = moment(element[timestampFieldName]).format('L') + ' ' + moment(element[timestampFieldName]).format('LTS');
+          element[timestampFieldName] = moment(timestampValue).format("L") + " " + moment(timestampValue).format("LTS");
           if (this.widget.config.packetUnitsConversion)
             this.applyUnitConvertion(this.widget.config.packetUnitsConversion, element);
           pageData.push(element);
