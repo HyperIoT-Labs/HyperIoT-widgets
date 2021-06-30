@@ -33,8 +33,6 @@ export class TimeChartComponent extends WidgetChartComponent {
     super.configure();
     this.chartData = [];
 
-    //console.log('configure data init', this.chartData);
-
     if (!(this.widget.config != null
       && this.widget.config.packetId != null
       && this.widget.config.packetFields != null
@@ -166,10 +164,17 @@ export class TimeChartComponent extends WidgetChartComponent {
             const Plotly = this.plotly.getPlotly();
             const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
             if (graph) {
+              if(this.widget.config.maxDataPoints > 0){
                 Plotly.extendTraces(graph, {
                     x: [[date]],
                     y: [[value]]
                 }, [seriesIndex], this.widget.config.maxDataPoints);
+              } else {
+                 Plotly.extendTraces(graph, {
+                    x: [[date]],
+                    y: [[value]]
+                }, [seriesIndex]);
+              }
             }}
         });
       });
