@@ -8,18 +8,21 @@ export class TimeSeries {
      */
     name: string;
     /**
-     * X-Axis time values
+     * X-Axis time values local buffer
      */
     x: Date[];
     /**
-     * Y-Axis data values
+     * Y-Axis data values local buffer
      */
     y: number[];
+
+    lastBufferIndexUpdated: number;
 
     constructor(name: string) {
         this.name = name;
         this.x = [];
         this.y = [];
+        this.lastBufferIndexUpdated = 0;
     }
 
      /**

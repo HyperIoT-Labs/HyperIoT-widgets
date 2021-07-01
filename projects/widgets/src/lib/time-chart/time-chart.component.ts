@@ -1,5 +1,5 @@
 import {
-  Component, ViewEncapsulation
+  Component, ViewEncapsulation,OnDestroy
 } from '@angular/core';
 
 import { DataPacketFilter, DataStreamService } from '@hyperiot/core';
@@ -9,6 +9,7 @@ import { WidgetsService } from '../widgets.service';
 
 import { WidgetChartComponent } from '../widget-chart.component';
 import { TimeSeries } from '../data/time-series';
+import { isGeneratedFile } from '@angular/compiler/src/aot/util';
 
 @Component({
   selector: 'hyperiot-time-chart',
@@ -16,10 +17,13 @@ import { TimeSeries } from '../data/time-series';
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TimeChartComponent extends WidgetChartComponent {
+export class TimeChartComponent extends WidgetChartComponent implements OnDestroy {
   private chartData: TimeSeries[] = [];
+  //Buffer
+  private refreshingBuffer = false;
 
   callBackEnd = false;
+  private refreshHandler = null;
 
   constructor(
     public dataStreamService: DataStreamService,
@@ -128,12 +132,13 @@ export class TimeChartComponent extends WidgetChartComponent {
           let value = field[k];
           let series = null;
           let seriesIndex = -1;
-          for (let s = 0; s < this.chartData.length; s++) {
+          let found = false;
+          for (let s = 0; s < this.chartData.length && !found; s++) {
               const cs = this.chartData[s];
               if (cs.name === fieldName) {
                   series = cs;
                   seriesIndex = s;
-                  break;
+                  found = true;
               }
           }
           if (series != null) {
@@ -159,26 +164,35 @@ export class TimeChartComponent extends WidgetChartComponent {
                 value = (+value).toFixed(unitConversion.decimals);
               }
             }
-            // Add processed value to time-series
-            this.addTimeSeriesData(series, date, value);
-            const Plotly = this.plotly.getPlotly();
-            const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
-            if (graph) {
-              if(this.widget.config.maxDataPoints > 0){
-                Plotly.extendTraces(graph, {
-                    x: [[date]],
-                    y: [[value]]
-                }, [seriesIndex], this.widget.config.maxDataPoints);
-              } else {
-                 Plotly.extendTraces(graph, {
-                    x: [[date]],
-                    y: [[value]]
-                }, [seriesIndex]);
-              }
-            }}
+            //Data buffering
+            super.bufferData(series,date,value);
+          }
         });
       });
     });
+    //default 1 sec
+    let refreshInterval = (cfg.refreshIntervalMillis)?cfg.refreshIntervalMillis:1000;
+    let self = this;
+    this.refreshHandler = setInterval(function(){
+        if(!self.refreshingBuffer){
+          self.renderBufferedData();
+          //avoind multiple refresh if one is already running
+          self.refreshingBuffer = false;
+        }
+    },refreshInterval);
+  }
+
+  ngOnDestroy(){
+    clearInterval(this.refreshHandler)
+  }
+
+  //Called by set timeout, this method empty the buffer and update the chart
+  renderBufferedData(){
+    const Plotly = this.plotly.getPlotly();
+    const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
+    if (graph) {
+           super.renderAllSeriesData(this.chartData,Plotly,graph);
+      }
   }
 
   onToolbarAction(action: string) {

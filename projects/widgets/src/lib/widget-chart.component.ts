@@ -102,8 +102,8 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
 
   private defaultSeriesConfig = {
     type: 'scatter',
-    mode: 'lines+markers',
-    line: { simplify: false, width: 3, /*shape: 'spline',*/ smoothing: 1.3 },
+    mode: 'lines',
+    line: { simplify: false, width: 2, smoothing: 1.3 },
     connectgaps: true
   };
 
@@ -151,8 +151,8 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     timeSeriesData.forEach(ts => {
       const tsd = {
         name: ts.name,
-        x: ts.x,
-        y: ts.y
+        x: ts.x.slice(),
+        y: ts.y.slice()
       };
       // copy default settings
       Object.assign(tsd, this.defaultSeriesConfig);
@@ -174,16 +174,74 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
    * @param x The x value (Date)
    * @param y The y value (number)
    */
-  addTimeSeriesData(series: TimeSeries, x: Date, y: number): void {
-    if (!this.isPaused) {
+  bufferData(series: TimeSeries, x: Date, y: number): void {
       // NOTE: `series` is just a local copy of chart data,
       // NOTE: the real data is stored in the plotly graph object
       series.x.push(x);
       series.y.push(y);
+      series.lastBufferIndexUpdated++;
+  }
+
+  /**
+   * Adds new data to a time series.
+   *
+   * @param series The series to add data to
+   * @param x The x value (Date)
+   * @param y The y value (number)
+   */
+  bufferMutipleData(series: TimeSeries, xValues: Date[], yValues: number[]): void {
+    // NOTE: `series` is just a local copy of chart data,
+    // NOTE: the real data is stored in the plotly graph object
+    for(let i = 0; i < xValues.length;i++){
+      series.x.push(xValues[i]);
+      series.y.push(yValues[i]);
+    }  
+    series.lastBufferIndexUpdated += xValues.length;
+  }
+
+  /**
+   * Render all series inside a chart
+   * @param series 
+   * @param Plotly 
+   * @param graph 
+   */
+  renderAllSeriesData(series:TimeSeries[],Plotly,graph){
+    for (let s = 0; s < series.length; s++) {
+        let serieIndex = s;
+        let bufferedSerie = series[s];
+        this.renderSeriesData(bufferedSerie,serieIndex,Plotly,graph);
+      }
+  }
+
+  /**
+   * Render single serie
+   * @param series 
+   * @param serieIndex 
+   * @param Plotly 
+   * @param graph 
+   */
+  renderSeriesData(series: TimeSeries,serieIndex,Plotly,graph):void{
+    if(!this.isPaused){
       // keeps data length < this.maxDataPoints
       this.applySizeConstraints(series);
       // reset x axis range to default
-      this.requestRelayout(x);
+      this.requestRelayout(series.x[series.x.length-1]);
+      //updating only if there's data
+      if(series.x.length > 0 && series.y.length > 0){
+          let xValues:Date[] = series.x.splice(0,series.lastBufferIndexUpdated);
+          let yValues:number[] = series.y.splice(0,series.lastBufferIndexUpdated);
+          if(this.widget.config.maxDataPoints > 0){
+            Plotly.extendTraces(graph, {
+                x: [xValues],
+                y: [yValues]
+            }, [serieIndex], this.widget.config.maxDataPoints);
+          } else {
+              Plotly.extendTraces(graph, {
+                x: [xValues],
+                y: [yValues]
+            }, [serieIndex]);
+          }
+        }
     }
   }
 
@@ -222,25 +280,14 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
         'xaxis.domain': [0.125, 1 - (0.075) * (this.graph.data.length - 1)]
       });
     }
-    /*
-    Plotly.animate(graph, {
-      layout: {
-        xaxis: {range: [rangeStart, rangeEnd]},
-      }
-    }, {
-      transition: {
-        duration: 500,
-        easing: 'cubic-in-out'
-      }
-    });
-    */
   }
 
-  private applySizeConstraints(data: { x: Date[], y: number[] }) {
+  private applySizeConstraints(data: TimeSeries) {
     const cfg = this.widget.config;
     if (data.x.length > cfg.maxDataPoints && cfg.maxDataPoints > 0) {
       data.x.splice(0, data.x.length - cfg.maxDataPoints);
       data.y.splice(0, data.y.length - cfg.maxDataPoints);
+      data.lastBufferIndexUpdated = 0
     }
     const endDate = data.x[data.x.length - 1].getTime();
     while (
