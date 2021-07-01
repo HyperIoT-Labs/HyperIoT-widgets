@@ -289,14 +289,16 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
       data.y.splice(0, data.y.length - cfg.maxDataPoints);
       data.lastBufferIndexUpdated = 0
     }
-    const endDate = data.x[data.x.length - 1].getTime();
-    while (
-      cfg.timeWindow > 0 &&
-      data.x.length > 0 &&
-      (endDate - data.x[0].getTime()) / 1000 > cfg.timeWindow
-    ) {
-      data.x.shift();
-      data.y.shift();
+    if(data.x.length > 0){
+      const endDate = data.x[data.x.length - 1].getTime();
+      while (
+        cfg.timeWindow > 0 &&
+        data.x.length > 0 &&
+        (endDate - data.x[0].getTime()) / 1000 > cfg.timeWindow
+      ) {
+        data.x.shift();
+        data.y.shift();
+      }
     }
   }
 }
