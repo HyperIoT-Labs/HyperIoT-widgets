@@ -268,6 +268,8 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     }
   }
   private relayout(lastEventDate: Date) {
+    if(lastEventDate == undefined || lastEventDate == null)
+      return;
     // set x range to the last 30 seconds of data
     const rangeEnd = new Date(lastEventDate);
     const rangeStart = new Date(rangeEnd.getTime() - (1 * this.widget.config.timeAxisRange * 1000));
