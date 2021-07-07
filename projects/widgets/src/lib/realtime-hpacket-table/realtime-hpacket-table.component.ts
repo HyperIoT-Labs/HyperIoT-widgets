@@ -1,6 +1,7 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DataPacketFilter, DataStreamService } from '@hyperiot/core';
 import { Subject, Subscription } from 'rxjs';
+import { DateFormatterService } from '../util/date-formatter.service';
 import { WidgetComponent } from '../widget.component';
 
 @Component({
@@ -25,7 +26,8 @@ export class RealtimeHPacketTableComponent extends WidgetComponent {
   offlineDataSubscription: Subscription;
 
   constructor(
-    public dataStreamService: DataStreamService
+    public dataStreamService: DataStreamService,
+    private dateFormatterService: DateFormatterService
   ) {
     super(dataStreamService);
   }
@@ -53,11 +55,17 @@ export class RealtimeHPacketTableComponent extends WidgetComponent {
     if (fieldIds.length > 0) {
       this.tableHeaders = [];
       fieldIds.forEach(hPacketFieldId => this.tableHeaders.push(this.widget.config.packetFields[hPacketFieldId]));
+      this.tableHeaders.push(this.widget.config.timestampFieldName);  // display timestamp too
     }
 
     // set data source
     this.hPacketId = this.widget.config.packetId;
     // subscribe data stream
+    
+    // todo remove below comments
+    // let fields = this.widget.config.packetFields
+    // fields[0] = this.widget.config.timestampFieldName;
+    // const dataPacketFilter = new DataPacketFilter(this.hPacketId, fields, true);
     const dataPacketFilter = new DataPacketFilter(this.hPacketId, this.widget.config.packetFields, true);
     this.subscribeDataStream(dataPacketFilter);
 
@@ -69,7 +77,9 @@ export class RealtimeHPacketTableComponent extends WidgetComponent {
       if (this.isPaused) {
         return;
       }
-      this.array.unshift(eventData[1]);
+      let fields = eventData[1];
+      fields[this.widget.config.timestampFieldName] = this.dateFormatterService.formatDate(eventData[0]);
+      this.array.unshift(fields);
       if (this.array.length > maxTableLines) {
         this.array.pop();
       }

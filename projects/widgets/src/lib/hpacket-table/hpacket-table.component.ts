@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
 import { WidgetsService } from '../widgets.service';
 import * as moment from 'moment';
+import { DateFormatterService } from '../util/date-formatter.service';
 
 @Component({
   selector: 'hyperiot-hpacket-table',
@@ -30,7 +31,8 @@ export class HpacketTableComponent extends WidgetComponent {
   constructor(
     public dataStreamService: DataStreamService,
     private dashboardOfflineDataService: DashboardOfflineDataService,
-    private widgetsService: WidgetsService
+    private widgetsService: WidgetsService,
+    private dateFormatterService: DateFormatterService
   ) {
     super(dataStreamService);
   }
@@ -137,7 +139,7 @@ export class HpacketTableComponent extends WidgetComponent {
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
           const timestampValue = this.getDatum(a.fields,a.timestampField);
           const timestampFieldName = this.widget.config.timestampFieldName;
-          element[timestampFieldName] = moment(timestampValue).format("L") + " " + moment(timestampValue).format("LTS");
+          element[timestampFieldName] = this.dateFormatterService.formatTimestamp(timestampValue);
           if (this.widget.config.packetUnitsConversion)
             this.applyUnitConvertion(this.widget.config.packetUnitsConversion, element);
           pageData.push(element);
