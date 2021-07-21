@@ -6,6 +6,8 @@ export * from './lib/widgets.module';
 
 export { CommonToolbarComponent } from './lib/common-toolbar/common-toolbar.component';
 export { WidgetChartComponent } from './lib/widget-chart.component';
+export { WidgetComponent } from './lib/widget.component';
+export { WidgetSingleValueComponent } from './lib/widget-single-value.component';
 export { EventsLogComponent } from './lib/events-log/events-log.component';
 export { TextLabelComponent } from './lib/text-label/text-label.component';
 export { SensorValueComponent } from './lib/sensor-value/sensor-value.component';

@@ -21,11 +21,11 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
    * };
    */
   @Input()
-  widget: any = {};
+  public widget: any = {};
 
   // used to signal widget actions
   @Output() widgetAction: EventEmitter<any> = new EventEmitter();
-  isConfigured = false;
+  public isConfigured = false;
 
   @ViewChild('toolbar') toolbar: CommonToolbarComponent;
 

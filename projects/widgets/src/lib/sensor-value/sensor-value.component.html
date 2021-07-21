@@ -10,11 +10,11 @@
   </div> <!-- END LOADER -->
 
   <div *ngIf="isConfigured && callBackEnd" class="value-container">
-    <div *ngIf="sensorValue" class="sensor-value ">
-      <span [innerHTML]="sensorValue"></span>
+    <div *ngIf="sensorRenderValue" class="sensor-value ">
+      <span [innerHTML]="sensorRenderValue"></span>
       <span [innerHTML]="sensorUnitSymbol" class="unit"></span>
     </div>
-    <div *ngIf="!sensorValue" class="sensor-value-min">
+    <div *ngIf="!sensorRenderValue" class="sensor-value-min">
       <span>Waiting for data...</span>
     </div>
   </div>

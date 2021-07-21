@@ -175,6 +175,7 @@ export class TimeChartComponent extends WidgetChartComponent implements OnDestro
     let self = this;
     this.refreshHandler = setInterval(function(){
         if(!self.refreshingBuffer){
+          self.refreshingBuffer = true;
           self.renderBufferedData();
           //avoind multiple refresh if one is already running
           self.refreshingBuffer = false;

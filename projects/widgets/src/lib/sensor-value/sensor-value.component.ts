@@ -1,9 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation,OnDestroy } from '@angular/core';
 
 import { DataStreamService, DataPacketFilter } from '@hyperiot/core';
 import { WidgetsService } from '../widgets.service';
 
-import { WidgetComponent } from '../widget.component';
+import { WidgetSingleValueComponent } from '../widget-single-value.component';
 
 @Component({
   selector: 'hyperiot-sensor-value',
@@ -11,10 +11,10 @@ import { WidgetComponent } from '../widget.component';
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './sensor-value.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SensorValueComponent extends WidgetComponent {
+export class SensorValueComponent extends WidgetSingleValueComponent implements OnDestroy {
   timestamp = new Date();
   sensorField: string;
-  sensorValue: string;
+  sensorRenderValue: string = null;
   sensorUnitSymbol: string;
   isActivityLedOn = false;
   private ledTimeout: any = null;
@@ -26,6 +26,10 @@ export class SensorValueComponent extends WidgetComponent {
     private widgetsService: WidgetsService
   ) {
     super(dataStreamService);
+  }
+
+  ngOnDestroy(){
+    this.stopRefreshTask();
   }
 
   pause(): void {
@@ -51,7 +55,7 @@ export class SensorValueComponent extends WidgetComponent {
       return;
     }
     // reset fields
-    this.sensorValue = null;
+    this.resetValue();
     this.sensorField = name;
 
     // Set Callback End
@@ -72,6 +76,7 @@ export class SensorValueComponent extends WidgetComponent {
         // set display values
         this.sensorField = name;
         this.sensorUnitSymbol = '';
+        let newValue = null;
         // Apply unit conversion to packet field if set
         let unitConversion;
         if (cfg.packetUnitsConversion) {
@@ -79,26 +84,30 @@ export class SensorValueComponent extends WidgetComponent {
           if (unitConversion) {
             this.sensorUnitSymbol = unitConversion.convertFrom;
             if (unitConversion.convertFrom !== unitConversion.convertTo) {
-              this.sensorValue = this.widgetsService
+              newValue =this.widgetsService
                 .convert(+value)
                 .from(unitConversion.convertFrom)
                 .to(unitConversion.convertTo);
               this.sensorUnitSymbol = unitConversion.convertTo;
             } else {
-              this.sensorValue = value.toString();
+              newValue = value.toString();
             }
           }
         }
         if (!unitConversion) {
           // round to 2 decimal digits if no unit conversion is configured
-          this.sensorValue = (+value).toFixed(2);
+          newValue = (+value).toFixed(2);
         } else if (!isNaN(unitConversion.decimals)) {
           // round to configured decimal digits
-          this.sensorValue = (+this.sensorValue).toFixed(unitConversion.decimals);
+          newValue = (+newValue).toFixed(unitConversion.decimals);
         }
+        this.updateValue(newValue);
       }
     });
+    // refresh rate default 1 sec
+    this.startRefreshTask(cfg.refreshIntervalMillis?cfg.refreshIntervalMillis:1000)
   }
+
 
   blinkLed() {
     this.isActivityLedOn = true;
@@ -109,4 +118,7 @@ export class SensorValueComponent extends WidgetComponent {
     this.ledTimeout = setTimeout(() => this.isActivityLedOn = false, 100);
   }
 
+  protected renderData(){
+    this.sensorRenderValue = this.getValue();
+  }
 }
