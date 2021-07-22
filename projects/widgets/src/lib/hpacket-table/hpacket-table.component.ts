@@ -3,7 +3,6 @@ import { DashboardOfflineDataService, DataStreamService } from '@hyperiot/core';
 import { Subject, Subscription } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
 import { WidgetsService } from '../widgets.service';
-import * as moment from 'moment';
 import { DateFormatterService } from '../util/date-formatter.service';
 
 @Component({
@@ -17,7 +16,6 @@ export class HpacketTableComponent extends WidgetComponent {
   callBackEnd = false;
   hPacketId: number;
   isPaused: boolean;
-  DEFAULT_MAX_TABLE_LINES = 50;
   @ViewChild('tableChild', {static: false}) tableChild;
   array: object[] = [];
   pRequest;
@@ -87,6 +85,7 @@ export class HpacketTableComponent extends WidgetComponent {
   }
 
   private setDatasource(): void {
+    console.log('setDataSource');
     if (this.hPacketId !== this.widget.config.packetId) {
       if (this.hPacketId) {
         this.dashboardOfflineDataService.removeWidget(this.widget.id, this.hPacketId);
@@ -124,18 +123,16 @@ export class HpacketTableComponent extends WidgetComponent {
     return array.some(y => y.name === name) ? array.find(y => y.name === name).value : null;
   }
 
-  pageRequest(rowsIndexes) {
+  dataRequest(lowerBound) {
+    console.log('dataRequest()');
     if (this.pRequest) {
       this.pRequest.unsubscribe();
     }
-    this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, rowsIndexes).subscribe(
+    this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, lowerBound).subscribe(
       res => {
+        console.log('dataRequest()', res);
         const pageData = [];
-        const realIndexes = [];
-        realIndexes[0] = rowsIndexes[0] % this.DEFAULT_MAX_TABLE_LINES;
-        realIndexes[1] = (rowsIndexes[1] % this.DEFAULT_MAX_TABLE_LINES !== 0) ? rowsIndexes[1] % this.DEFAULT_MAX_TABLE_LINES : this.DEFAULT_MAX_TABLE_LINES;
-        const asd = res.values.slice(realIndexes[0], realIndexes[1]);
-        asd.forEach(a => {
+        res.values.forEach(a => {
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
           const timestampValue = this.getDatum(a.fields,a.timestampField);
           const timestampFieldName = this.widget.config.timestampFieldName;

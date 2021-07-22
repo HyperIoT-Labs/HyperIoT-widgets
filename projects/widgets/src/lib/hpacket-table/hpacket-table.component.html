@@ -22,8 +22,8 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table> -->
-        <hyt-lazy-pagination-table #tableChild [totalRows]="totalLength" [headers]="tableHeaders"
-            [dataSource]="tableSource" (pageRequest)="pageRequest($event)"></hyt-lazy-pagination-table>
+        <hyt-infinite-scrolling-table #tableChild [headers]="tableHeaders" [dataSource]="tableSource"
+            (dataRequest)="dataRequest($event)"></hyt-infinite-scrolling-table>
         <!-- <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
         </mat-paginator> -->
     </div>
