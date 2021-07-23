@@ -132,7 +132,7 @@ export class HpacketTableComponent extends WidgetComponent {
       res => {
         console.log('dataRequest()', res);
         const pageData = [];
-        res.values.forEach(a => {
+        res.forEach(a => {
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
           const timestampValue = this.getDatum(a.fields,a.timestampField);
           const timestampFieldName = this.widget.config.timestampFieldName;
