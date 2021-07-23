@@ -4,6 +4,9 @@ import { DataStreamService, DataPacketFilter } from '@hyperiot/core';
 import { WidgetsService } from '../widgets.service';
 
 import { WidgetSingleValueComponent } from '../widget-single-value.component';
+import { DataValue } from '../data/data-value';
+import { UnitFormatterService } from '../util/unit-formatter.service';
+
 
 @Component({
   selector: 'hyperiot-sensor-value',
@@ -23,7 +26,8 @@ export class SensorValueComponent extends WidgetSingleValueComponent implements 
 
   constructor(
     public dataStreamService: DataStreamService,
-    private widgetsService: WidgetsService
+    private widgetsService: WidgetsService,
+    private unitFormatterService: UnitFormatterService
   ) {
     super(dataStreamService);
   }
@@ -56,8 +60,7 @@ export class SensorValueComponent extends WidgetSingleValueComponent implements 
     }
     // reset fields
     this.resetValue();
-    this.sensorField = name;
-
+  
     // Set Callback End
     this.callBackEnd = true;
 
@@ -69,45 +72,15 @@ export class SensorValueComponent extends WidgetSingleValueComponent implements 
       const field = eventData[1];
       this.blinkLed();
       // get the sensor field name and value
-      const fieldIds = Object.keys(cfg.packetFields);
-      if (fieldIds.length > 0) {
-        const name = cfg.packetFields[fieldIds[0]];
-        const value = +field[name];
-        // set display values
-        this.sensorField = name;
-        this.sensorUnitSymbol = '';
-        let newValue = null;
-        // Apply unit conversion to packet field if set
-        let unitConversion;
-        if (cfg.packetUnitsConversion) {
-          unitConversion = cfg.packetUnitsConversion.find((uc) => uc.field.id == fieldIds[0]);
-          if (unitConversion) {
-            this.sensorUnitSymbol = unitConversion.convertFrom;
-            if (unitConversion.convertFrom !== unitConversion.convertTo) {
-              newValue =this.widgetsService
-                .convert(+value)
-                .from(unitConversion.convertFrom)
-                .to(unitConversion.convertTo);
-              this.sensorUnitSymbol = unitConversion.convertTo;
-            } else {
-              newValue = value.toString();
-            }
-          }
-        }
-        if (!unitConversion) {
-          // round to 2 decimal digits if no unit conversion is configured
-          newValue = (+value).toFixed(2);
-        } else if (!isNaN(unitConversion.decimals)) {
-          // round to configured decimal digits
-          newValue = (+newValue).toFixed(unitConversion.decimals);
-        }
-        this.updateValue(newValue);
-      }
+      let dataValue:DataValue = this.unitFormatterService.format(cfg,this.timestamp,field);
+      this.sensorField = dataValue.getName();
+      this.sensorUnitSymbol = dataValue.getUnit();  
+      let newValue = dataValue.getValue();
+      this.updateValue(newValue);
     });
     // refresh rate default 1 sec
     this.startRefreshTask(cfg.refreshIntervalMillis?cfg.refreshIntervalMillis:1000)
   }
-
 
   blinkLed() {
     this.isActivityLedOn = true;
