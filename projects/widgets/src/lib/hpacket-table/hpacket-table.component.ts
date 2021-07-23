@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
 import { WidgetsService } from '../widgets.service';
 import { DateFormatterService } from '../util/date-formatter.service';
+import { TableEvent } from '@hyperiot/components';
 
 @Component({
   selector: 'hyperiot-hpacket-table',
@@ -13,13 +14,14 @@ import { DateFormatterService } from '../util/date-formatter.service';
 })
 export class HpacketTableComponent extends WidgetComponent {
   TIMESTAMP_DEFAULT_FIELD_NAME : string = "timestamp_default";
+  TABLE_LIMIT = 400;
   callBackEnd = false;
   hPacketId: number;
   isPaused: boolean;
   @ViewChild('tableChild', {static: false}) tableChild;
   array: object[] = [];
   pRequest;
-  tableSource: Subject<any[]> = new Subject<any[]>();
+  tableSource: Subject<TableEvent> = new Subject<TableEvent>();
   timestamp = new Date();
   tableHeaders = [];
   totalLength = 0;
@@ -133,6 +135,9 @@ export class HpacketTableComponent extends WidgetComponent {
         console.log('dataRequest()', res);
         const pageData = [];
         res.forEach(a => {
+          if (pageData.length >= this.TABLE_LIMIT) {
+            return;
+          }
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
           const timestampValue = this.getDatum(a.fields,a.timestampField);
           const timestampFieldName = this.widget.config.timestampFieldName;
@@ -141,11 +146,18 @@ export class HpacketTableComponent extends WidgetComponent {
             this.applyUnitConvertion(this.widget.config.packetUnitsConversion, element);
           pageData.push(element);
         });
-        this.tableSource.next(pageData);
+        this.tableSource.next({type:'DATA', values: pageData});
+        if (pageData.length >= this.TABLE_LIMIT) {
+          this.tableSource.next({type:'EVENT', event: 'LIMIT_REACHED'});
+        }
+        if (pageData.length >= this.totalLength) {
+          this.tableSource.next({type:'EVENT', event: 'DATA_END'});
+        }
+
       },
       err => {
-        // TODO send eror to table
         console.log(err);
+        this.tableSource.error(err);
       }
     );
   }
