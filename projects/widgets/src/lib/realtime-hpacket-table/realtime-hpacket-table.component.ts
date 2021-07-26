@@ -2,6 +2,7 @@ import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DataPacketFilter, DataStreamService } from '@hyperiot/core';
 import { Subject, Subscription } from 'rxjs';
 import { DateFormatterService } from '../util/date-formatter.service';
+import { WidgetMultiValueComponent } from '../widget-multi-value.component';
 import { WidgetComponent } from '../widget.component';
 
 @Component({
@@ -10,7 +11,7 @@ import { WidgetComponent } from '../widget.component';
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './realtime-hpacket-table.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class RealtimeHPacketTableComponent extends WidgetComponent {
+export class RealtimeHPacketTableComponent extends WidgetMultiValueComponent {
 
   callBackEnd = false;
   hPacketId: number;
@@ -57,34 +58,39 @@ export class RealtimeHPacketTableComponent extends WidgetComponent {
       fieldIds.forEach(hPacketFieldId => this.tableHeaders.push(this.widget.config.packetFields[hPacketFieldId]));
       this.tableHeaders.push(this.widget.config.timestampFieldName);  // display timestamp too
     }
-
-    // set data source
+  
     this.hPacketId = this.widget.config.packetId;
-    // subscribe data stream
-    
-    // todo remove below comments
-    // let fields = this.widget.config.packetFields
-    // fields[0] = this.widget.config.timestampFieldName;
-    // const dataPacketFilter = new DataPacketFilter(this.hPacketId, fields, true);
     const dataPacketFilter = new DataPacketFilter(this.hPacketId, this.widget.config.packetFields, true);
     this.subscribeDataStream(dataPacketFilter);
-
+    // refresh rate default 1 sec
+    this.startRefreshTask(this.widget.config.refreshIntervalMillis?this.widget.config.refreshIntervalMillis:1000);
   }
 
   private subscribeDataStream(dataPacketFilter: DataPacketFilter): void {
-    const maxTableLines = this.widget.config.maxLogLines ? this.widget.config.maxLogLines : this.DEFAULT_MAX_TABLE_LINES;
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
       if (this.isPaused) {
         return;
       }
       let fields = eventData[1];
       fields[this.widget.config.timestampFieldName] = this.dateFormatterService.formatDate(eventData[0]);
-      this.array.unshift(fields);
+      this.push(fields);
+    });
+  }
+
+  protected renderData() {
+    const maxTableLines = this.widget.config.maxLogLines ? this.widget.config.maxLogLines : this.DEFAULT_MAX_TABLE_LINES;
+    let bufferedValues : Object[] = this.pop();
+    if(bufferedValues.length > 0){
+      bufferedValues.forEach(val =>{
+        this.array.push(val);
+      })
       if (this.array.length > maxTableLines) {
-        this.array.pop();
+        let dif = this.array.length - maxTableLines;
+        //removing surplus data
+        this.array.splice(0,dif);
       }
       this.tableChild.resetTable(this.array.length, false);
-    });
+    }
   }
 
   onToolbarAction(action: string) {
