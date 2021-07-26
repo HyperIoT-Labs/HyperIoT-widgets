@@ -10,8 +10,8 @@
     </div> <!-- END LOADER -->
 
     <div class="event-container flex-grow-1">
-        <hyt-lazy-pagination-table #tableChild [totalRows]="totalLength" [headers]="tableHeaders"
-            [dataSource]="tableSource" (pageRequest)="pageRequest($event)"></hyt-lazy-pagination-table>
+        <hyt-infinite-scrolling-table #tableChild [headers]="tableHeaders" [dataLimit]="TABLE_LIMIT" [dataSource]="tableSource"
+            (dataRequest)="dataRequest($event)"></hyt-infinite-scrolling-table>
     </div>
 
     <hyperiot-common-toolbar *ngIf="callBackEnd" (action)="onToolbarAction($event)" [config]="{

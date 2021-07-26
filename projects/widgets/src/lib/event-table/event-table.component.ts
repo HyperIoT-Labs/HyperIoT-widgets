@@ -3,6 +3,7 @@ import { DashboardOfflineDataService, DataStreamService } from '@hyperiot/core';
 import { Subject, Subscription } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
 import * as moment from 'moment';
+import { TableEvent } from '@hyperiot/components';
 
 @Component({
   selector: 'hyperiot-event-table',
@@ -10,8 +11,9 @@ import * as moment from 'moment';
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './event-table.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class EventTableComponent  extends WidgetComponent {
+export class EventTableComponent extends WidgetComponent {
 
+  TABLE_LIMIT = 400;
   callBackEnd = false;
   hPacketId: number;
   isPaused: boolean;
@@ -19,7 +21,7 @@ export class EventTableComponent  extends WidgetComponent {
   @ViewChild('tableChild', {static: false}) tableChild;
   array: object[] = [];
   pRequest;
-  tableSource: Subject<any[]> = new Subject<any[]>();
+  tableSource: Subject<TableEvent> = new Subject<TableEvent>();
   timestamp = new Date();
   tableHeaders = [];
   totalLength = 0;
@@ -79,28 +81,33 @@ export class EventTableComponent  extends WidgetComponent {
     return array.some(y => y.name === name) ? array.find(y => y.name === name).value : '-';
   }
 
-  pageRequest(rowsIndexes) {
+  dataRequest(lowerBound) {
     if (this.pRequest) {
       this.pRequest.unsubscribe();
     }
-    this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, rowsIndexes).subscribe(
+    this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, lowerBound).subscribe(
       res => {
         const pageData = [];
-        const realIndexes = [];
-        realIndexes[0] = rowsIndexes[0] % this.DEFAULT_MAX_TABLE_LINES;
-        realIndexes[1] = (rowsIndexes[1] % this.DEFAULT_MAX_TABLE_LINES !== 0) ? rowsIndexes[1] % this.DEFAULT_MAX_TABLE_LINES : this.DEFAULT_MAX_TABLE_LINES;
-        const asd = res.values.slice(realIndexes[0], realIndexes[1]);
-        asd.forEach(a => {
+        res.forEach(a => {
+          if (pageData.length >= this.TABLE_LIMIT) {
+            return;
+          }
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
           const timestampFieldName = this.widget.config.timestampFieldName;
           element[timestampFieldName] = moment(element[timestampFieldName]).format('L') + ' ' + moment(element[timestampFieldName]).format('LTS');
           pageData.push(element);
         });
-        this.tableSource.next(pageData);
+        this.tableSource.next({type:'DATA', values: pageData});
+        if (pageData.length >= this.TABLE_LIMIT) {
+          this.tableSource.next({type:'EVENT', event: 'LIMIT_REACHED'});
+        }
+        if (pageData.length >= this.totalLength) {
+          this.tableSource.next({type:'EVENT', event: 'DATA_END'});
+        }
       },
       err => {
         // TODO send eror to table
-        console.log(err);
+        this.tableSource.error(err);
       }
     );
   }

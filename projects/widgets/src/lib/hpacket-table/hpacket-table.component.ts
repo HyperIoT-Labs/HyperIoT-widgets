@@ -87,7 +87,6 @@ export class HpacketTableComponent extends WidgetComponent {
   }
 
   private setDatasource(): void {
-    console.log('setDataSource');
     if (this.hPacketId !== this.widget.config.packetId) {
       if (this.hPacketId) {
         this.dashboardOfflineDataService.removeWidget(this.widget.id, this.hPacketId);
@@ -126,13 +125,11 @@ export class HpacketTableComponent extends WidgetComponent {
   }
 
   dataRequest(lowerBound) {
-    console.log('dataRequest()');
     if (this.pRequest) {
       this.pRequest.unsubscribe();
     }
     this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, lowerBound).subscribe(
       res => {
-        console.log('dataRequest()', res);
         const pageData = [];
         res.forEach(a => {
           if (pageData.length >= this.TABLE_LIMIT) {
