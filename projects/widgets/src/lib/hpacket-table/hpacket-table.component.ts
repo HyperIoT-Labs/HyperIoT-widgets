@@ -25,6 +25,7 @@ export class HpacketTableComponent extends WidgetComponent {
   timestamp = new Date();
   tableHeaders = [];
   totalLength = 0;
+  allData = [];
 
   offlineDataSubscription: Subscription;
 
@@ -100,6 +101,7 @@ export class HpacketTableComponent extends WidgetComponent {
     this.offlineDataSubscription = this.dashboardOfflineDataService.getPacketDataSubject(this.hPacketId).subscribe(
       res => {
         this.totalLength = res;
+        this.allData = [];
         this.tableChild.resetTable(this.totalLength, true);
       });
   }
@@ -130,9 +132,8 @@ export class HpacketTableComponent extends WidgetComponent {
     }
     this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, lowerBound).subscribe(
       res => {
-        const pageData = [];
         res.forEach(a => {
-          if (pageData.length >= this.TABLE_LIMIT) {
+          if (this.allData.length >= this.TABLE_LIMIT) {
             return;
           }
           const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
@@ -141,13 +142,13 @@ export class HpacketTableComponent extends WidgetComponent {
           element[timestampFieldName] = this.dateFormatterService.formatTimestamp(timestampValue);
           if (this.widget.config.packetUnitsConversion)
             this.applyUnitConvertion(this.widget.config.packetUnitsConversion, element);
-          pageData.push(element);
+            this.allData.push(element);
         });
-        this.tableSource.next({type:'DATA', values: pageData});
-        if (pageData.length >= this.TABLE_LIMIT) {
+        this.tableSource.next({type:'DATA', values: this.allData});
+        if (this.allData.length >= this.TABLE_LIMIT) {
           this.tableSource.next({type:'EVENT', event: 'LIMIT_REACHED'});
         }
-        if (pageData.length >= this.totalLength) {
+        if (this.allData.length >= this.totalLength) {
           this.tableSource.next({type:'EVENT', event: 'DATA_END'});
         }
 
