@@ -60,6 +60,7 @@ export class EventTableComponent extends WidgetComponent {
 
   private setDatasource(): void {
     this.dashboardOfflineDataService.addWidget(this.widget.id, this.hPacketId);
+    this.widgetAction.emit({ widget: this.widget, action: 'widget:ready'});
     this.offlineDataSubscription = this.dashboardOfflineDataService.getPacketDataSubject(this.hPacketId).subscribe(
       res => {
         this.totalLength = res;

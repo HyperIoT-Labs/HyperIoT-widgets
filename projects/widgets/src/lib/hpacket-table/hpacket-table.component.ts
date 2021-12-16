@@ -94,6 +94,7 @@ export class HpacketTableComponent extends WidgetComponent {
       }
       this.hPacketId = this.widget.config.packetId;
       this.dashboardOfflineDataService.addWidget(this.widget.id, this.hPacketId);
+      this.widgetAction.emit({ widget: this.widget, action: 'widget:ready'});
     }
     if (this.offlineDataSubscription) {
       this.offlineDataSubscription.unsubscribe();

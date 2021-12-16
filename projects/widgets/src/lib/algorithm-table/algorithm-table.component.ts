@@ -65,6 +65,7 @@ export class AlgorithmTableComponent extends WidgetComponent {
       }
       this.hProjectAlgorithmId = this.widget.config.hProjectAlgorithmId;
       this.algorithmOfflineDataServices.addWidget(this.widget.id, this.hProjectAlgorithmId);
+      this.widgetAction.emit({ widget: this.widget, action: 'widget:ready'});
     }
     setTimeout(() => {
       // first load
