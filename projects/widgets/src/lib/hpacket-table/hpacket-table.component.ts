@@ -50,8 +50,10 @@ export class HpacketTableComponent extends WidgetComponent {
             .from(unitConversion.convertFrom)
             .to(unitConversion.convertTo);
         }
-        // round to configured decimal digits
-        value = (+value).toFixed(unitConversion.decimals);
+        if (!Array.isArray(value)) {
+          // round to configured decimal digits
+          value = (+value).toFixed(unitConversion.decimals);
+        }
         element[key] = value;
       }
     });
