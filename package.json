@@ -17,7 +17,7 @@
   "private": true,
   "dependencies": {
     "@compodoc/compodoc": "^1.1.11",
-    "@hyperiot/components": "0.1.23",
+    "@hyperiot/components": "0.1.26",
     "acorn": "^6.4.2",
     "angular-gridster2": "^9.3.4",
     "angular-plotly.js": "2.0.0",
