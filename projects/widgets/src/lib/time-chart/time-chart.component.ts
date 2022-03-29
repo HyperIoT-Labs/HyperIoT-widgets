@@ -123,6 +123,7 @@ export class TimeChartComponent extends WidgetChartComponent implements OnDestro
     const dataPacketFilter = new DataPacketFilter(cfg.packetId, cfg.packetFields);
 
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
+      console.log('Component|time-chart|subscribeRealTimeStream|eventData: ', eventData);
       const date = eventData[0];
       const field = eventData[1];
       // Map received packet field to the corresponding time series
@@ -189,6 +190,7 @@ export class TimeChartComponent extends WidgetChartComponent implements OnDestro
 
   //Called by set timeout, this method empty the buffer and update the chart
   renderBufferedData(){
+    console.log('Component|time-chart|renderBufferedData|chartData: ', this.chartData);
     const Plotly = this.plotly.getPlotly();
     const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
     if (graph) {

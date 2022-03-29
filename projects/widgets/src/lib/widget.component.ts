@@ -78,6 +78,7 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
   subscribeRealTimeStream(packetFilter: DataPacketFilter, observerCallback: PartialObserver<[any, any]> | any): void {
     this.unsubscribeRealTimeStream();
     this.dataChannel = this.dataStreamService.addDataStream(this.widget.id, packetFilter);
+    console.log('Component|widget-components|subscribeRealTimeStream|dataChannel: ', this.dataChannel);
     this.dataChannel.subject.subscribe(observerCallback);
   }
 
