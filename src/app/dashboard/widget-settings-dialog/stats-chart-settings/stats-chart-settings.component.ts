@@ -26,7 +26,8 @@ export class StatsChartSettingsComponent implements OnInit, OnDestroy {
   constructor(public settingsForm: NgForm) { }
 
   ngOnInit() {
-    if (this.widget.config.data == null || this.widget.config.data.length === 0) {
+    console.log('SETTINGS DATA', this.widget)
+    if (this.widget?.config?.data == null || this.widget?.config?.data?.length === 0) {
       Object.assign(this.widget.config, this.defaultConfig);
     }
     this.dataUrl = this.widget.dataUrl;

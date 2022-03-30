@@ -49,6 +49,7 @@ export class WidgetSettingsDialogComponent implements OnInit {
   }
 
   setWidget(w: any) {
+    console.log('SETWIDGET 1', w)
     this.widget = w;
     this.widgetName = w.name;
   }

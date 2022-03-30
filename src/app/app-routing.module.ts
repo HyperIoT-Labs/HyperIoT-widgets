@@ -7,6 +7,7 @@ import { DashboardsListComponent } from './dashboard/dashboards-list/dashboards-
 import { DashboardViewComponent } from './dashboard/dashboard-view/dashboard-view.component';
 import { AddWidgetDialogComponent } from './dashboard/add-widget-dialog/add-widget-dialog.component';
 import { WidgetSettingsDialogComponent } from './dashboard/widget-settings-dialog/widget-settings-dialog.component';
+import { FullscreenDialogComponent } from './dashboard/fullscreen-dialog/fullscreen-dialog.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,6 +24,11 @@ const routes: Routes = [
       {
         path: 'settings/:widgetId',
         component: WidgetSettingsDialogComponent,
+        outlet: 'modal'
+      },
+      {
+        path: 'fullscreen/:widgetId',
+        component: FullscreenDialogComponent,
         outlet: 'modal'
       }
     ]

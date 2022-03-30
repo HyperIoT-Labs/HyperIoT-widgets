@@ -2,7 +2,9 @@ import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AlgorithmOfflineDataService, DataStreamService } from '@hyperiot/core';
 import { Subject } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
-import * as moment from 'moment';
+import * as moment_ from 'moment';
+
+const moment = moment_;
 
 @Component({
   selector: 'hyperiot-algorithm-table',

@@ -2,8 +2,10 @@ import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DashboardOfflineDataService, DataStreamService } from '@hyperiot/core';
 import { Subject, Subscription } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
-import * as moment from 'moment';
+import * as moment_ from 'moment';
 import { TableEvent } from '@hyperiot/components';
+
+const moment = moment_;
 
 @Component({
   selector: 'hyperiot-error-table',

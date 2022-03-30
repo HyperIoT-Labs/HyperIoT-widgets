@@ -44,6 +44,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
+import { FullscreenDialogComponent } from './dashboard/fullscreen-dialog/fullscreen-dialog.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -76,7 +77,8 @@ export function apiConfigFactory(): Configuration {
     TextLabelSettingsComponent,
     StatsChartSettingsComponent,
     SensorValueSettingsComponent,
-    PacketSelectComponent
+    PacketSelectComponent,
+    FullscreenDialogComponent
   ],
   imports: [
     BrowserModule,

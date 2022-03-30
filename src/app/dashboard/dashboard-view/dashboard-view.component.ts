@@ -1,3 +1,4 @@
+import { FullscreenDialogComponent } from './../fullscreen-dialog/fullscreen-dialog.component';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -26,10 +27,11 @@ export class DashboardViewComponent implements OnInit {
   onActivate(childComponent) {
     if (childComponent instanceof AddWidgetDialogComponent) {
       childComponent.addWidgets.subscribe((widgets) => this.onWidgetsAdd(widgets));
-    } else if (childComponent instanceof WidgetSettingsDialogComponent) {
+    } else if (childComponent instanceof WidgetSettingsDialogComponent || childComponent instanceof FullscreenDialogComponent) {
       const widgetId = childComponent.getWidgetId();
       const widget = this.dashboardLayout.getItemById(widgetId);
       childComponent.setWidget(widget);
+      console.log('SETWIDGET', widget)
     }
   }
 

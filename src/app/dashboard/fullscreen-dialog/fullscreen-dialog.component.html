@@ -1,0 +1,18 @@
+<div class="container-fullscreen d-flex flex-column align-self-center">
+   <div id="header" class="top-bottom-box">
+       Qui header
+   </div>
+   <div id="body">
+
+    <app-dynamic-widget
+        [widget]="widget"
+        (widgetAction)="onWidgetAction($event)"
+    ></app-dynamic-widget>
+            <!--  -->
+   </div>
+   <div id="footer" class="top-bottom-box">
+    <button class="button-close" (click)="close($event)">
+        <span i18n="@@HYT_widget_settings_cancel">Cancel</span> &#10006;
+    </button>
+   </div>
+</div>

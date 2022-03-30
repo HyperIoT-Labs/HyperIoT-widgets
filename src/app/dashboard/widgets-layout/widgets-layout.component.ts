@@ -150,6 +150,14 @@ export class WidgetsLayoutComponent implements OnInit, OnDestroy {
           }
         });
         break;
+      case 'toolbar:fullscreen':
+        console.log('FULLSCREEN CLICKED', data);
+        this.router.navigate([
+          'dashboards',
+          this.dashboardId,
+          { outlets: { modal: ['fullscreen', data.widget.id] } }
+        ])
+        break;
     }
   }
 

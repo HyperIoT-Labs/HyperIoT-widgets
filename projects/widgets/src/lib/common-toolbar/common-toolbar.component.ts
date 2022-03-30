@@ -18,6 +18,9 @@ export class CommonToolbarComponent {
         showRefresh: false,
         showTable: false
     }
+    
+    @Input() toolbarIsVisible: boolean = true;
+
     @Output() action = new EventEmitter<string>();
     isPaused: boolean;
     showTable: boolean;
@@ -69,5 +72,8 @@ export class CommonToolbarComponent {
     }
     onClose() {
         this.action.emit('toolbar:close');
+    }
+    onFullScreen() {
+        this.action.emit('toolbar:fullscreen');
     }
 }

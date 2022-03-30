@@ -12,12 +12,14 @@
     "copy-assets": "cpx \"./src/assets/**/*\" \"./dist/widgets/assets\"",
     "postinstall": "patch-package",
     "locl-extract": "npx locl extract -s=projects/**/*.ts -f=xlf -o=src/locale/messages.xlf",
-    "ng-high-memory": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng"
+    "ng-high-memory": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng",
+    "build:ivy": "ng build",
+    "build:watch": "npm run build:ivy widgets -- --watch"
   },
   "private": true,
   "dependencies": {
     "@compodoc/compodoc": "^1.1.11",
-    "@hyperiot/components": "0.1.26",
+    "@hyperiot/components": "0.1.27",
     "acorn": "^6.4.2",
     "angular-gridster2": "^9.3.4",
     "angular-plotly.js": "2.0.0",
@@ -33,6 +35,7 @@
     "ngx-mask": "^9.1.4",
     "ngx-moment": "^4.0.1",
     "plotly.js": "1.49.4",
+    "stylus": "^0.54.8",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
