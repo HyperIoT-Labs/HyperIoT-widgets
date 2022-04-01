@@ -23,7 +23,7 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
   @Input()
   widget;
   @Output() widgetAction: EventEmitter<any> = new EventEmitter();
-  private isPaused = false;
+  public isPaused = false;
 
   logMessages: {timestamp: Date, message: string, extra: string}[] = [];
 
@@ -33,8 +33,8 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
    * Contructor
    * @param dataStreamService Inject data stream service
    */
-  constructor(public dataStreamService: DataStreamService) {
-    super(dataStreamService);
+  constructor(public dataStreamService: DataStreamService, public dataStreamServiceModal: DataStreamService) {
+    super(dataStreamService, dataStreamServiceModal);
   }
 
   ngOnInit() {

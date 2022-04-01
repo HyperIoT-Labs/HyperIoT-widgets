@@ -8,10 +8,10 @@
             <div></div>
         </div>
     </div> <!-- END LOADER -->
-    
+
     <plotly-plot
         *ngIf="graph.data && graph.data.length > 0 && callBackEnd"
-        divId="widget-{{widget.id}}"
+        divId="{{widgetPrefixId}}widget-{{widget.id}}"
         [data]="graph.data"
         [layout]="graph.layout"
         [useResizeHandler]="true"
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <hyperiot-common-toolbar #toolbar *ngIf="callBackEnd" (action)="onToolbarAction($event)" [config]="{
+    <hyperiot-common-toolbar #toolbar *ngIf="callBackEnd" [toolbarIsVisible]="commonToolbarHideButton" (action)="onToolbarAction($event)" [config]="{
     showClose: true,
     showSettings: true,
     showTable: isConfigured,
@@ -35,4 +35,6 @@
         showClose: true
     }"></hyperiot-common-toolbar>
 
+</div>
+<div>
 </div>

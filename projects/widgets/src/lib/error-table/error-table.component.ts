@@ -38,9 +38,10 @@ export class ErrorTableComponent extends WidgetComponent {
 
   constructor(
     public dataStreamService: DataStreamService,
+    public dataStreamServiceModal: DataStreamService,
     private dashboardOfflineDataService: DashboardOfflineDataService
   ) {
-    super(dataStreamService);
+    super(dataStreamService, dataStreamServiceModal);
     this.errorPacketId = -2;
     this.hPacketId = this.errorPacketId;
     this.errorMessageFieldName = 'error';

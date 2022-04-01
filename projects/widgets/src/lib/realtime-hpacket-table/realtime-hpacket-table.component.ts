@@ -28,9 +28,10 @@ export class RealtimeHPacketTableComponent extends WidgetMultiValueComponent {
 
   constructor(
     public dataStreamService: DataStreamService,
+    public dataStreamServiceModal: DataStreamService,
     private dateFormatterService: DateFormatterService
   ) {
-    super(dataStreamService);
+    super(dataStreamService, dataStreamServiceModal);
   }
 
   configure() {
@@ -58,7 +59,7 @@ export class RealtimeHPacketTableComponent extends WidgetMultiValueComponent {
       fieldIds.forEach(hPacketFieldId => this.tableHeaders.push(this.widget.config.packetFields[hPacketFieldId]));
       this.tableHeaders.push(this.widget.config.timestampFieldName);  // display timestamp too
     }
-  
+
     this.hPacketId = this.widget.config.packetId;
     const dataPacketFilter = new DataPacketFilter(this.hPacketId, this.widget.config.packetFields, true);
     this.subscribeDataStream(dataPacketFilter);

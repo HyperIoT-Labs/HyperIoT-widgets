@@ -26,10 +26,11 @@ export class SensorValueComponent extends WidgetSingleValueComponent implements 
 
   constructor(
     public dataStreamService: DataStreamService,
+    public dataStreamServiceModal: DataStreamService,
     private widgetsService: WidgetsService,
     private unitFormatterService: UnitFormatterService
   ) {
-    super(dataStreamService);
+    super(dataStreamService, dataStreamServiceModal);
   }
 
   ngOnDestroy(){
@@ -60,7 +61,7 @@ export class SensorValueComponent extends WidgetSingleValueComponent implements 
     }
     // reset fields
     this.resetValue();
-  
+
     // Set Callback End
     this.callBackEnd = true;
 
@@ -74,7 +75,7 @@ export class SensorValueComponent extends WidgetSingleValueComponent implements 
       // get the sensor field name and value
       let dataValue:DataValue = this.unitFormatterService.format(cfg,this.timestamp,field);
       this.sensorField = dataValue.getName();
-      this.sensorUnitSymbol = dataValue.getUnit();  
+      this.sensorUnitSymbol = dataValue.getUnit();
       let newValue = dataValue.getValue();
       this.updateValue(newValue);
     });

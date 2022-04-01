@@ -27,9 +27,10 @@ export class AlgorithmTableComponent extends WidgetComponent {
 
   constructor(
     public dataStreamService: DataStreamService,
+    public dataStreamServiceModal: DataStreamService,
     private algorithmOfflineDataServices: AlgorithmOfflineDataService
   ) {
-    super(dataStreamService);
+    super(dataStreamService, dataStreamServiceModal);
   }
 
   configure() {

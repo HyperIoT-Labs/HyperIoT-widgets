@@ -1,4 +1,4 @@
-import { Component, AfterContentInit } from '@angular/core';
+import {Component, AfterContentInit, OnInit} from '@angular/core';
 
 import { DataStreamService } from '@hyperiot/core';
 
@@ -98,7 +98,6 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
       }
     }
   };
-  isPaused: boolean;
 
   private defaultSeriesConfig = {
     type: 'scatter',
@@ -109,23 +108,31 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
 
   private relayoutTimeout = null;
   private relayoutTimestamp;
+  public isPaused: boolean;
 
   constructor(
     public dataStreamService: DataStreamService,
-    public plotly: PlotlyService
+    public dataStreamServiceModal: DataStreamService,
+    public plotly: PlotlyService,
+    public plotlyModal: PlotlyService
   ) {
-    super(dataStreamService);
+    super(dataStreamService, dataStreamServiceModal);
   }
 
   configure() {
     super.configure();
-    this.graph.data = [];
+    // this.graph.data = [];
     // not sure how to get rid of this timeout
     setTimeout(() => {
+      const PlotlyModal = this.plotlyModal.getPlotly();
+      const graphModal = this.plotlyModal.getInstanceByDivId(`${this.data}-widget-${this.widget.id}`);
+      if (graphModal) {
+        PlotlyModal.relayout(graphModal, {autosize: true});
+      }
       const Plotly = this.plotly.getPlotly();
       const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
       if (graph != null) {
-        Plotly.relayout(graph, { autosize: true });
+        Plotly.relayout(graph, {autosize: true});
       }
     }, 1000);
   }
@@ -195,37 +202,38 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
     for(let i = 0; i < xValues.length;i++){
       series.x.push(xValues[i]);
       series.y.push(yValues[i]);
-    }  
+    }
     series.lastBufferIndexUpdated += xValues.length;
   }
 
   /**
    * Render all series inside a chart
-   * @param series 
-   * @param Plotly 
-   * @param graph 
+   * @param series
+   * @param Plotly
+   * @param graph
    */
-  renderAllSeriesData(series:TimeSeries[],Plotly,graph){
+  renderAllSeriesData(series:TimeSeries[], Plotly, graph, isPaused = false){
     for (let s = 0; s < series.length; s++) {
         let serieIndex = s;
         let bufferedSerie = series[s];
-        this.renderSeriesData(bufferedSerie,serieIndex,Plotly,graph);
+        this.renderSeriesData(bufferedSerie, serieIndex, Plotly, graph, isPaused);
       }
   }
 
   /**
    * Render single serie
-   * @param series 
-   * @param serieIndex 
-   * @param Plotly 
-   * @param graph 
+   * @param series
+   * @param serieIndex
+   * @param Plotly
+   * @param graph
    */
-  renderSeriesData(series: TimeSeries,serieIndex,Plotly,graph):void{
-    if(!this.isPaused){
+  renderSeriesData(series: TimeSeries, serieIndex, Plotly, graph, isPaused = false):void{
+    console.log('Component|widget-chart|renderSeriesData|: ', this.data, `widget-${this.widget.id}`, isPaused);
+    if(!isPaused){
       // keeps data length < this.maxDataPoints
       this.applySizeConstraints(series);
       // reset x axis range to default
-      this.requestRelayout(series.x[series.x.length-1]);
+      this.requestRelayout(series.x[series.x.length-1], graph);
       //updating only if there's data
       if(series.x.length > 0 && series.y.length > 0){
           let xValues:Date[] = series.x.splice(0,series.lastBufferIndexUpdated);
@@ -258,24 +266,30 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
 
   // Private methods
 
-  private requestRelayout(lastEventDate: Date) {
+  private requestRelayout(lastEventDate: Date, graph) {
     this.relayoutTimestamp = lastEventDate;
     if (this.relayoutTimeout === null) {
       this.relayoutTimeout = setTimeout(() => {
         this.relayoutTimeout = null;
-        this.relayout(this.relayoutTimestamp);
+        this.relayout(this.relayoutTimestamp, graph);
       }, 100);
     }
   }
-  private relayout(lastEventDate: Date) {
+  private relayout(lastEventDate: Date, graph) {
     if(lastEventDate == undefined || lastEventDate == null)
       return;
     // set x range to the last 30 seconds of data
     const rangeEnd = new Date(lastEventDate);
     const rangeStart = new Date(rangeEnd.getTime() - (1 * this.widget.config.timeAxisRange * 1000));
+    let Plotly;
     // relayout x-axis range with new data
-    const Plotly = this.plotly.getPlotly();
-    const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
+    if(this.data === 'modal') {
+      Plotly = this.plotlyModal.getPlotly();
+    } else {
+      Plotly = this.plotly.getPlotly();
+    }
+
+    // const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
     if (graph) {
       Plotly.relayout(graph, {
         'xaxis.range': [rangeStart, rangeEnd],

@@ -1,5 +1,5 @@
 import {
-  Component, ViewEncapsulation,OnDestroy
+  Component, ViewEncapsulation, OnDestroy, OnInit
 } from '@angular/core';
 
 import { DataPacketFilter, DataStreamService } from '@hyperiot/core';
@@ -17,25 +17,34 @@ import { isGeneratedFile } from '@angular/compiler/src/aot/util';
   styleUrls: ['../../../../../src/assets/widgets/styles/widget-commons.css', './time-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TimeChartComponent extends WidgetChartComponent implements OnDestroy {
+export class TimeChartComponent extends WidgetChartComponent implements OnDestroy, OnInit {
   private chartData: TimeSeries[] = [];
   //Buffer
   private refreshingBuffer = false;
+  public isPaused: boolean;
 
   callBackEnd = false;
   private refreshHandler = null;
+  widgetPrefixId = '';
 
   constructor(
     public dataStreamService: DataStreamService,
+    public dataStreamServiceModal: DataStreamService,
     public plotly: PlotlyService,
+    public plotlyModal: PlotlyService,
     private widgetsService: WidgetsService
   ) {
-    super(dataStreamService, plotly);
+    super(dataStreamService, dataStreamServiceModal, plotly, plotlyModal);
+  }
+
+  ngOnInit() {
+    this.data === '' ? this.widgetPrefixId = '' : this.widgetPrefixId = this.data + '-';
   }
 
   configure() {
     super.configure();
     this.chartData = [];
+
 
     if (!(this.widget.config != null
       && this.widget.config.packetId != null
@@ -123,7 +132,7 @@ export class TimeChartComponent extends WidgetChartComponent implements OnDestro
     const dataPacketFilter = new DataPacketFilter(cfg.packetId, cfg.packetFields);
 
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
-      console.log('Component|time-chart|subscribeRealTimeStream|eventData: ', eventData);
+      // console.log('Component|time-chart|subscribeRealTimeStream|eventData: ', eventData);
       const date = eventData[0];
       const field = eventData[1];
       // Map received packet field to the corresponding time series
@@ -171,43 +180,56 @@ export class TimeChartComponent extends WidgetChartComponent implements OnDestro
         });
       });
     });
-    //default 1 sec
-    let refreshInterval = (cfg.refreshIntervalMillis)?cfg.refreshIntervalMillis:1000;
-    let self = this;
-    this.refreshHandler = setInterval(function(){
-        if(!self.refreshingBuffer){
-          self.refreshingBuffer = true;
-          self.renderBufferedData();
-          //avoind multiple refresh if one is already running
-          self.refreshingBuffer = false;
+    // default 1 sec
+    const refreshInterval = (cfg.refreshIntervalMillis)?cfg.refreshIntervalMillis:1000;
+    this.refreshHandler = setInterval(() => {
+        if(!this.refreshingBuffer){
+          this.refreshingBuffer = true;
+          this.renderBufferedData();
+          // avoind multiple refresh if one is already running
+          this.refreshingBuffer = false;
         }
     },refreshInterval);
   }
 
   ngOnDestroy(){
-    clearInterval(this.refreshHandler)
+    if (this.data !== 'modal') {
+      console.log('Component|time-chart|ngOnDestroy|ClearInterval: ', this.data, this.refreshHandler);
+      clearInterval(this.refreshHandler);
+    }
   }
 
-  //Called by set timeout, this method empty the buffer and update the chart
+  // Called by set timeout, this method empty the buffer and update the chart
   renderBufferedData(){
-    console.log('Component|time-chart|renderBufferedData|chartData: ', this.chartData);
+    console.log('Component|time-chart|renderBufferedData|[chartData,graph,widjetId]: ', this.data);
     const Plotly = this.plotly.getPlotly();
+    const PlotlyModal = this.plotlyModal.getPlotly();
     const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
+    const graphModal = this.plotlyModal.getInstanceByDivId(`${this.data}-widget-${this.widget.id}`);
+    if (graphModal) {
+      this.renderAllSeriesData(this.chartData, PlotlyModal, graphModal, this.isPaused);
+    }
     if (graph) {
-           super.renderAllSeriesData(this.chartData,Plotly,graph);
-      }
+      this.renderAllSeriesData(this.chartData, Plotly, graph, this.isPaused);
+    }
   }
 
   onToolbarAction(action: string) {
     switch (action) {
       case 'toolbar:play':
-        this.isPaused = false;
+        // this.isPaused = false;
         this.play();
+        console.log('\x1B[36mComponents|time-chart|PAUSE: ', this.isPaused)
         break;
       case 'toolbar:pause':
-        this.isPaused = false;
+        // this.isPaused = false;
         this.pause();
+        console.log('\x1B[34mComponents|time-chart|PAUSE: ', this.isPaused)
         break;
+      case 'toolbar:fullscreen':
+        if(this.data === 'modal') {
+          this.data = '';
+        }
     }
     this.widgetAction.emit({ widget: this.widget, action });
   }
