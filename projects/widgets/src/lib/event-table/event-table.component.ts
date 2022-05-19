@@ -86,7 +86,7 @@ export class EventTableComponent extends WidgetComponent {
     if (this.pRequest) {
       this.pRequest.unsubscribe();
     }
-    this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, lowerBound).subscribe(
+    this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, "", lowerBound).subscribe(
       res => {
         const pageData = [];
         res.forEach(a => {

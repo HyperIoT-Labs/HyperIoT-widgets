@@ -133,7 +133,7 @@ export class HpacketTableComponent extends WidgetComponent {
     if (this.pRequest) {
       this.pRequest.unsubscribe();
     }
-    this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, lowerBound).subscribe(
+    this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, "", lowerBound).subscribe(
       res => {
         res.forEach(a => {
           if (this.allData.length >= this.TABLE_LIMIT) {
