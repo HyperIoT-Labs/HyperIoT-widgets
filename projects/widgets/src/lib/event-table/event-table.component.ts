@@ -3,7 +3,7 @@ import { DashboardOfflineDataService, DataStreamService } from '@hyperiot/core';
 import { Subject, Subscription } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
 import * as moment from 'moment';
-import { TableEvent } from '@hyperiot/components';
+import { TableEvent, TableHeader } from '@hyperiot/components';
 
 @Component({
   selector: 'hyperiot-event-table',
@@ -23,7 +23,7 @@ export class EventTableComponent extends WidgetComponent {
   pRequest;
   tableSource: Subject<TableEvent> = new Subject<TableEvent>();
   timestamp = new Date();
-  tableHeaders = [];
+  tableHeaders: TableHeader[] = [];
   totalLength = 0;
 
   offlineDataSubscription: Subscription;
@@ -49,8 +49,8 @@ export class EventTableComponent extends WidgetComponent {
     this.widget.config.timestampFieldName = this.eventPacketTimestampFieldName;
     this.widget.config.packetFields = {};
     this.widget.config.packetFields[this.eventPacketId] = this.eventPacketFieldName
-    this.tableHeaders.push(this.widget.config.packetFields[this.eventPacketId]);
-    this.tableHeaders.push(this.widget.config.timestampFieldName)
+    this.tableHeaders.push({ value: this.widget.config.packetFields[this.eventPacketId] });
+    this.tableHeaders.push({ value: this.widget.config.timestampFieldName })
     setTimeout(() => {
       this.callBackEnd = true;
     }, 500);
@@ -93,7 +93,7 @@ export class EventTableComponent extends WidgetComponent {
           if (pageData.length >= this.TABLE_LIMIT) {
             return;
           }
-          const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
+          const element = this.tableHeaders.map(x=>x.value).reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
           const timestampFieldName = this.widget.config.timestampFieldName;
           element[timestampFieldName] = moment(element[timestampFieldName]).format('L') + ' ' + moment(element[timestampFieldName]).format('LTS');
           pageData.push(element);

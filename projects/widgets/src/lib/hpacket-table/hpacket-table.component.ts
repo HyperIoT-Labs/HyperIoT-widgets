@@ -4,7 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
 import { WidgetsService } from '../widgets.service';
 import { DateFormatterService } from '../util/date-formatter.service';
-import { TableEvent } from '@hyperiot/components';
+import { TableEvent, TableHeader } from '@hyperiot/components';
 
 @Component({
   selector: 'hyperiot-hpacket-table',
@@ -23,7 +23,7 @@ export class HpacketTableComponent extends WidgetComponent {
   pRequest;
   tableSource: Subject<TableEvent> = new Subject<TableEvent>();
   timestamp = new Date();
-  tableHeaders = [];
+  tableHeaders: TableHeader[] = [];
   totalLength = 0;
   allData = [];
 
@@ -80,9 +80,11 @@ export class HpacketTableComponent extends WidgetComponent {
     // Set header
     const fieldIds = Object.keys(this.widget.config.packetFields);
     if (fieldIds.length > 0) {
-      this.tableHeaders = [];
-      fieldIds.forEach(hPacketFieldId => this.tableHeaders.push(this.widget.config.packetFields[hPacketFieldId]));
-      this.tableHeaders.push(this.widget.config.timestampFieldName);  // display timestamp too
+      this.tableHeaders = fieldIds.map(hPacketFieldId => ({
+        value: this.widget.config.packetFields[hPacketFieldId],
+        label: this.widget.config.fieldAliases[hPacketFieldId] || this.widget.config.packetFields[hPacketFieldId]
+      }));
+      this.tableHeaders.push({ value: this.widget.config.timestampFieldName });  // display timestamp too
     }
 
     // set data source
@@ -139,7 +141,7 @@ export class HpacketTableComponent extends WidgetComponent {
           if (this.allData.length >= this.TABLE_LIMIT) {
             return;
           }
-          const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
+          const element = this.tableHeaders.map(x=>x.value).reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
           const timestampValue = this.getDatum(a.fields,a.timestampField);
           const timestampFieldName = this.widget.config.timestampFieldName;
           element[timestampFieldName] = this.dateFormatterService.formatTimestamp(timestampValue);
