@@ -1,12 +1,12 @@
 {
   "name": "@hyperiot/widgets",
-  "version": "0.3.7",
+  "version": "0.3.9",
   "publishConfig": {
     "registry": "https://nexus.acsoftware.it/nexus/repository/acs-npm/",
     "always-auth": "true"
   },
   "peerDependencies": {
-    "@hyperiot/components": "^0.1.27",
+    "@hyperiot/components": "^0.1.29",
     "angular-plotly.js": "2.0.0",
     "ngx-moment": "^4.0.1",
     "plotly.js": "1.49.4"

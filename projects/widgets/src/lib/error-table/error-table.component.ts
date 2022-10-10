@@ -3,7 +3,7 @@ import { DashboardOfflineDataService, DataStreamService } from '@hyperiot/core';
 import { Subject, Subscription } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
 import * as moment_ from 'moment';
-import { TableEvent } from '@hyperiot/components';
+import { TableEvent, TableHeader } from '@hyperiot/components';
 
 const moment = moment_;
 
@@ -25,7 +25,7 @@ export class ErrorTableComponent extends WidgetComponent {
   pRequest;
   tableSource: Subject<TableEvent> = new Subject<TableEvent>();
   timestamp = new Date();
-  tableHeaders = [];
+  tableHeaders: TableHeader[] = [];
   totalLength = 0;
 
   offlineDataSubscription: Subscription;
@@ -55,9 +55,9 @@ export class ErrorTableComponent extends WidgetComponent {
     this.widget.config.timestampFieldName = this.errorPacketTimestampFieldName;
     this.widget.config.packetFields = {};
     this.widget.config.packetFields[this.errorPacketId] = this.errorMessageFieldName
-    this.tableHeaders.push(this.widget.config.packetFields[this.errorPacketId]);
-    this.tableHeaders.push(this.errorPacketFieldName);
-    this.tableHeaders.push(this.widget.config.timestampFieldName);
+    this.tableHeaders.push({ value: this.widget.config.packetFields[this.errorPacketId]});
+    this.tableHeaders.push({ value: this.errorPacketFieldName});
+    this.tableHeaders.push({ value: this.widget.config.timestampFieldName});
     setTimeout(() => {
       this.callBackEnd = true;
     }, 500);
@@ -93,14 +93,14 @@ export class ErrorTableComponent extends WidgetComponent {
     if (this.pRequest) {
       this.pRequest.unsubscribe();
     }
-    this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, lowerBound).subscribe(
+    this.pRequest = this.dashboardOfflineDataService.getData(this.hPacketId, "", lowerBound).subscribe(
       res => {
         const pageData = [];
         res.forEach(a => {
           if (pageData.length >= this.TABLE_LIMIT) {
             return;
           }
-          const element = this.tableHeaders.reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
+          const element = this.tableHeaders.map(x=>x.value).reduce((prev, curr) => { prev[curr] = this.getDatum(a.fields, curr); return prev; }, {});
           const timestampFieldName = this.widget.config.timestampFieldName;
           element[timestampFieldName] = moment(element[timestampFieldName]).format('L') + ' ' + moment(element[timestampFieldName]).format('LTS');
           pageData.push(element);
