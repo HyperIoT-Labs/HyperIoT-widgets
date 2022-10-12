@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { DateFormatterService } from '../util/date-formatter.service';
 import { WidgetMultiValueComponent } from '../widget-multi-value.component';
 import { WidgetComponent } from '../widget.component';
+import { LazyTableHeader } from '@hyperiot/components';
 
 @Component({
   selector: 'hyperiot-realtime-hpacket-table',
@@ -21,7 +22,7 @@ export class RealtimeHPacketTableComponent extends WidgetMultiValueComponent {
   tableSource: Subject<any[]> = new Subject<any[]>();
   array: object[] = [];
   timestamp = new Date();
-  tableHeaders = [];
+  tableHeaders: LazyTableHeader[] = [];
   totalLength = 0;
 
   offlineDataSubscription: Subscription;
@@ -56,8 +57,11 @@ export class RealtimeHPacketTableComponent extends WidgetMultiValueComponent {
     const fieldIds = Object.keys(this.widget.config.packetFields);
     if (fieldIds.length > 0) {
       this.tableHeaders = [];
-      fieldIds.forEach(hPacketFieldId => this.tableHeaders.push(this.widget.config.packetFields[hPacketFieldId]));
-      this.tableHeaders.push(this.widget.config.timestampFieldName);  // display timestamp too
+      this.tableHeaders = fieldIds.map(hPacketFieldId => ({
+        value: this.widget.config.packetFields[hPacketFieldId],
+        label: this.widget.config.fieldAliases[hPacketFieldId] || this.widget.config.packetFields[hPacketFieldId]
+      }))
+      this.tableHeaders.push({ value: this.widget.config.timestampFieldName });  // display timestamp too
     }
 
     this.hPacketId = this.widget.config.packetId;
