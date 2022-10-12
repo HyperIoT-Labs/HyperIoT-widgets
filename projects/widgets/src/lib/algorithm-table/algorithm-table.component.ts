@@ -3,6 +3,7 @@ import { AlgorithmOfflineDataService, DataStreamService } from '@hyperiot/core';
 import { Subject } from 'rxjs';
 import { WidgetComponent } from '../widget.component';
 import * as moment from 'moment';
+import { LazyTableHeader } from '@hyperiot/components';
 
 @Component({
   selector: 'hyperiot-algorithm-table',
@@ -20,7 +21,7 @@ export class AlgorithmTableComponent extends WidgetComponent {
   array: object[] = [];
   pRequest;
   tableSource: Subject<any[]> = new Subject<any[]>();
-  tableHeaders = [];
+  tableHeaders: LazyTableHeader[] = [];
   totalLength = 1;
 
   constructor(
@@ -51,7 +52,7 @@ export class AlgorithmTableComponent extends WidgetComponent {
     const outputFields: string[] = this.widget.config.outputFields;
     if (outputFields.length > 0) {
       this.tableHeaders = [];
-      outputFields.forEach(outputField => this.tableHeaders.push(outputField));
+      this.tableHeaders = outputFields.map(outputField => ({ value: outputField }));
     }
 
     // set data source
@@ -109,7 +110,7 @@ export class AlgorithmTableComponent extends WidgetComponent {
           const value = res.rows[rowKey].value;
           const millis = +value.timestamp * 1000;
           value.timestamp = moment(millis).format('L') + ' ' + moment(millis).format('LTS');
-          this.tableHeaders = Object.keys(value);
+          this.tableHeaders = Object.keys(value).map(k => ({ value: k }));
           pageData.push(value);
           this.totalLength = 1;
           this.tableSource.next(pageData);
