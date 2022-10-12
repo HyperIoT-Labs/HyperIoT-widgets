@@ -76,6 +76,7 @@ export class HpacketTableComponent extends WidgetComponent {
     // Set Callback End
     setTimeout(() => {
       this.callBackEnd = true;
+      this.setDatasource();
     }, 500);
 
     // Set header
@@ -87,9 +88,6 @@ export class HpacketTableComponent extends WidgetComponent {
       }));
       this.tableHeaders.push({ value: this.widget.config.timestampFieldName });  // display timestamp too
     }
-
-    // set data source
-    this.setDatasource();
   }
 
   private setDatasource(): void {

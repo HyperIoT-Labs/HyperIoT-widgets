@@ -56,9 +56,8 @@ export class EventTableComponent extends WidgetComponent {
     this.tableHeaders.push({ value: this.widget.config.timestampFieldName })
     setTimeout(() => {
       this.callBackEnd = true;
+      this.setDatasource();
     }, 500);
-    // set data source
-    this.setDatasource();
   }
 
   private setDatasource(): void {
