@@ -1,5 +1,5 @@
 import { OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges, AfterContentInit, ViewChild } from '@angular/core';
-import { PartialObserver } from 'rxjs';
+import { PartialObserver, Subscription } from 'rxjs';
 
 import { DataChannel, DataStreamService, DataPacketFilter } from '@hyperiot/core';
 import { CommonToolbarComponent } from './common-toolbar/common-toolbar.component';
@@ -9,7 +9,6 @@ import { CommonToolbarComponent } from './common-toolbar/common-toolbar.componen
  */
 export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterContentInit {
   protected dataChannel: DataChannel;
-  protected dataChannelModal: DataChannel;
   /**
    * Widget configuration object (template-bindable)
    *
@@ -28,7 +27,9 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
   public data: any = '';
 
   @Input()
-  public commonToolbarHideButton = true;
+  public isModalView = false;
+
+  dataSubscription: Subscription;
 
   // used to signal widget actions
   @Output() widgetAction: EventEmitter<any> = new EventEmitter();
@@ -39,13 +40,11 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
   /**
    * Contructor
    * @param dataStreamService Inject data stream service
-   * @param dataStreamServiceModal Inject data stream service for Modal
    */
-  constructor(public dataStreamService: DataStreamService, public dataStreamServiceModal: DataStreamService) {
+  constructor(public dataStreamService: DataStreamService) {
   }
 
   ngAfterContentInit() {
-    console.log('WIDGET CONSTRUCT DATA: ', this.data);
     this.configure();
   }
 
@@ -57,9 +56,7 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
 
   ngOnDestroy() {
     // clean up event and subject subscriptions
-    if (this.data !== 'modal') {
-      this.unsubscribeRealTimeStream();
-    }
+    this.unsubscribeRealTimeStream();
   }
 
   /**
@@ -81,6 +78,7 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
    */
   abstract play(): void;
 
+
   /**
    * Set the real-time data stream the widget will receive data from
    *
@@ -88,16 +86,9 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
    * @param observerCallback Callback to fire once new data is received
    */
   subscribeRealTimeStream(packetFilter: DataPacketFilter, observerCallback: PartialObserver<[any, any]> | any): void {
-    // this.unsubscribeRealTimeStream();
+    this.unsubscribeRealTimeStream();
     this.dataChannel = this.dataStreamService.addDataStream(this.widget.id, packetFilter);
-    console.log('Component|widget-components|subscribeRealTimeStream|dataChannel: ', this.dataChannel);
-    this.dataChannel.subject.subscribe(observerCallback);
-    if (this.data === 'modal') {
-      // this.unsubscribeRealTimeStream();
-      this.dataChannelModal = this.dataStreamServiceModal.addDataStream(this.widget.id, packetFilter);
-      console.log('Component|widget-components|subscribeRealTimeStream|dataChannel: ', this.dataChannelModal);
-      this.dataChannelModal.subject.subscribe(observerCallback);
-    }
+    this.dataSubscription = this.dataChannel.subject.subscribe(observerCallback);
   }
 
   /**
@@ -106,12 +97,8 @@ export abstract class WidgetComponent implements OnDestroy, OnChanges, AfterCont
   unsubscribeRealTimeStream(): void {
     if (this.dataChannel != null) {
       // TODO: maybe move the unsubscription inside the DataStreamServiceid)l
-      if (this.data !== 'modal') {
-        this.dataChannel.subject.unsubscribe();
-        this.dataChannelModal.subject.unsubscribe();
-        this.dataStreamService.removeDataChannel(this.widget.id);
-        this.dataStreamServiceModal.removeDataChannel(this.widget.id);
-      }
+      this.dataSubscription.unsubscribe();
+      this.dataStreamService.removeDataChannel(this.widget.id);
     }
   }
 

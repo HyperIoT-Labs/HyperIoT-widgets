@@ -36,10 +36,9 @@ export class EventTableComponent extends WidgetComponent {
 
   constructor(
     public dataStreamService: DataStreamService,
-    public dataStreamServiceModal: DataStreamService,
     private dashboardOfflineDataService: DashboardOfflineDataService
   ) {
-    super(dataStreamService, dataStreamServiceModal);
+    super(dataStreamService);
     this.eventPacketId = -1;
     this.hPacketId = this.eventPacketId;
     this.eventPacketFieldName = 'event';

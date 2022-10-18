@@ -22,8 +22,8 @@ export class TextLabelComponent extends WidgetComponent implements OnInit, OnDes
   widget;
   @Output() widgetAction: EventEmitter<any> = new EventEmitter();
 
-  constructor(public dataStreamService: DataStreamService, public dataStreamServiceModal: DataStreamService) {
-    super(dataStreamService, dataStreamServiceModal);
+  constructor(public dataStreamService: DataStreamService) {
+    super(dataStreamService);
   }
 
   ngOnInit() {

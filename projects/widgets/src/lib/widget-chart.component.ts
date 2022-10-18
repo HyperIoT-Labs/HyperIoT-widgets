@@ -112,16 +112,15 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
 
   constructor(
     public dataStreamService: DataStreamService,
-    public dataStreamServiceModal: DataStreamService,
     public plotly: PlotlyService,
     public plotlyModal: PlotlyService
   ) {
-    super(dataStreamService, dataStreamServiceModal);
+    super(dataStreamService);
   }
 
   configure() {
     super.configure();
-    // this.graph.data = [];
+    this.graph.data = [];
     // not sure how to get rid of this timeout
     setTimeout(() => {
       const PlotlyModal = this.plotlyModal.getPlotly();

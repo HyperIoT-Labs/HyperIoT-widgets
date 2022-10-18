@@ -20,11 +20,10 @@ export class ImageDataComponent extends WidgetComponent implements OnInit {
 
   constructor(
     public dataStreamService: DataStreamService,
-    public dataStreamServiceModal: DataStreamService,
     private widgetsService: WidgetsService,
     private sanitizer: DomSanitizer
   ) {
-    super(dataStreamService, dataStreamServiceModal);
+    super(dataStreamService);
   }
 
   pause(): void {

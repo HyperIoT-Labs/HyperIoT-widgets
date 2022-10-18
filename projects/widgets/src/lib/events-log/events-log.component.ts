@@ -33,8 +33,8 @@ export class EventsLogComponent extends WidgetComponent implements OnInit, OnDes
    * Contructor
    * @param dataStreamService Inject data stream service
    */
-  constructor(public dataStreamService: DataStreamService, public dataStreamServiceModal: DataStreamService) {
-    super(dataStreamService, dataStreamServiceModal);
+  constructor(public dataStreamService: DataStreamService) {
+    super(dataStreamService);
   }
 
   ngOnInit() {

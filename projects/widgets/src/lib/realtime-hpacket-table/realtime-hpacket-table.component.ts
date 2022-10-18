@@ -29,10 +29,9 @@ export class RealtimeHPacketTableComponent extends WidgetMultiValueComponent {
 
   constructor(
     public dataStreamService: DataStreamService,
-    public dataStreamServiceModal: DataStreamService,
     private dateFormatterService: DateFormatterService
   ) {
-    super(dataStreamService, dataStreamServiceModal);
+    super(dataStreamService);
   }
 
   configure() {
@@ -73,6 +72,7 @@ export class RealtimeHPacketTableComponent extends WidgetMultiValueComponent {
 
   private subscribeDataStream(dataPacketFilter: DataPacketFilter): void {
     this.subscribeRealTimeStream(dataPacketFilter, (eventData) => {
+      console.log(eventData);
       if (this.isPaused) {
         return;
       }

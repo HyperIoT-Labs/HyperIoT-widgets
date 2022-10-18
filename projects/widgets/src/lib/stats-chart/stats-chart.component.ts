@@ -22,8 +22,8 @@ export class StatsChartComponent extends WidgetChartComponent {
   // just for testing purposes.
   // The real implementation should relay on
   // HyperIoT REST API client implementation
-  constructor(dataStreamService: DataStreamService, dataStreamServiceModal: DataStreamService, plotly: PlotlyService, plotlyModal: PlotlyService, private http: HttpClient) {
-    super(dataStreamService, dataStreamServiceModal, plotly, plotlyModal);
+  constructor(dataStreamService: DataStreamService, plotly: PlotlyService, plotlyModal: PlotlyService, private http: HttpClient) {
+    super(dataStreamService, plotly, plotlyModal);
   }
 
   configure() {

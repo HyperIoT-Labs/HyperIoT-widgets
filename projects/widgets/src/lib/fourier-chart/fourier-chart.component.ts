@@ -27,11 +27,10 @@ export class FourierChartComponent extends WidgetChartComponent {
 
   constructor(
     public dataStreamService: DataStreamService,
-    public dataStreamServiceModal: DataStreamService,
     public plotly: PlotlyService,
     public plotlyModal: PlotlyService
 ) {
-    super(dataStreamService, dataStreamServiceModal, plotly, plotlyModal);
+    super(dataStreamService, plotly, plotlyModal);
   }
 
   configure() {

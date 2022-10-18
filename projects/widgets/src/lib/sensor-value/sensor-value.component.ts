@@ -26,11 +26,10 @@ export class SensorValueComponent extends WidgetSingleValueComponent implements 
 
   constructor(
     public dataStreamService: DataStreamService,
-    public dataStreamServiceModal: DataStreamService,
     private widgetsService: WidgetsService,
     private unitFormatterService: UnitFormatterService
   ) {
-    super(dataStreamService, dataStreamServiceModal);
+    super(dataStreamService);
   }
 
   ngOnDestroy(){

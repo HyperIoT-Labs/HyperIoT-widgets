@@ -24,12 +24,12 @@
         </div>
     </div>
 
-    <hyperiot-common-toolbar #toolbar *ngIf="callBackEnd" (action)="onToolbarAction($event)" [config]="{
+    <hyperiot-common-toolbar #toolbar *ngIf="callBackEnd" [toolbarIsVisible]="!isModalView" (action)="onToolbarAction($event)" [config]="{
         showClose: true,
         showSettings: true
     }"></hyperiot-common-toolbar>
 
-    <hyperiot-common-toolbar *ngIf="!callBackEnd" (action)="onToolbarAction($event)" [config]="{
+    <hyperiot-common-toolbar *ngIf="!callBackEnd" [toolbarIsVisible]="!isModalView" (action)="onToolbarAction($event)" [config]="{
         showClose: true
     }"></hyperiot-common-toolbar>
 

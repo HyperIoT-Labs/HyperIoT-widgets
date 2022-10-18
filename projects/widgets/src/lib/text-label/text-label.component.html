@@ -6,7 +6,7 @@
     {{widget.config.labelText}}
   </div>
 
-  <hyperiot-common-toolbar (action)="onToolbarAction($event)" [config]="{
+  <hyperiot-common-toolbar [toolbarIsVisible]="!isModalView" (action)="onToolbarAction($event)" [config]="{
     showClose: true,
     showSettings: true
   }"></hyperiot-common-toolbar>

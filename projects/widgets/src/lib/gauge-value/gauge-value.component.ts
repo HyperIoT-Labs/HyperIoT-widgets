@@ -21,12 +21,11 @@ export class GaugeValueComponent extends WidgetChartComponent {
 
   constructor(
     public dataStreamService: DataStreamService,
-    public dataStreamServiceModal: DataStreamService,
     public plotly: PlotlyService,
     public plotlyModal: PlotlyService,
     private widgetsService: WidgetsService
   ) {
-    super(dataStreamService, dataStreamServiceModal, plotly, plotlyModal);
+    super(dataStreamService, plotly, plotlyModal);
   }
 
   configure() {

@@ -31,12 +31,11 @@ export class HpacketTableComponent extends WidgetComponent {
 
   constructor(
     public dataStreamService: DataStreamService,
-    public dataStreamServiceModal: DataStreamService,
     private dashboardOfflineDataService: DashboardOfflineDataService,
     private widgetsService: WidgetsService,
     private dateFormatterService: DateFormatterService
   ) {
-    super(dataStreamService, dataStreamServiceModal);
+    super(dataStreamService);
   }
 
   private applyUnitConvertion(packetUnitsConversion, element) {

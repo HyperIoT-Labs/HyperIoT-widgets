@@ -29,12 +29,11 @@ export class TimeChartComponent extends WidgetChartComponent implements OnDestro
 
   constructor(
     public dataStreamService: DataStreamService,
-    public dataStreamServiceModal: DataStreamService,
     public plotly: PlotlyService,
     public plotlyModal: PlotlyService,
     private widgetsService: WidgetsService
   ) {
-    super(dataStreamService, dataStreamServiceModal, plotly, plotlyModal);
+    super(dataStreamService, plotly, plotlyModal);
   }
 
   ngOnInit() {
@@ -193,10 +192,8 @@ export class TimeChartComponent extends WidgetChartComponent implements OnDestro
   }
 
   ngOnDestroy(){
-    if (this.data !== 'modal') {
-      console.log('Component|time-chart|ngOnDestroy|ClearInterval: ', this.data, this.refreshHandler);
-      clearInterval(this.refreshHandler);
-    }
+    clearInterval(this.refreshHandler);
+    super.ngOnDestroy();
   }
 
   // Called by set timeout, this method empty the buffer and update the chart
