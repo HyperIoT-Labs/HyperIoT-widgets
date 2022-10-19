@@ -157,7 +157,6 @@ export class HpacketTableComponent extends WidgetComponent {
 
       },
       err => {
-        console.log(err);
         this.tableSource.error(err);
       }
     );

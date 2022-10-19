@@ -227,7 +227,6 @@ export class WidgetChartComponent extends WidgetComponent implements AfterConten
    * @param graph
    */
   renderSeriesData(series: TimeSeries, serieIndex, Plotly, graph, isPaused = false):void{
-    console.log('Component|widget-chart|renderSeriesData|: ', this.data, `widget-${this.widget.id}`, isPaused);
     if(!isPaused){
       // keeps data length < this.maxDataPoints
       this.applySizeConstraints(series);

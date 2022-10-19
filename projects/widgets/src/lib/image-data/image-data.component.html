@@ -1,6 +1,6 @@
 <div class="container-widget">
 
-    <header>{{widget.name}}</header>
+    <header *ngIf="!isModalView">{{widget.name}}</header>
   
     <div id="loader" *ngIf="!callBackEnd">
         <div class="lds-ripple">

@@ -1,6 +1,6 @@
 <div class="container-widget d-flex flex-column" style="height:100%">
 
-    <header>{{widget.name}}</header>
+    <header *ngIf="!isModalView">{{widget.name}}</header>
 
     <div id="loader" *ngIf="!callBackEnd">
         <div class="lds-ripple">

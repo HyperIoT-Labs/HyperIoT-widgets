@@ -198,7 +198,6 @@ export class TimeChartComponent extends WidgetChartComponent implements OnDestro
 
   // Called by set timeout, this method empty the buffer and update the chart
   renderBufferedData(){
-    console.log('Component|time-chart|renderBufferedData|[chartData,graph,widjetId]: ', this.data);
     const Plotly = this.plotly.getPlotly();
     const PlotlyModal = this.plotlyModal.getPlotly();
     const graph = this.plotly.getInstanceByDivId(`widget-${this.widget.id}`);
@@ -216,12 +215,10 @@ export class TimeChartComponent extends WidgetChartComponent implements OnDestro
       case 'toolbar:play':
         // this.isPaused = false;
         this.play();
-        console.log('\x1B[36mComponents|time-chart|PAUSE: ', this.isPaused)
         break;
       case 'toolbar:pause':
         // this.isPaused = false;
         this.pause();
-        console.log('\x1B[34mComponents|time-chart|PAUSE: ', this.isPaused)
         break;
       case 'toolbar:fullscreen':
         if(this.data === 'modal') {

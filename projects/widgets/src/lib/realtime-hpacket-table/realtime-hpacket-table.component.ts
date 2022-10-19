@@ -36,6 +36,11 @@ export class RealtimeHPacketTableComponent extends WidgetMultiValueComponent {
 
   configure() {
     super.configure();
+    if (this.tableChild) {
+      this.tableSource.next([]);
+      this.resetValue();
+      this.array = [];
+    }
     if (!(this.widget.config != null
       && this.widget.config.packetId != null
       && this.widget.config.packetFields != null
