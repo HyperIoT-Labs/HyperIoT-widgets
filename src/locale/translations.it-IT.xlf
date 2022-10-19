@@ -166,6 +166,14 @@
           <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="HYT_toolbar_full_screen" datatype="html">
+        <source>Full Screen</source>
+        <target>Full Screen</target>
+      </trans-unit>
+      <trans-unit id="HYT_unavailble_widget_description" datatype="html">
+        <source>This widget is unavailable</source>
+        <target>Questo widget non è disponibile</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

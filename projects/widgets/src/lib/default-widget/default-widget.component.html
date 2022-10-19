@@ -1,0 +1,17 @@
+<div class="container-widget d-flex flex-column" style="height:100%">
+    <header *ngIf="!isModalView">{{widget.name}}</header>
+
+    <div class="default-widget-container">
+        <label class="hyt-icon icon-hyt_warnT red-icon"></label>
+        <label class="default-widget-description" i18n="@@HYT_unavailble_widget_description">This widget is unavailable</label>
+        <label class="hyt-icon icon-hyt_warnT red-icon"></label>
+    </div>
+
+    <hyperiot-common-toolbar #toolbar [toolbarIsVisible]="!isModalView" (action)="onToolbarAction($event)" [config]="{
+        showClose: true,
+        showSettings: false,
+        showTable: false,
+        showPlay: false,
+        hideFullScreen: true
+    }"></hyperiot-common-toolbar>
+</div>

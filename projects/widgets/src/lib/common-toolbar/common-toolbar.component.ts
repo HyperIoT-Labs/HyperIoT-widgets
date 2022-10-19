@@ -16,7 +16,8 @@ export class CommonToolbarComponent {
         showSettings: true,
         showPlay: false,
         showRefresh: false,
-        showTable: false
+        showTable: false,
+        hideFullScreen: false
     }
     
     @Input() toolbarIsVisible: boolean = true;

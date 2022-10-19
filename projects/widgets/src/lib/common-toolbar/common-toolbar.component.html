@@ -29,7 +29,7 @@
         <span class="hyt-icon icon-hyt_cancel"></span>
     </button>
     
-    <button class="toolbar-button drag-handle" i18n-title="@@HYT_toolbar_move" title="Move" (click)="onFullScreen()">
+    <button *ngIf="!config.hideFullScreen" class="toolbar-button drag-handle" i18n-title="@@HYT_toolbar_full_screen" title="Full Screen" (click)="onFullScreen()">
         <span class="hyt-icon icon-hyt_plusX"></span>
     </button>
     

@@ -21,5 +21,6 @@ export { ImageDataComponent } from './lib/image-data/image-data.component';
 export { AlgorithmTableComponent } from './lib/algorithm-table/algorithm-table.component';
 export { EventTableComponent } from './lib/event-table/event-table.component';
 export { ErrorTableComponent } from './lib/error-table/error-table.component';
+export { DefaultWidgetComponent } from './lib/default-widget/default-widget.component';
 export * from './lib/cron-editor/cron-editor.component';
 export * from './lib/cron-editor/CronOptions';

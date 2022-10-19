@@ -34,6 +34,7 @@ import { EventTableComponent } from './event-table/event-table.component';
 import { CronEditorComponent } from './cron-editor/cron-editor.component';
 import { TimePickerComponent } from './cron-editor/time-picker/time-picker.component';
 import { ErrorTableComponent } from './error-table/error-table.component';
+import { DefaultWidgetComponent } from './default-widget/default-widget.component';
 
 @NgModule({
   declarations: [
@@ -52,8 +53,9 @@ import { ErrorTableComponent } from './error-table/error-table.component';
     AlgorithmTableComponent,
     EventTableComponent,
     ErrorTableComponent,
-    CronEditorComponent, 
-    TimePickerComponent, ErrorTableComponent
+    CronEditorComponent,
+    TimePickerComponent,
+    DefaultWidgetComponent
   ],
   imports: [
     BrowserModule,
@@ -89,6 +91,7 @@ import { ErrorTableComponent } from './error-table/error-table.component';
     AlgorithmTableComponent,
     EventTableComponent,
     ErrorTableComponent,
+    DefaultWidgetComponent,
     CronEditorComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
