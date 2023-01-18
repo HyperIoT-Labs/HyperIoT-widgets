@@ -11,28 +11,28 @@ import { FullscreenDialogComponent } from './dashboard/fullscreen-dialog/fullscr
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'dashboards', component: DashboardsListComponent },
-  {
-    path: 'dashboards/:dashboardId',
-    component: DashboardViewComponent,
-    children: [
-      {
-        path: 'widgets',
-        component: AddWidgetDialogComponent,
-        outlet: 'modal'
-      },
-      {
-        path: 'settings/:widgetId',
-        component: WidgetSettingsDialogComponent,
-        outlet: 'modal'
-      },
-      {
-        path: 'fullscreen/:widgetId',
-        component: FullscreenDialogComponent,
-        outlet: 'modal'
-      }
-    ]
-  },
+  // { path: 'dashboards', component: DashboardsListComponent },
+  // {
+  //   path: 'dashboards/:dashboardId',
+  //   component: DashboardViewComponent,
+  //   children: [
+  //     {
+  //       path: 'widgets',
+  //       component: AddWidgetDialogComponent,
+  //       outlet: 'modal'
+  //     },
+  //     {
+  //       path: 'settings/:widgetId',
+  //       component: WidgetSettingsDialogComponent,
+  //       outlet: 'modal'
+  //     },
+  //     {
+  //       path: 'fullscreen/:widgetId',
+  //       component: FullscreenDialogComponent,
+  //       outlet: 'modal'
+  //     }
+  //   ]
+  // },
   { path: '**', component: PageNotFoundComponent }
 ];
 

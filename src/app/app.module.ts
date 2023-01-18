@@ -18,10 +18,6 @@ import { DashboardViewComponent } from './dashboard/dashboard-view/dashboard-vie
 import { AddWidgetDialogComponent } from './dashboard/add-widget-dialog/add-widget-dialog.component';
 
 import {
-  WidgetsModule
-} from 'dist/widgets';
-
-import {
   Configuration,
   ConfigurationParameters,
   CoreModule,
@@ -45,6 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
 import { FullscreenDialogComponent } from './dashboard/fullscreen-dialog/fullscreen-dialog.component';
+import { WidgetsModule } from 'projects/widgets/src/public-api';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
