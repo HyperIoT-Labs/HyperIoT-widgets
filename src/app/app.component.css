@@ -1,0 +1,25 @@
+#container-widget {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+#container-widget h2 {
+  color: #0d416d;
+  font-family: 'Exo-600', serif;
+  font-size: 2.2em;
+  margin-bottom: 0px;
+}
+
+#container-widget h3 {
+  color: #0956b6;
+  font-family: 'Exo-600', serif;
+  font-size: 1.4em;
+  margin-bottom: 0px;
+}
+
+p {
+  font-size: 1.1em;
+  color: #044984;
+  font-family: 'Exo Italic', serif;
+}
